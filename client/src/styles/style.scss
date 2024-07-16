@@ -100,10 +100,10 @@ div.register-area {
     .error-message.server {
       margin: 0.5rem 0;
       color: red;
-      width: 100%;
+      width: 90%;
       text-align: center;
       position: absolute;
-      bottom: 3.5rem;
+      bottom: -4.5rem;
     }
 
     button {
@@ -118,6 +118,31 @@ div.register-area {
       cursor: pointer;
       &:hover {
         background-color: gray;
+      }
+    }
+    div.verify-area {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      input {
+        width: 70%;
+        margin: 1rem;
+        margin-left: 0;
+        padding: 0.5rem;
+        border: 0.1px solid rgb(167, 165, 165);
+        outline: none;
+      }
+      button {
+        width: 30%;
+        margin: 0;
+      }
+      .error-message {
+        color: red;
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
       }
     }
   }

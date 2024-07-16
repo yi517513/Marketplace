@@ -1,10 +1,11 @@
+import "./styles/style.css";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomeComponent from "./components/HomeComponent";
 import RegisterComponent from "./components/RegisterComponent";
 import LoginComponent from "./components/LoginComponent";
-import "./styles/style.css";
+import UserCenterComponent from "./components/UserCenterComponent";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<HomeComponent />} />
           <Route path="/register" element={<RegisterComponent />} />
           <Route path="/login" element={<LoginComponent />} />
+          <Route path="/userCenter" element={<UserCenterComponent />} />
         </Route>
       </Routes>
     </BrowserRouter>
