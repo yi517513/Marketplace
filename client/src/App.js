@@ -6,8 +6,12 @@ import HomeComponent from "./components/HomeComponent";
 import RegisterComponent from "./components/RegisterComponent";
 import LoginComponent from "./components/LoginComponent";
 import UserCenterComponent from "./components/UserCenterComponent";
+import UseRefreshToken from "./hooks/useRefreshToken";
+import useCheckAuthStatus from "./hooks/useCheckAuthStatus";
 
 function App() {
+  useCheckAuthStatus();
+  UseRefreshToken();
   return (
     <BrowserRouter>
       <Routes>

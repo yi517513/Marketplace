@@ -7,7 +7,11 @@ const {
   register,
   login,
   sendVerifyCode,
+  refreshToken,
+  logout,
+  checkAuth,
 } = require("../controllers/authController");
+const passport = require("passport");
 
 const registerValidator = (req, res, next) => {
   const { error } = registerValidation(req.body);
@@ -36,5 +40,15 @@ router.post("/register", registerValidator, register);
 router.post("/login", loginValidator, login);
 
 router.post("/sendVerifyCode", sendVerifyCode);
+
+router.post("/refresh-token", refreshToken);
+
+router.post("/logout", logout);
+
+router.get(
+  "/checkAuth",
+  passport.authenticate("jwt", { session: false }),
+  checkAuth
+);
 
 module.exports = router;

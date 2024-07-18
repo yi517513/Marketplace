@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
 import UserCenter from "../services/userService";
-// import { jwtDecode } from "jwt-decode";
 
 const UserCenterComponent = () => {
   const [user, setUser] = useState(null);

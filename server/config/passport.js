@@ -29,12 +29,12 @@ passport.use(
 
 // JwtStrategy
 const cookieExtractor = (req) => {
-  let token = null;
+  let accessToken = null;
   if (req && req.cookies) {
-    token = req.cookies.token;
-    // console.log(token);
+    accessToken = req.cookies.accessToken;
+    // console.log("accessToken:" + accessToken);
   }
-  return token;
+  return accessToken;
 };
 
 const opts = {
@@ -45,8 +45,9 @@ const opts = {
 
 passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
+    // console.log(jwt_payload);
     try {
-      const foundUser = await User.findOne({ _id: jwt_payload.id }).exec();
+      const foundUser = await User.findById(jwt_payload.id).exec();
       if (foundUser) {
         return done(null, foundUser);
       } else {

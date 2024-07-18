@@ -17,8 +17,10 @@
 ### Server
 
 - **userModel**
+
   - 使用`mongoose`建立用戶模型
   - 定義了用戶的結構和驗證規則。
+
 - **Login and Register Routes**
   - 使用 `express` 創建登入和註冊路由。
   - 使用 `jsonwebtoken` 進行 JWT 生成和驗證。
@@ -44,7 +46,7 @@
 
   - 更新註冊路由，符合驗證碼使用邏輯。
 
-- **register route**
+- **login route**
 
   - 更新登入路由，使用`passport`的 Loacl 策略。
 
@@ -71,3 +73,27 @@
 - **login route**
   - 取消 localStorage 設置 token 的方法，改為使用 `HTTPOnly` cookies 方法設置 token 以防止 XSS 攻擊，提高安全性。
   - 新增 CORS 設置，解決 `HttpOnly` 的 cookies 跨域請求問題。
+
+## 2024-07-18
+
+### Client
+
+- **useRefreshToken Hook**
+
+  - 定期向後端請求新的 access token，以保持用戶會話狀態並提高應用安全性。
+
+  - **useCheckAuthStatus Hook**
+
+  - 每次頁面刷新時，通過 axios 向 API 檢查認證狀態。根據回傳結果將 isAuthenticated 設置為 true 或 false。
+
+- **authSlice**
+  - 使用`redux-toolkit`管理認證狀態。
+
+### Server
+
+- **refresh-token route**
+
+  - 新增`refresh token`機制，提高應用安全性，降低憑證竊取風險，有效防止 CSRF 攻擊。
+
+- **checkAuth route**
+  - 前端刷新頁面時會向該路由發送 GET 請求，通過 passport-jwt 驗證保護，根據結果回傳 true 或 false 用來告知認證狀態。

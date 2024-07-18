@@ -13,6 +13,24 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const gernerateToken = (user) => {
+  const payload = {
+    id: user.id,
+  };
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "2m" });
+};
+
+const gernerateRefreshToken = (user) => {
+  const payload = {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+  };
+  return jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
+    expiresIn: "60m",
+  });
+};
+
 const register = async (req, res) => {
   const { email, password, verificationCode } = req.body;
   try {
@@ -44,24 +62,20 @@ const login = (req, res, next) => {
     if (!user) {
       return res.status(400).send({ errorMessage: info.message });
     }
-    const payload = {
-      id: user._id,
-      email: user.email,
-      username: user.username,
-    };
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
-
-    res.cookie("token", token, {
+    const accessToken = gernerateToken(user);
+    const refreshToken = gernerateRefreshToken(user);
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
-      maxAge: 60000, // 1 小時
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
     });
 
     return res.status(200).send({
       successMessage: "Login Successful",
-      token: `Bearer ${token}`,
     });
   })(req, res, next);
 };
@@ -107,4 +121,52 @@ const sendVerifyCode = async (req, res) => {
   }
 };
 
-module.exports = { register, login, sendVerifyCode };
+const refreshToken = (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return res.status(403).send({ errorMessage: "請重新登入" });
+  }
+
+  jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
+    if (err) {
+      res.clearCookie("refreshToken");
+      res.clearCookie("accessToken");
+      return res.status(403).send({ errorMessage: "請重新登入" });
+    }
+
+    const newAccessToken = gernerateToken(user);
+
+    res.cookie("accessToken", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return res.status(200).send({
+      successMessage: "Token refreshed successfully",
+    });
+  });
+};
+
+const logout = (req, res) => {
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+  return res.status(200).send({ successMessage: "登出成功" });
+};
+
+const checkAuth = (req, res) => {
+  if (req.user) {
+    return res.status(200).send({ successMessage: "Authenticated" });
+  } else {
+    console.log("未通過jwt保護");
+    return res.status(401).send({ errorMessage: "未通過passport-jwt保護" });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  sendVerifyCode,
+  refreshToken,
+  logout,
+  checkAuth,
+};

@@ -3,10 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import AuthService from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { login } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const LoginComponent = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div className="register-area">
       <h1>會員登入</h1>
@@ -22,14 +24,7 @@ const LoginComponent = () => {
               values.email,
               values.password
             );
-            // 暫用localSorage, 之後研究新方法
-            // localStorage.setItem("token", response.data.token);
-
-            // 解析 JWT
-            const decodedToken = jwtDecode(
-              response.data.token.replace("Bearer ", "")
-            );
-            console.log("Decoded Token:", decodedToken);
+            if (response.status === 200) dispatch(login());
             window.alert("登入成功，即將轉到首頁");
             navigate("/");
           } catch (error) {

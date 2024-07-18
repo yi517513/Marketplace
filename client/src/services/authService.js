@@ -10,18 +10,27 @@ class AuthService {
     );
   }
   register(email, password, verificationCode) {
-    return axios.post(
-      AUTH_URL + "/register",
-      {
-        email,
-        password,
-        verificationCode,
-      },
-      { withCredentials: true }
-    );
+    return axios.post(AUTH_URL + "/register", {
+      email,
+      password,
+      verificationCode,
+    });
   }
   sendVerifyCode(email) {
     return axios.post(AUTH_URL + "/sendVerifyCode", { email });
+  }
+  refreshToken() {
+    return axios.post(
+      AUTH_URL + "/refresh-token",
+      {},
+      { withCredentials: true }
+    );
+  }
+  logout() {
+    return axios.post(AUTH_URL + "/logout", {}, { withCredentials: true });
+  }
+  checkAuth() {
+    return axios.get(AUTH_URL + "/checkAuth", { withCredentials: true });
   }
 }
 
