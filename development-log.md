@@ -97,3 +97,36 @@
 
 - **checkAuth route**
   - 前端刷新頁面時會向該路由發送 GET 請求，通過 passport-jwt 驗證保護，根據結果回傳 true 或 false 用來告知認證狀態。
+
+## 2024-07-19
+
+### Client
+
+- **元件重新命名**
+
+- **authSlice**
+
+  - 新增 `setLoading` action 來管理頁面是否加載完畢。
+
+- **useCheckAuthStatus Hook**
+
+  - 當確證 `isAuthenticated` 之後，將 `loading` 設定為加載完畢。
+
+- **userCenterPage**
+
+  - 使用 `loading` 與 `isAuthenticated` 兩種狀態判斷是否需要彈出"請重新登入"對話框。
+
+  - 當 `isAuthenticated` 為 false 時，新增`react-modal`製作的"請重新登入"對話框。
+
+- **UserProfile**
+  - 使用了`formik`和`yup`進行表單管理和驗證。
+  - 透過 `axios` GET 取得個人資料，修改之後再使用 `axios` PATCH 將資料更新。
+
+### Server
+
+- **profile router**
+
+  - 新增個人資料傳遞至前端的路由。
+
+- **updateUserProfile route**
+  - 新增接收前端傳遞過來的資料以修改個人資料的路由。

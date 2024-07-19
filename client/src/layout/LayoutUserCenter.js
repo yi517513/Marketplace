@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import NavComponent from "./NavComponent";
 import FooterComponent from "./FooterComponent";
 
-const Layout = () => {
+const LayoutUserCenter = () => {
   return (
     <div className="layout">
       <header className="header">
@@ -19,4 +19,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default LayoutUserCenter;

@@ -17,7 +17,7 @@ const gernerateToken = (user) => {
   const payload = {
     id: user.id,
   };
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "2m" });
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "30m" });
 };
 
 const gernerateRefreshToken = (user) => {

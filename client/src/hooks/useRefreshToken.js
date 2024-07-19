@@ -13,14 +13,12 @@ const useRefreshToken = () => {
         console.log(response.data.successMessage);
         if (response.status !== 200) {
           dispatch(logout());
-          alert("請重新登入");
         }
       } catch (error) {
-        window.alert(error.response.data.errorMessage);
+        console.log(error.response.data.errorMessage);
         dispatch(logout());
-        alert("請重新登入");
       }
-    }, 2 * 60 * 1000);
+    }, 1 * 5 * 1000);
 
     return () => clearInterval(interval);
   }, [dispatch]);

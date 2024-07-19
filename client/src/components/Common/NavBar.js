@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../services/authService";
-import { logout } from "../redux/slices/authSlice";
+import AuthService from "../../services/authService";
+import { logout } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-const NavComponent = () => {
+const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log(isAuthenticated);
   const handleLogout = async () => {
     alert("您已成功登出");
     try {
@@ -51,4 +50,4 @@ const NavComponent = () => {
   );
 };
 
-export default NavComponent;
+export default NavBar;

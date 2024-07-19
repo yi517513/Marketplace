@@ -23,9 +23,8 @@ div.layout header.header {
 }
 div.layout main.main {
   flex: 1;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
-  justify-content: center;
 }
 div.layout footer.footer {
   padding: 1rem;
@@ -55,18 +54,22 @@ nav.commonNav ul li a {
   font-size: 1.1rem;
 }
 
-div.register-area {
+.auth-area {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+.auth-area .auth-component {
   margin: 3rem;
 }
-div.register-area h1 {
+.auth-area .auth-component h1 {
+  text-align: center;
   font-size: 1.5rem;
   font-weight: normal;
   color: gray;
 }
-div.register-area form.register {
+.auth-area .auth-component form.register {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,12 +77,12 @@ div.register-area form.register {
   padding: 1rem;
   position: relative;
 }
-div.register-area form.register div.field-wrapper {
+.auth-area .auth-component form.register .field-wrapper {
   width: 100%;
   margin: 0rem 3.5rem;
   position: relative;
 }
-div.register-area form.register div.field-wrapper input {
+.auth-area .auth-component form.register .field-wrapper input {
   width: 100%;
   margin: 1rem 0rem;
   padding: 0.5rem;
@@ -87,13 +90,13 @@ div.register-area form.register div.field-wrapper input {
   outline: none;
   font-size: 1rem;
 }
-div.register-area form.register div.field-wrapper .error-message {
+.auth-area .auth-component form.register .field-wrapper .error-message {
   color: red;
   position: absolute;
   bottom: -0.5rem;
   left: 0;
 }
-div.register-area form.register .error-message.server {
+.auth-area .auth-component form.register .error-message.server {
   margin: 0.5rem 0;
   color: red;
   width: 90%;
@@ -101,7 +104,7 @@ div.register-area form.register .error-message.server {
   position: absolute;
   bottom: -4.5rem;
 }
-div.register-area form.register button {
+.auth-area .auth-component form.register button {
   width: 100%;
   height: 2.5rem;
   border: none;
@@ -112,17 +115,17 @@ div.register-area form.register button {
   font-size: 1rem;
   cursor: pointer;
 }
-div.register-area form.register button:hover {
+.auth-area .auth-component form.register button:hover {
   background-color: gray;
 }
-div.register-area form.register div.verify-area {
+.auth-area .auth-component form.register .verify-area {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   position: relative;
 }
-div.register-area form.register div.verify-area input {
+.auth-area .auth-component form.register .verify-area input {
   width: 70%;
   margin: 1rem;
   margin-left: 0;
@@ -130,13 +133,197 @@ div.register-area form.register div.verify-area input {
   border: 0.1px solid rgb(167, 165, 165);
   outline: none;
 }
-div.register-area form.register div.verify-area button {
+.auth-area .auth-component form.register .verify-area button {
   width: 30%;
   margin: 0;
 }
-div.register-area form.register div.verify-area .error-message {
+.auth-area .auth-component form.register .verify-area .error-message {
   color: red;
   position: absolute;
   bottom: -0.5rem;
   left: 0;
+}
+
+.userCenter-area {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+.userCenter-area .leftMenu {
+  background-color: rgb(241, 240, 240);
+  margin: 1rem;
+  padding: 0.5rem;
+  flex-basis: 20%;
+}
+.userCenter-area .leftMenu .dropdown {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+.userCenter-area .leftMenu .dropdown button.dropdown-button {
+  margin-top: 1rem;
+  border: none;
+  font-size: 1.2rem;
+  background-color: rgb(109, 109, 109);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+.userCenter-area .leftMenu .dropdown button.dropdown-button:hover {
+  background-color: gray;
+}
+.userCenter-area .leftMenu .dropdown ul.dropdown-menu {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.userCenter-area .leftMenu .dropdown ul.dropdown-menu li {
+  margin-top: 0.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  width: 100%;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.userCenter-area .leftMenu .dropdown ul.dropdown-menu li:hover {
+  background-color: rgb(167, 165, 165);
+  border-radius: 1rem;
+}
+.userCenter-area .leftMenu .dropdown ul.dropdown-menu li:hover a {
+  color: white;
+}
+.userCenter-area .leftMenu .dropdown ul.dropdown-menu li a {
+  color: rgb(78, 78, 78);
+  font-size: 1.1rem;
+}
+.userCenter-area .component {
+  margin: 1rem;
+  background-color: rgb(241, 240, 240);
+  flex-basis: 75%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(80, 79, 79, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  padding: 1.5rem;
+  margin: 1rem;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+.modal h2 {
+  margin-bottom: 1.2rem;
+}
+.modal button {
+  width: 70%;
+  border: none;
+  background-color: rgb(109, 109, 109);
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: white;
+}
+.modal button:hover {
+  background-color: gray;
+}
+
+.profile-area {
+  height: 100%;
+  width: 90%;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.profile-area h1 {
+  margin-top: 1.5rem;
+  font-weight: normal;
+  color: rgb(109, 109, 109);
+}
+.profile-area .profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  padding: 1rem;
+}
+.profile-area .profile-wrapper .field-wrapper {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+.profile-area .profile-wrapper .field-wrapper label {
+  display: inline-block;
+  width: 5rem;
+  text-align: left;
+}
+.profile-area .profile-wrapper .field-wrapper input {
+  display: inline-block;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 20rem;
+  padding: 0.8rem;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgb(109, 109, 109);
+}
+.profile-area .profile-wrapper .field-wrapper select {
+  padding: 0.8rem;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 20rem;
+  border-bottom: 1px solid rgb(109, 109, 109);
+}
+.profile-area .profile-wrapper .field-wrapper .error-message {
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  text-align: center;
+}
+.profile-area .profile-wrapper .email {
+  caret-color: transparent;
+}
+.profile-area .profile-wrapper button {
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 10rem;
+  margin-top: 1.5rem;
+  padding: 0.5rem;
+  background-color: rgb(109, 109, 109);
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+.profile-area .profile-wrapper button:hover {
+  background-color: gray;
 }/*# sourceMappingURL=style.css.map */

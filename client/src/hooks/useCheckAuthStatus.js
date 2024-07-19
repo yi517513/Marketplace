@@ -1,5 +1,5 @@
 import AuthService from "../services/authService";
-import { checkAuth } from "../redux/slices/authSlice";
+import { checkAuth, setLoading } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
@@ -8,6 +8,7 @@ const useCheckAuthStatus = () => {
 
   useEffect(() => {
     const checkAuthStatus = async () => {
+      dispatch(setLoading(true));
       try {
         const response = await AuthService.checkAuth();
         if (response.status === 200) {
@@ -18,6 +19,8 @@ const useCheckAuthStatus = () => {
       } catch (error) {
         console.log("請重新登入");
         dispatch(checkAuth(false));
+      } finally {
+        dispatch(setLoading(false));
       }
     };
     checkAuthStatus();

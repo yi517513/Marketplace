@@ -4,8 +4,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "../src/redux/store/store";
+import Modal from "react-modal";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+Modal.setAppElement("#root");
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

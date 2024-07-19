@@ -20,7 +20,7 @@ mongoose
 // 設置 cors 選項
 const corsOptions = {
   origin: "http://localhost:3000", // 允許的來源網址
-  methods: ["GET", "POST"], // 允許的 HTTP 方法
+  methods: ["GET", "POST", "PATCH"], // 允許的 HTTP 方法
   allowedHeaders: ["Content-Type", "Authorization"], // 允許的頭部信息
   credentials: true, // 允許跨域設置 cookies
 };

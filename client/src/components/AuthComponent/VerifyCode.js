@@ -1,8 +1,8 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-import useVerificationCode from "../hooks/useVerificationCode";
+import useVerificationCode from "../../hooks/useVerificationCode";
 
-const VerifyCodeComponent = ({ email, setErrors }) => {
+const VerifyCode = ({ email, setErrors }) => {
   const { isSendVerify, timeLeft, handleSendVerfyCode } = useVerificationCode(
     email,
     setErrors
@@ -26,4 +26,4 @@ const VerifyCodeComponent = ({ email, setErrors }) => {
   );
 };
 
-export default VerifyCodeComponent;
+export default VerifyCode;

@@ -7,6 +7,10 @@ const userSchema = new Schema({
   password: { type: String, minlength: 6, required: true },
   role: { type: String, enum: ["buyer", "seller"], default: "buyer" },
   verificationCode: { type: String, required: false },
+  birthday: { Date },
+  gender: { type: String, enum: ["Male", "Female", "Other"] },
+  phone: { type: String },
+  address: { type: String },
 });
 
 const User = mongoose.model("User", userSchema);
