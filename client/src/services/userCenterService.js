@@ -7,7 +7,6 @@ class UserCenter {
   }
 
   updateUserProfile(userProfile) {
-    console.log(userProfile);
     const { username, birthday, gender, phone, address } = userProfile;
     return axios.patch(
       USERCENTER_URL + "/updateUserProfile",

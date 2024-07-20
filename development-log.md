@@ -130,3 +130,40 @@
 
 - **updateUserProfile route**
   - 新增接收前端傳遞過來的資料以修改個人資料的路由。
+
+## 2024-07-20
+
+### Client
+
+- **hook 重新命名**
+
+  - `useRefreshAccessToken`: 原名 `useRefreshToken`，新增了根據後端回傳的狀態碼來設定 `react-toastify` 的通知。
+
+  - `useVerifyAndRefreshAuth`: 原名 `useCheckAuthStatus`，新增了根據後端回傳的狀態碼來設定 `react-toastify` 的通知。
+
+- **authSlice**
+
+  - 新增用於`react-toastify`通知的狀態與`action`。
+
+- **useToastNotifications Hook**
+
+  - 使用`react-toastify`製作出登入、登出、斷線等的通知。
+
+### Server
+
+- **middlewares**
+
+  - 將 routes 與 controller 裡面的`middlewares`分離出來。
+
+- **passport**
+
+  - 在`jwt strategy` 中，將 `cookieExtractor` 函數從前端取得的 `accessToken` 改為 `refreshToken`，當作使用者可以更新`accessToken`的生命週期。
+
+  - 新增`authenticateJWT` middleware，使用的 `jwt strategy` 的 `callbackFn` 客製化回傳至前端的錯誤訊息。
+
+- **refreshAccessToken route**
+
+  - 原名`refreshToken`，加入 `passport-jwt` middleware。
+
+- **verifyAndRefreshAuth route**
+  - 原名`checkAuth`，加入 `authenticateJWT` middleware，根據接收到的`refreshToken`回傳不同的回應。

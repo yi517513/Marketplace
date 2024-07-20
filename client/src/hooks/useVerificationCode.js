@@ -12,7 +12,7 @@ const useVerificationCode = (email, setErrors) => {
       setIsSendVerify(true);
       setTimeLeft(60);
     } catch (error) {
-      setErrors({ server: error.response.data.errorMessage });
+      setErrors({ server: error.response.data });
       console.log("Failed to send verification code", error);
     }
   };

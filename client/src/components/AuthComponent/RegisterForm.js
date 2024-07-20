@@ -35,7 +35,7 @@ const RegisterForm = () => {
               navigate("/login");
             } catch (error) {
               console.log("Register failed", error);
-              setErrors({ server: error.response.data.errorMessage });
+              setErrors({ server: error.response.data });
             } finally {
               setSubmitting(false);
             }

@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/authService";
 import { logout } from "../../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useToastNotifications from "../../hooks/useToastNotifications";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useToastNotifications();
+
   const handleLogout = async () => {
-    alert("您已成功登出");
     try {
       await AuthService.logout();
       dispatch(logout());
-      navigate("/");
+      toast.success("你已成功登出");
     } catch (error) {
-      console.log(error.response.data.errorMessage);
+      toast.error("登出失敗");
+      console.log(error.response.data);
     }
   };
 
@@ -46,6 +51,19 @@ const NavBar = () => {
           <Link to="/userCenter">會員中心</Link>
         </li>
       </ul>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </nav>
   );
 };

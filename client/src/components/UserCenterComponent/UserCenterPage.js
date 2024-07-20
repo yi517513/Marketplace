@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
-import UserCenter from "../../services/userCenterService";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";

@@ -9,6 +9,7 @@ class AuthService {
       { withCredentials: true }
     );
   }
+
   register(email, password, verificationCode) {
     return axios.post(AUTH_URL + "/register", {
       email,
@@ -16,21 +17,27 @@ class AuthService {
       verificationCode,
     });
   }
+
+  logout() {
+    return axios.post(AUTH_URL + "/logout", {}, { withCredentials: true });
+  }
+
   sendVerifyCode(email) {
     return axios.post(AUTH_URL + "/sendVerifyCode", { email });
   }
-  refreshToken() {
+
+  refreshAccessToken() {
     return axios.post(
-      AUTH_URL + "/refresh-token",
+      AUTH_URL + "/refreshAccessToken ",
       {},
       { withCredentials: true }
     );
   }
-  logout() {
-    return axios.post(AUTH_URL + "/logout", {}, { withCredentials: true });
-  }
-  checkAuth() {
-    return axios.get(AUTH_URL + "/checkAuth", { withCredentials: true });
+
+  verifyAndRefreshAuth() {
+    return axios.get(AUTH_URL + "/verifyAndRefreshAuth", {
+      withCredentials: true,
+    });
   }
 }
 

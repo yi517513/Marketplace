@@ -3,12 +3,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/authService";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../redux/slices/authSlice";
+import { login, setShowLoginToast } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   return (
     <div className="auth-area">
       <div className="auth-component">
@@ -26,11 +27,11 @@ const LoginForm = () => {
                 values.password
               );
               if (response.status === 200) dispatch(login());
-              window.alert("登入成功，即將轉到首頁");
+              dispatch(setShowLoginToast(true));
               navigate("/");
             } catch (error) {
               console.error("Login failed:", error);
-              setErrors({ server: error.response.data.errorMessage });
+              setErrors({ server: error.response.data });
             } finally {
               setSubmitting(false);
             }

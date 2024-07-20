@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const authRoute = require("./routes/authRoute");
 const cors = require("cors");
-const passport = require("./config/passport");
+const passport = require("passport");
 const userCenter = require("./routes/userCenterRoute");
 const cookieParser = require("cookie-parser");
 

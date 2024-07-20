@@ -156,13 +156,14 @@ nav.commonNav {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin: 0rem 2rem;
   position: relative;
   .leftMenu {
     background-color: rgb(241, 240, 240);
     // border: 1px solid black;
     margin: 1rem;
     padding: 0.5rem;
-    flex-basis: 20%;
+    flex-basis: 15%;
     .dropdown {
       border: none;
       display: flex;
@@ -215,7 +216,7 @@ nav.commonNav {
   .component {
     margin: 1rem;
     background-color: rgb(241, 240, 240);
-    flex-basis: 75%;
+    flex-basis: 85%;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -302,7 +303,7 @@ nav.commonNav {
         padding: 0.8rem;
         outline: none;
         border: none;
-        border-bottom: 1px solid rgb(109, 109, 109);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       select {
         padding: 0.8rem;
@@ -310,7 +311,8 @@ nav.commonNav {
         font-size: 1.1rem;
         cursor: pointer;
         width: 20rem;
-        border-bottom: 1px solid rgb(109, 109, 109);
+        outline: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       .error-message {
         position: absolute;

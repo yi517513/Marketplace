@@ -49,7 +49,6 @@ const UserData = () => {
         onSubmit={async (values, { setSubmitting, setErrors }) => {
           try {
             const response = await UserCenterService.updateUserProfile(values);
-            alert(response.data.successMessage);
           } catch (error) {
             console.error("Login failed:", error);
             setErrors({ server: "更新失敗" });

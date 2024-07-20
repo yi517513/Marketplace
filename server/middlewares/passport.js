@@ -12,6 +12,7 @@ passport.use(
       passwordField: "password",
     },
     async (email, password, done) => {
+      console.log("in localStrategy");
       try {
         const foundUser = await User.findOne({ email }).exec();
         if (!foundUser) {
@@ -29,23 +30,21 @@ passport.use(
 
 // JwtStrategy
 const cookieExtractor = (req) => {
-  let accessToken = null;
+  let refreshToken = null;
   if (req && req.cookies) {
-    accessToken = req.cookies.accessToken;
-    // console.log("accessToken:" + accessToken);
+    refreshToken = req.cookies.refreshToken;
   }
-  return accessToken;
+  return refreshToken;
 };
 
 const opts = {
   // 從req.header中獲取token的方式改為從cookie
   jwtFromRequest: cookieExtractor,
-  secretOrKey: process.env.SECRET_KEY,
+  secretOrKey: process.env.REFRESH_SECRET_KEY,
 };
 
 passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
-    // console.log(jwt_payload);
     try {
       const foundUser = await User.findById(jwt_payload.id).exec();
       if (foundUser) {
@@ -59,4 +58,29 @@ passport.use(
   })
 );
 
-module.exports = passport;
+const authenticateJWT = (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err) {
+      console.log("server error", err);
+      return res.status(500).send("Server error");
+    }
+    if (!user) {
+      if (info && info.message === "No auth token") {
+        return res.status(401).send("noLogin");
+      } else if (info && info.message === "jwt expired") {
+        return res.status(401).send("refreshTokenExpired");
+      } else if (info && info.message === "User not found") {
+        return res.status(401).send("UserNotFound");
+      } else {
+        return res.status(401).send("Unauthorized");
+      }
+    }
+    req.user = user;
+    next();
+  })(req, res, next);
+};
+
+const passportJWT = passport.authenticate("jwt", { session: false });
+const passportLocal = passport.authenticate("local", { session: false });
+
+module.exports = { passportJWT, passportLocal, authenticateJWT };

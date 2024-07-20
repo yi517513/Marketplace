@@ -5,6 +5,7 @@ const profile = (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
+  console.log("in updateUserProfile route");
   try {
     const userId = req.user.id;
     const { username, birthday, gender, phone, address } = req.body;
@@ -19,11 +20,9 @@ const updateUserProfile = async (req, res) => {
       },
       { new: true }
     );
-    res
-      .status(200)
-      .send({ successMessage: "用戶資料更新成功", user: updatedUser });
+    res.status(200).send("用戶資料更新成功");
   } catch (error) {
-    res.status(500).send({ errorMessage: "無法更新用戶資料" });
+    res.status(500).send("無法更新用戶資料");
   }
 };
 

@@ -1,6 +1,5 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const CryptoJS = require("crypto-js");
@@ -17,7 +16,7 @@ const gernerateToken = (user) => {
   const payload = {
     id: user.id,
   };
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "30m" });
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "5m" });
 };
 
 const gernerateRefreshToken = (user) => {
@@ -27,7 +26,7 @@ const gernerateRefreshToken = (user) => {
     username: user.username,
   };
   return jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
-    expiresIn: "60m",
+    expiresIn: "90m",
   });
 };
 
@@ -37,7 +36,7 @@ const register = async (req, res) => {
     const user = await User.findOne({ email }).exec();
     console.log(user);
     if (!user || user.verificationCode !== verificationCode) {
-      return res.status(400).send({ errorMessage: "驗證碼錯誤或過期" });
+      return res.status(400).send("驗證碼錯誤或過期");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,38 +45,34 @@ const register = async (req, res) => {
     user.username = email;
     await user.save();
 
-    return res.status(201).send({ successMessage: "註冊成功" });
+    return res.status(201).send("註冊成功");
   } catch (error) {
-    return res
-      .status(500)
-      .send({ errorMessage: "伺服器發生錯誤 " + error.message });
+    return res.status(500).send("伺服器發生錯誤 " + error.message);
   }
 };
 
-const login = (req, res, next) => {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err) {
-      return res.status(500).send({ errorMessage: "伺服器發生錯誤" });
-    }
-    if (!user) {
-      return res.status(400).send({ errorMessage: info.message });
-    }
-    const accessToken = gernerateToken(user);
-    const refreshToken = gernerateRefreshToken(user);
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
-    });
+const login = (req, res) => {
+  const user = req.user;
+  const accessToken = gernerateToken(user);
+  const refreshToken = gernerateRefreshToken(user);
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
-    });
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
+  });
 
-    return res.status(200).send({
-      successMessage: "Login Successful",
-    });
-  })(req, res, next);
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
+  });
+
+  return res.status(200).send("Login Successful");
+};
+
+const logout = (req, res) => {
+  res.clearCookie("refreshToken");
+  res.clearCookie("accessToken");
+  return res.status(200).send("登出成功");
 };
 
 const sendVerifyCode = async (req, res) => {
@@ -85,7 +80,7 @@ const sendVerifyCode = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email }).exec();
     if (existingUser) {
-      return res.status(400).send({ errorMessage: "此信箱已經被註冊過" });
+      return res.status(400).send("此信箱已經被註冊過");
     }
 
     const verificationCode = CryptoJS.lib.WordArray.random(3).toString(
@@ -109,64 +104,55 @@ const sendVerifyCode = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
-        return res.status(500).send({ errorMessage: "無法發送驗證碼" });
+        return res.status(500).send("無法發送驗證碼");
       } else {
-        return res.status(200).send({ successMessage: "驗證碼已發送" });
+        return res.status(200).send("驗證碼已發送");
       }
     });
   } catch (error) {
-    return res
-      .status(500)
-      .send({ errorMessage: "伺服器發生錯誤 " + error.message });
+    return res.status(500).send("伺服器發生錯誤 " + error.message);
   }
 };
 
-const refreshToken = (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken) {
-    return res.status(403).send({ errorMessage: "請重新登入" });
-  }
+const refreshAccessToken = (req, res) => {
+  const user = req.user;
+  const newAccessToken = gernerateToken(user);
 
-  jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
+  res.cookie("accessToken", newAccessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  console.log("refreshToken success");
+  return res.status(200).send("Token refreshed successfully");
+};
+
+const verifyAndRefreshAuth = (req, res) => {
+  const accessToken = req.cookies.accessToken;
+  console.log("in verifyAndRefreshAuth route");
+
+  jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
+    console.log(user);
     if (err) {
-      res.clearCookie("refreshToken");
-      res.clearCookie("accessToken");
-      return res.status(403).send({ errorMessage: "請重新登入" });
+      return res.status(401).send("accessTokenExpired");
     }
 
-    const newAccessToken = gernerateToken(user);
+    const newRefreshToken = gernerateRefreshToken(user);
 
-    res.cookie("accessToken", newAccessToken, {
+    res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
 
-    return res.status(200).send({
-      successMessage: "Token refreshed successfully",
-    });
+    return res.status(200).send("Authenticated and refresh token updated");
   });
-};
-
-const logout = (req, res) => {
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
-  return res.status(200).send({ successMessage: "登出成功" });
-};
-
-const checkAuth = (req, res) => {
-  if (req.user) {
-    return res.status(200).send({ successMessage: "Authenticated" });
-  } else {
-    console.log("未通過jwt保護");
-    return res.status(401).send({ errorMessage: "未通過passport-jwt保護" });
-  }
 };
 
 module.exports = {
   register,
   login,
   sendVerifyCode,
-  refreshToken,
+  refreshAccessToken,
   logout,
-  checkAuth,
+  verifyAndRefreshAuth,
 };

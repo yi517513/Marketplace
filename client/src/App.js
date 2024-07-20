@@ -6,12 +6,13 @@ import HomePage from "./components/HomeComponent/HomePage";
 import RegisterForm from "./components/AuthComponent/RegisterForm";
 import LoginForm from "./components/AuthComponent/LoginForm";
 import UserCenterPage from "./components/UserCenterComponent/UserCenterPage";
-import UseRefreshToken from "./hooks/useRefreshToken";
-import useCheckAuthStatus from "./hooks/useCheckAuthStatus";
+import useRefreshAccessToken from "./hooks/useRefreshAccessToken";
+import useVerifyAndRefreshAuth from "./hooks/useVerifyAndRefreshAuth";
 
 function App() {
-  useCheckAuthStatus();
-  UseRefreshToken();
+  useVerifyAndRefreshAuth();
+  useRefreshAccessToken();
+
   return (
     <BrowserRouter>
       <Routes>
