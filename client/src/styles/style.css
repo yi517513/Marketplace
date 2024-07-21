@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   padding: 0;
   margin: 0;
@@ -328,4 +329,143 @@ nav.commonNav ul li a {
 }
 .profile-area .profile-wrapper button:hover {
   background-color: gray;
+}
+
+.img-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.11);
+  z-index: 100;
+}
+.img-overlay .image-modal {
+  width: 50%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  padding: 0.5rem;
+}
+.img-overlay .image-modal h3 {
+  font-weight: normal;
+  font-size: 1.1rem;
+}
+.img-overlay .image-modal .img-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1.5rem;
+  justify-content: center;
+}
+.img-overlay .image-modal .img-wrapper h1 {
+  font-weight: normal;
+  font-size: 1.3rem;
+  padding: 0.3rem;
+}
+.img-overlay .image-modal .img-wrapper .local-img {
+  margin: 0.3rem 0rem;
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+}
+.img-overlay .image-modal .img-wrapper .local-img input::file-selector-button {
+  margin-left: 1rem;
+  background-color: rgb(109, 109, 109);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.img-overlay .image-modal .img-wrapper .local-img input::file-selector-button:hover {
+  background-color: gray;
+}
+.img-overlay .image-modal .img-wrapper .img-set {
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* 用於圖片間的間距 */
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block {
+  box-sizing: border-box;
+  flex: 1 1 calc(25% - 1rem); /* 4 欄，減去間距 */
+  height: calc(10vw - 1rem); /* 根據寬度和格子數計算高度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(153, 153, 153, 0.486);
+  border-radius: 5px;
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; /* 確保圖片按比例填充格子 */
+  overflow: hidden; /* 確保圖片不會超出格子 */
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set button {
+  background-color: rgb(109, 109, 109);
+  color: white;
+  border: none;
+  padding: 0.1rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set button:hover {
+  background-color: gray;
+}
+.img-overlay .image-modal .img-wrapper .next-btn {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.publish-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.publish-area .publish-wrapper {
+  margin: 1rem;
+}
+.publish-area .publish-wrapper .field-wrapper {
+  margin: 1rem;
+}
+.publish-area .publish-wrapper .field-wrapper label {
+  display: inline-block;
+  width: 5rem;
+  text-align: left;
+}
+.publish-area .publish-wrapper .field-wrapper input {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+.publish-area .publish-wrapper .field-wrapper .err-msg {
+  color: red;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=style.css.map */

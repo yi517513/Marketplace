@@ -167,3 +167,16 @@
 
 - **verifyAndRefreshAuth route**
   - 原名`checkAuth`，加入 `authenticateJWT` middleware，根據接收到的`refreshToken`回傳不同的回應。
+
+## 2024-07-21
+
+### Client
+
+- **PublishForm 組件**
+
+  - 使用`formik`和`yup`進行表單管理和驗證。
+  - 商品刊登功能
+
+- **ImageModal 組件**
+
+  - 在`PublishForm`點擊圖檔按鈕會彈出使用`react-modal`製作的上傳圖片與管理圖片集。

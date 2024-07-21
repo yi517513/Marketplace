@@ -5,6 +5,8 @@ import Modal from "react-modal";
 import UserProfile from "./UserProfile";
 import LoginLog from "./LoginLog";
 import OTPApp from "./OTPApp";
+import PublishForm from "./PublishForm";
+import ImageModal from "./ImageModal";
 
 const UserCenterPage = () => {
   const navigate = useNavigate();
@@ -37,6 +39,10 @@ const UserCenterPage = () => {
         return <LoginLog />;
       case "OTPApp":
         return <OTPApp />;
+      case "OTPApp":
+        return <OTPApp />;
+      case "PublishForm":
+        return <PublishForm />;
       default:
         return null;
     }
@@ -75,8 +81,8 @@ const UserCenterPage = () => {
           </button>
           {activeMenu === "seller" && (
             <ul className="dropdown-menu">
-              <li>
-                <a href="#option1">刊登出售</a>
+              <li onClick={() => setActiveComponent("PublishForm")}>
+                <a>刊登出售</a>
               </li>
               <li>
                 <a href="#option2">賣場管理</a>

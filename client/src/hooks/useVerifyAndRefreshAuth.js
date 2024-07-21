@@ -18,6 +18,10 @@ const useVerifyAndRefreshAuth = () => {
         await AuthService.verifyAndRefreshAuth();
         dispatch(checkAuth(true));
       } catch (error) {
+        if (!error.response) {
+          // 伺服器未開啟
+          return;
+        }
         const { status, data } = error.response;
         if (status === 500) {
           console.log(data);
