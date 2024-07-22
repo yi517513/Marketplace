@@ -8,6 +8,7 @@ import LoginForm from "./components/AuthComponent/LoginForm";
 import UserCenterPage from "./components/UserCenterComponent/UserCenterPage";
 import useRefreshAccessToken from "./hooks/useRefreshAccessToken";
 import useVerifyAndRefreshAuth from "./hooks/useVerifyAndRefreshAuth";
+import UserProflie from "./components/UserCenterComponent/UserProfile";
 
 function App() {
   useVerifyAndRefreshAuth();
@@ -20,7 +21,9 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/userCenter" element={<UserCenterPage />} />
+          <Route path="/userCenter" element={<UserCenterPage />}>
+            <Route path="userProfile" element={<UserProflie />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import UserCenterService from "../../services/userCenterService";
 import * as Yup from "yup";
+import { setNotification } from "../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { NOTIFICATION_TYPES } from "../../utils/constants";
 
 const UserData = () => {
-  let [userData, setUserData] = useState({
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState({
     username: "",
     email: "",
     birthday: "",
@@ -12,6 +16,34 @@ const UserData = () => {
     phone: "",
     address: "",
   });
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required("必填"),
+    birthday: Yup.date(),
+    gender: Yup.string().oneOf(["Male", "Female", "Other"]),
+    phone: Yup.string(),
+    address: Yup.string(),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      const response = await UserCenterService.updateUserProfile(values);
+      if (response.status === 200) {
+        dispatch(
+          setNotification({
+            visible: true,
+            message: "用戶資料更新成功",
+            type: NOTIFICATION_TYPES.SUCCESS,
+          })
+        );
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      setErrors({ server: "更新失敗" });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const getUserData = async () => {
@@ -39,23 +71,8 @@ const UserData = () => {
       <Formik
         enableReinitialize={true}
         initialValues={userData}
-        validationSchema={Yup.object({
-          username: Yup.string().required("必填"),
-          birthday: Yup.date(),
-          gender: Yup.string().oneOf(["Male", "Female", "Other"]),
-          phone: Yup.string(),
-          address: Yup.string(),
-        })}
-        onSubmit={async (values, { setSubmitting, setErrors }) => {
-          try {
-            const response = await UserCenterService.updateUserProfile(values);
-          } catch (error) {
-            console.error("Login failed:", error);
-            setErrors({ server: "更新失敗" });
-          } finally {
-            setSubmitting(false);
-          }
-        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors }) => (
           <Form className="profile-wrapper">

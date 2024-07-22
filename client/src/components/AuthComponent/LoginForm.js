@@ -3,39 +3,50 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/authService";
 import { useNavigate } from "react-router-dom";
-import { login, setShowLoginToast } from "../../redux/slices/authSlice";
+import { login, setNotification } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { NOTIFICATION_TYPES } from "../../utils/constants";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const initialValues = { email: "yee0860104@gmail.com", password: "test123" };
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("無效的電子郵件").required("必填"),
+    password: Yup.string().required("必填"),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      const response = await AuthService.login(values.email, values.password);
+      if (response.status === 200) {
+        dispatch(login());
+        dispatch(
+          setNotification({
+            visible: true,
+            message: "成功登入",
+            type: NOTIFICATION_TYPES.SUCCESS,
+          })
+        );
+        navigate("/");
+      }
+    } catch (error) {
+      setErrors({ server: error.response.data });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="auth-area">
       <div className="auth-component">
         <h1>會員登入</h1>
         <Formik
-          initialValues={{ email: "yee0860104@gmail.com", password: "test123" }}
-          validationSchema={Yup.object({
-            email: Yup.string().email("無效的電子郵件").required("必填"),
-            password: Yup.string().required("必填"),
-          })}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            try {
-              const response = await AuthService.login(
-                values.email,
-                values.password
-              );
-              if (response.status === 200) dispatch(login());
-              dispatch(setShowLoginToast(true));
-              navigate("/");
-            } catch (error) {
-              console.error("Login failed:", error);
-              setErrors({ server: error.response.data });
-            } finally {
-              setSubmitting(false);
-            }
-          }}
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
         >
           {({ isSubmitting, errors }) => (
             <Form className="register">

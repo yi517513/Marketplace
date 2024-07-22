@@ -263,7 +263,6 @@ nav.commonNav ul li a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 .profile-area h1 {
   margin-top: 1.5rem;
@@ -280,13 +279,17 @@ nav.commonNav ul li a {
 .profile-area .profile-wrapper .field-wrapper {
   margin: 0.5rem;
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 .profile-area .profile-wrapper .field-wrapper label {
   display: inline-block;
   width: 5rem;
   text-align: left;
 }
-.profile-area .profile-wrapper .field-wrapper input {
+.profile-area .profile-wrapper .field-wrapper input,
+.profile-area .profile-wrapper .field-wrapper select {
   display: inline-block;
   font-size: 1.1rem;
   cursor: pointer;
@@ -296,22 +299,13 @@ nav.commonNav ul li a {
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-.profile-area .profile-wrapper .field-wrapper select {
-  padding: 0.8rem;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  width: 20rem;
-  outline: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 .profile-area .profile-wrapper .field-wrapper .error-message {
+  margin-left: 1rem;
+  white-space: nowrap;
   position: absolute;
-  top: 95%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 0;
+  white-space: nowrap;
   color: red;
-  text-align: center;
 }
 .profile-area .profile-wrapper .email {
   caret-color: transparent;
@@ -344,8 +338,8 @@ nav.commonNav ul li a {
   z-index: 100;
 }
 .img-overlay .image-modal {
-  width: 50%;
-  height: 90%;
+  width: 60%;
+  height: 70%;
   top: 50%;
   left: 50%;
   right: auto;
@@ -402,13 +396,13 @@ nav.commonNav ul li a {
 }
 .img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block {
   box-sizing: border-box;
-  flex: 1 1 calc(25% - 1rem); /* 4 欄，減去間距 */
   height: calc(10vw - 1rem); /* 根據寬度和格子數計算高度 */
+  width: calc(25% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgba(153, 153, 153, 0.486);
+  border: 1px solid rgba(71, 71, 71, 0.486);
   border-radius: 5px;
 }
 .img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block img {

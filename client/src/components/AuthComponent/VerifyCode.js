@@ -1,12 +1,10 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-import useVerificationCode from "../../hooks/useVerificationCode";
+import useSendVerificationCode from "../../hooks/useSendVerificationCode";
 
 const VerifyCode = ({ email, setErrors }) => {
-  const { isSendVerify, timeLeft, handleSendVerfyCode } = useVerificationCode(
-    email,
-    setErrors
-  );
+  const { isSendVerify, timeLeft, handleSendVerfyCode } =
+    useSendVerificationCode(email, setErrors);
 
   return (
     <div className="verify-area">

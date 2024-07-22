@@ -2,11 +2,11 @@ import AuthService from "../services/authService";
 import {
   checkAuth,
   setLoading,
-  setShowReLoginToast,
-  setShowDisconnectedToast,
+  setNotification,
 } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { NOTIFICATION_TYPES } from "../utils/constants";
 
 const useVerifyAndRefreshAuth = () => {
   const dispatch = useDispatch();
@@ -31,10 +31,22 @@ const useVerifyAndRefreshAuth = () => {
           case "noLogin":
             return;
           case "refreshTokenExpired":
-            dispatch(setShowDisconnectedToast(true));
+            dispatch(
+              setNotification({
+                visible: true,
+                message: "未登入",
+                type: NOTIFICATION_TYPES.ERROR,
+              })
+            );
             break;
           case "accessTokenExpired":
-            dispatch(setShowReLoginToast(true));
+            dispatch(
+              setNotification({
+                visible: true,
+                message: "請重新登入",
+                type: NOTIFICATION_TYPES.WARN,
+              })
+            );
             break;
           default:
             break;

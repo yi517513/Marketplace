@@ -4,13 +4,13 @@
 
 ### Client
 
-- **LoginComponent 組件**
+- **LoginForm 組件**
 
   - 使用了`formik`和`yup`進行表單管理和驗證。
   - 完成用戶登入表單，並添加了驗證邏輯。
-  - 透過 AuthService 中的`axios`成功獲取 API 端的 token
+  - 透過 AuthService 中的`axios`請求向 API 請求，如果`status === 200` 即獲得 token
 
-- **someComponent 組件**
+- **someComponent**
   - 使用`react-router-dom`進行路由管理
   - 實現了導航邏輯
 
@@ -35,16 +35,17 @@
 
 ### Client
 
-- **RegisterComponent 組件**
+- **RegisterFrom 組件**
 
-  - 使用了`formik`和`yup`進行表單管理和驗證。
+  - 使用`formik`和`yup`進行表單管理和驗證。
   - 完成用戶登入表單，並添加了驗證邏輯。
 
 - **VerifyCode 組件**
 
-  - 實現使用驗證碼才能註冊的組件。
+  - 使用`formik`和`yup`進行表單管理和驗證。
+  - 發送驗證碼到使用者信箱的組件。
 
-- **useRefreshToken hook**
+- **useSendVerificationCode hook**
   - 發送驗證碼的邏輯處理，向 API 發出寄送驗證碼的請求。
 
 ### Server
@@ -64,8 +65,8 @@
 
 ### Client
 
-- **UserCenter 組件**
-  - 新增 UserCenter 組件，實現受 JWT 保護的路由。
+- **UserCenterPage 組件**
+  - 新增 UserCenterPage 組件，實現受 JWT 保護的路由。
 
 ### Server
 
@@ -79,37 +80,34 @@
 
 - **login route**
 
-  - 取消 localStorage 設置 token 的方法，改為使用 `HTTPOnly` cookies 方法設置 token 以防止 XSS 攻擊，提高安全性。
+  - 取消 前端使用`localStorage` 設置 `token` 的方式，改為使用 `HTTPOnly` cookies 方法設置 `token` 以防止 XSS 攻擊，提高安全性。
 
 - **index.js**
-
   - 新增 CORS 設置，解決 `HttpOnly` 的 cookies 跨域請求問題。
 
 ## 2024-07-18
 
 ### Client
 
-- **useRefreshToken Hook**
+- **useRefreshAccessToken Hook**
 
   - 定期向後端請求新的 access token，以保持用戶會話狀態並提高應用安全性。
 
-  - **useCheckAuthStatus Hook**
+  - **useVerifyAndRefreshAuth Hook**
 
-  - 每次頁面刷新時，通過 axios 向 API 檢查認證狀態。根據回傳結果將 isAuthenticated 設置為 true 或 false。
+  - 當頁面刷新時，通過 axios 向 API 檢查認證狀態。根據回傳結果將 `isAuthenticated` 設置為 true 或 false。
 
 - **authSlice**
-
   - 因`HTTPOnly`緣故無法透過 JS 獲取`token`狀態，所以使用`redux-toolkit`實現`auth`等狀態管理。
 
 ### Server
 
-- **refresh-token route**
+- **refreshAccessToken route**
 
-  - 新增`refresh token`機制，提高應用安全性，降低憑證竊取風險，有效防止 CSRF 攻擊。
+  - 新增`refresh access token`機制，提高應用安全性，降低憑證竊取風險，有效防止 CSRF 攻擊。
 
-- **checkAuth route**
-
-  - 前端刷新頁面時會向該路由發送 GET 請求，通過 `passport-jwt` 路由保護，根據結果回傳 true 或 false 用來告知認證狀態。
+- **verifyAndRefreshAuth route**
+  - 前端刷新頁面時會向該路由發送 GET 請求，通過 passport-jwt 驗證保護，根據結果回傳 true 或 false 用來告知認證狀態。
 
 ## 2024-07-19
 
@@ -121,17 +119,17 @@
 
   - 新增 `setLoading` action 來管理頁面是否加載完畢。
 
-- **useCheckAuthStatus Hook**
+- **useVerifyAndRefreshAuth Hook**
 
   - 當確證 `isAuthenticated` 之後，將 `loading` 設定為加載完畢。
 
-- **userCenterPage 組件**
+- **userCenterPage**
 
   - 使用 `loading` 與 `isAuthenticated` 兩種狀態判斷是否需要彈出"請重新登入"對話框。
 
   - 當 `isAuthenticated` 為 false 時，新增`react-modal`製作的"請重新登入"對話框。
 
-- **UserProfile 組件**
+- **UserProfile**
   - 使用了`formik`和`yup`進行表單管理和驗證。
   - 透過 `axios` GET 取得個人資料，修改之後再使用 `axios` PATCH 將資料更新。
 
@@ -166,7 +164,7 @@
 
 - **middlewares**
 
-  - 將 `routes` 與 `controller` 中的`middlewares`邏輯處理分離出來。
+  - 將 routes 與 controller 裡面的`middlewares`分離出來。
 
 - **passport**
 
@@ -200,7 +198,7 @@
 
 - **useToastNotifications Hook**
 
-  - 重構，移除根據狀態碼跳出不同通知的方式，透過各組件中`dispatch`不同狀態的`action`來跳出對應的通知。
+  - 重構
 
 - **authSlice**
 

@@ -34,7 +34,6 @@ const register = async (req, res) => {
   const { email, password, verificationCode } = req.body;
   try {
     const user = await User.findOne({ email }).exec();
-    console.log(user);
     if (!user || user.verificationCode !== verificationCode) {
       return res.status(400).send("驗證碼錯誤或過期");
     }
@@ -43,6 +42,7 @@ const register = async (req, res) => {
     user.password = hashedPassword;
     user.verificationCode = undefined;
     user.username = email;
+    user.veriftyed = true;
     await user.save();
 
     return res.status(201).send("註冊成功");
@@ -79,7 +79,7 @@ const sendVerifyCode = async (req, res) => {
   const { email } = req.body;
   try {
     const existingUser = await User.findOne({ email }).exec();
-    if (existingUser) {
+    if (existingUser && existingUser.veriftyed === true) {
       return res.status(400).send("此信箱已經被註冊過");
     }
 

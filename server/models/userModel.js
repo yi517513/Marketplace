@@ -1,3 +1,4 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -7,6 +8,7 @@ const userSchema = new Schema({
   password: { type: String, minlength: 6, required: true },
   role: { type: String, enum: ["buyer", "seller"], default: "buyer" },
   verificationCode: { type: String, required: false },
+  veriftyed: { type: Boolean, required: true, default: false },
   birthday: { Date },
   gender: { type: String, enum: ["Male", "Female", "Other"] },
   phone: { type: String },

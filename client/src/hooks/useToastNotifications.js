@@ -1,49 +1,32 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  setShowLoginToast,
-  setShowDisconnectedToast,
-  setShowReLoginToast,
-} from "../redux/slices/authSlice";
+import { setNotification } from "../redux/slices/authSlice";
+import { NOTIFICATION_TYPES } from "../utils/constants";
 
 const useToastNotifications = () => {
   const dispatch = useDispatch();
-  const {
-    isAuthenticated,
-    showDisconnectedToast,
-    showLoginToast,
-    showReLoginToast,
-  } = useSelector((state) => state.auth);
-  const shownToasts = useRef({
-    login: false,
-    disconnected: false,
-    reLogin: false,
-  });
+  const { notification } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthenticated && showLoginToast) {
-      toast.success("你已成功登入");
-      dispatch(setShowLoginToast(false));
-      shownToasts.current.login = true;
+    const { visible, message, type } = notification;
+    if (visible) {
+      switch (type) {
+        case NOTIFICATION_TYPES.SUCCESS:
+          toast.success(message);
+          break;
+        case NOTIFICATION_TYPES.ERROR:
+          toast.error(message);
+          break;
+        case NOTIFICATION_TYPES.WARN:
+          toast.warn(message);
+          break;
+        default:
+          toast.info(message);
+      }
+      dispatch(setNotification({ visible: false, message: "", type: "" }));
     }
-    if (!isAuthenticated && showDisconnectedToast) {
-      toast.error("未登入");
-      dispatch(setShowDisconnectedToast(false));
-      shownToasts.current.disconnected = true;
-    }
-    if (!isAuthenticated && showReLoginToast) {
-      toast.warn("請重新登入");
-      dispatch(setShowReLoginToast(false));
-      shownToasts.current.reLogin = true;
-    }
-  }, [
-    dispatch,
-    isAuthenticated,
-    showLoginToast,
-    showDisconnectedToast,
-    showReLoginToast,
-  ]);
+  }, [dispatch, notification]);
 };
 
 export default useToastNotifications;

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import UserProfile from "./UserProfile";
 import LoginLog from "./LoginLog";
 import OTPApp from "./OTPApp";
 import PublishForm from "./PublishForm";
-import ImageModal from "./ImageModal";
+import { Link } from "react-router-dom";
 
 const UserCenterPage = () => {
   const navigate = useNavigate();
+
+  const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.loading);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -21,6 +23,24 @@ const UserCenterPage = () => {
       setIsModalOpen(true);
     }
   }, [isAuthenticated, loading]);
+
+  useEffect(() => {
+    // 根據 URL 更新 activeComponent 和 activeMenu
+    const path = location.pathname;
+    if (path.includes("userProfile")) {
+      setActiveComponent("UserData");
+      setActiveMenu("profile");
+    } else if (path.includes("LoginLog")) {
+      setActiveComponent("LoginLog");
+      setActiveMenu("profile");
+    } else if (path.includes("OTPApp")) {
+      setActiveComponent("OTPApp");
+      setActiveMenu("profile");
+    } else if (path.includes("PublishForm")) {
+      setActiveComponent("PublishForm");
+      setActiveMenu("seller");
+    }
+  }, [location.pathname]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -103,7 +123,7 @@ const UserCenterPage = () => {
           {activeMenu === "profile" && (
             <ul className="dropdown-menu">
               <li onClick={() => setActiveComponent("UserData")}>
-                <a href="#option1">修改資料</a>
+                <Link to="/userCenter/userProfile">修改資料</Link>
               </li>
               <li onClick={() => setActiveComponent("LoginLog")}>
                 <a href="#option2">登入紀錄</a>

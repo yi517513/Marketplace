@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/authService";
-import { logout } from "../../redux/slices/authSlice";
+import { logout, setNotification } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer, Bounce } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useToastNotifications from "../../hooks/useToastNotifications";
 
@@ -19,9 +19,21 @@ const NavBar = () => {
     try {
       await AuthService.logout();
       dispatch(logout());
-      toast.success("你已成功登出");
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "你已成功登出",
+          type: "success",
+        })
+      );
     } catch (error) {
-      toast.error("登出失敗");
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "伺服器發生錯誤",
+          type: "error",
+        })
+      );
       console.log(error.response.data);
     }
   };

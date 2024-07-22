@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
 import AuthService from "../services/authService";
+import { setNotification } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const useVerificationCode = (email, setErrors) => {
   const [isSendVerify, setIsSendVerify] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
+  const dispatch = useDispatch();
 
   const handleSendVerfyCode = async () => {
     try {
       await AuthService.sendVerifyCode(email);
-      window.alert("驗證碼已發送到您的電子郵件");
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "驗證碼已發送至信箱",
+          type: "success",
+        })
+      );
       setIsSendVerify(true);
       setTimeLeft(60);
     } catch (error) {
