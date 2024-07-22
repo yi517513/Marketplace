@@ -2,11 +2,20 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ImageModal from "./ImageModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../../redux/slices/authSlice";
 
 const PublishForm = () => {
-  const [preview, setPreview] = useState(null);
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([
+    null,
+    null,
+    null,
+    null,
+  ]);
 
   const initialValues = {
     title: "",
@@ -32,20 +41,33 @@ const PublishForm = () => {
       setSubmitting(false);
     }
   };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    // navigate("/login");
+
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsModalOpen(true);
-    // console.log(event);
-    // const file = event.target;
+  const handleSelectImage = (image) => {
+    setSelectedImages((prevImages) => {
+      const nextAvailableBox = prevImages.findIndex((img) => img === null);
+      if (nextAvailableBox === -1) {
+        dispatch(
+          setNotification({
+            visible: true,
+            message: "最多上傳四張圖片",
+          })
+        );
+        return prevImages;
+      }
+      const newImages = [...prevImages];
+      newImages[nextAvailableBox] = image;
+      console.log(newImages.length);
+      return newImages;
+    });
   };
 
   return (
     <div className="publish-area">
+      <h1>填寫商品詳情</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -53,30 +75,100 @@ const PublishForm = () => {
       >
         {({ isSubmitting, errors, setFieldValue }) => (
           <Form className="publish-wrapper">
-            <div className="field-wrapper">
-              <label htmlFor="title">商品標題</label>
-              <Field name="title" type="text" placeholder="請輸入標題" />
-              <ErrorMessage name="title" className="err-msg" />
+            <div className="publish-form">
+              <div className="field-wrapper">
+                <label htmlFor="title">商品標題</label>
+                <Field name="title" type="text" placeholder="請輸入標題" />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className="err-msg"
+                />
+              </div>
+              <div className="field-wrapper">
+                <label htmlFor="price">價格</label>
+                <Field
+                  name="price"
+                  type="text"
+                  placeholder=" "
+                  className="price"
+                />
+                <ErrorMessage
+                  name="price"
+                  component="div"
+                  className="err-msg"
+                />
+              </div>
+              <div className="field-wrapper">
+                <label htmlFor="inventory">庫存</label>
+                <Field
+                  name="inventory"
+                  type="number"
+                  placeholder="1-99"
+                  className="inventory"
+                />
+                <ErrorMessage
+                  name="inventory"
+                  component="div"
+                  className="err-msg"
+                />
+              </div>
+              <div className="field-wrapper img-wrapper">
+                <label htmlFor="picture">圖檔</label>
+                {[0, 1, 2, 3].map((boxIndex) => (
+                  <div
+                    key={boxIndex}
+                    className="image-container"
+                    onClick={openModal}
+                  >
+                    {!selectedImages[boxIndex] && (
+                      <div className="icon-container">
+                        <FontAwesomeIcon icon={faPlus} className="faPlus" />
+                      </div>
+                    )}
+                    {selectedImages[boxIndex] && (
+                      <div className="props-img">
+                        <div className="delete-button">
+                          {boxIndex}
+                          <FontAwesomeIcon icon={faX} className="fax" />
+                        </div>
+                        <img
+                          src={selectedImages[boxIndex]}
+                          alt={`Selected ${boxIndex}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <ErrorMessage
+                  name="picture"
+                  component="div"
+                  className="err-msg"
+                />
+              </div>
+
+              <div className="field-wrapper">
+                <label htmlFor="description">商品詳情</label>
+                <Field
+                  name="description"
+                  as="textarea"
+                  placeholder=""
+                  className="description"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="err-msg"
+                />
+              </div>
             </div>
-            <div className="field-wrapper">
-              <label htmlFor="price">價格</label>
-              <Field name="price" type="text" placeholder=" " />
-              <ErrorMessage name="price" className="err-msg" />
-            </div>
-            <div className="field-wrapper">
-              <label htmlFor="inventory">庫存</label>
-              <Field name="inventory" type="number" placeholder="1-999" />
-              <ErrorMessage name="inventory" className="err-msg" />
-            </div>
-            <div className="field-wrapper">
-              <label htmlFor="picture">圖檔</label>
-              <button onClick={() => setIsModalOpen(true)}>+</button>
-              <ErrorMessage name="picture" className="err-msg" />
-            </div>
-            <div className="field-wrapper">
-              <label htmlFor="description">商品詳情</label>
-              <Field name="description" type="text" placeholder="" />
-              <ErrorMessage name="description" className="err-msg" />
+            <div className="btn-set">
+              <button type="submit" disabled={isSubmitting}>
+                瀏覽商品
+              </button>
+              <button type="submit" disabled={isSubmitting}>
+                刊登出售
+              </button>
             </div>
           </Form>
         )}
@@ -84,18 +176,8 @@ const PublishForm = () => {
       <ImageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSelectImage={(image) => setSelectedImage(image)}
+        onSelectImage={handleSelectImage}
       />
-      {selectedImage && (
-        <div>
-          <h3>已選擇的圖片:</h3>
-          <img
-            src={selectedImage}
-            alt="Selected"
-            style={{ width: "200px", height: "200px" }}
-          />
-        </div>
-      )}
     </div>
   );
 };

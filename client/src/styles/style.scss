@@ -272,9 +272,11 @@ nav.commonNav {
   margin: 1rem;
   display: flex;
   flex-direction: column;
+
+  justify-content: center;
   align-items: center;
   h1 {
-    margin-top: 1.5rem;
+    // margin-top: 1.5rem;
     font-weight: normal;
     color: rgb(109, 109, 109);
   }
@@ -287,19 +289,17 @@ nav.commonNav {
     padding: 1rem;
     .field-wrapper {
       margin: 0.5rem;
-      padding: 0.5rem;
+      padding: 0.4rem 2.5rem;
       display: flex;
       align-items: center;
       position: relative;
 
       label {
-        display: inline-block;
         width: 5rem;
         text-align: left;
       }
       input,
       select {
-        display: inline-block;
         font-size: 1.1rem;
         cursor: pointer;
         width: 20rem;
@@ -309,11 +309,8 @@ nav.commonNav {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       .error-message {
-        margin-left: 1rem;
-        white-space: nowrap;
         position: absolute;
         right: 0;
-        white-space: nowrap;
         color: red;
       }
     }
@@ -371,18 +368,21 @@ nav.commonNav {
     }
     .img-wrapper {
       // border: 2px solid brown;
+      .icon-container {
+        display: flex;
+        justify-content: right;
+        .fax {
+          font-size: 1.2rem;
+          color: gray;
+          cursor: pointer;
+        }
+      }
       display: flex;
       flex-direction: column;
       padding: 0.5rem 1.5rem;
       justify-content: center;
-      h1 {
-        font-weight: normal;
-        font-size: 1.3rem;
-        padding: 0.3rem;
-      }
       .local-img {
         // border: 1px solid green;
-        margin: 0.3rem 0rem;
         padding: 0.3rem;
         display: flex;
         align-items: center;
@@ -462,27 +462,138 @@ nav.commonNav {
 }
 
 .publish-area {
-  width: 100%;
   height: 100%;
+  width: 90%;
+  margin: 1rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: rgb(109, 109, 109);
+  }
   .publish-wrapper {
-    margin: 1rem;
-    .field-wrapper {
-      margin: 1rem;
-      label {
-        display: inline-block;
-        width: 5rem;
-        text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    padding: 1rem;
+    .publish-form {
+      padding: 0.5rem;
+      width: 80%;
+      .field-wrapper {
+        margin: 1rem 0.5rem;
+        padding: 0.4rem 2.5rem;
+        display: flex;
+        align-items: center;
+        position: relative;
+        label {
+          width: 20%;
+          text-align: left;
+          margin-right: 0.5rem;
+        }
+        input {
+          padding: 0.5rem 0.8rem;
+          font-size: 1.2rem;
+          cursor: pointer;
+          width: 80%;
+          outline: none;
+          border: none;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .price,
+        .inventory {
+          width: 8rem;
+        }
+        .err-msg {
+          position: absolute;
+          color: red;
+          right: 0;
+        }
+
+        .description {
+          width: 80%;
+          height: 10rem;
+          padding: 0.8rem;
+          font-size: 1.1rem;
+          cursor: text;
+          outline: none;
+          border: none;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          resize: none; /* 禁止調整大小 */
+          overflow: auto; /* 確保滾動條出現 */
+        }
       }
-      input {
-        padding: 0.5rem;
-        font-size: 1.2rem;
+      .img-wrapper {
+        display: flex;
+        button {
+          margin: 2rem;
+          margin-left: 0rem;
+          width: 2rem;
+          font-size: 1.5rem;
+          background-color: white;
+          border: 1px solid rgba(2, 2, 2, 0.486);
+        }
+        .image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border: 1px solid rgb(179, 179, 179);
+          width: 5rem;
+          height: 5rem;
+          margin: 0.4rem;
+          margin-left: 0rem;
+          overflow: hidden;
+          .icon-container {
+            color: gray;
+          }
+          .props-img {
+            position: relative;
+            display: flex;
+            .delete-button {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: absolute;
+              right: 0;
+              z-index: 1;
+              background-color: rgba(255, 0, 0, 0.733);
+              border-radius: 50%;
+              width: 1.3rem;
+              height: 1.3rem;
+              margin: 0.1rem;
+              .fax {
+                color: white;
+              }
+            }
+            img {
+              width: 80px;
+              height: 80px;
+              object-fit: cover;
+            }
+          }
+        }
       }
-      .err-msg {
-        color: red;
-        font-size: 1.5rem;
+    }
+    .btn-set {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-around;
+      width: 20rem;
+      button {
+        font-size: 1rem;
+        background-color: rgb(109, 109, 109);
+        color: white;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: gray;
+        }
       }
     }
   }

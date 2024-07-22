@@ -206,9 +206,13 @@
 
   - 簡化`notifications`狀態。
 
-- **UserCenterPage**
+- **UserCenterPage 組件**
 
   - 修復了使用`URL`進入網頁時，無法正確渲染`UserProfile`組件問題。
+
+- **PublishForm 組件**
+
+  - 更新上傳圖片邏輯處理。
 
 ### Server
 
