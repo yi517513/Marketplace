@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ImageModal from "./ImageModal";
@@ -10,12 +10,15 @@ import { setNotification } from "../../redux/slices/authSlice";
 const PublishForm = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [previewImageSrc, setPreviewImageSrc] = useState(null);
   const [selectedImages, setSelectedImages] = useState([
     null,
     null,
     null,
     null,
   ]);
+  const [isDirty, setIsDirty] = useState(false);
 
   const initialValues = {
     title: "",
@@ -60,10 +63,48 @@ const PublishForm = () => {
       }
       const newImages = [...prevImages];
       newImages[nextAvailableBox] = image;
-      console.log(newImages.length);
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "新增圖片成功",
+          type: "success",
+        })
+      );
       return newImages;
     });
   };
+
+  const handleDelete = (e, index) => {
+    // 停止 bubbling
+    e.stopPropagation();
+    setSelectedImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[index] = null;
+      return newImages;
+    });
+  };
+
+  const previewImage = (e, index) => {
+    e.stopPropagation();
+    setPreviewImageSrc(selectedImages[index]);
+    setIsPreviewOpen(true);
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty || selectedImages.length > 0) {
+        console.log("123");
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDirty, selectedImages]);
 
   return (
     <div className="publish-area">
@@ -73,12 +114,21 @@ const PublishForm = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, errors, setFieldValue }) => (
+        {({ isSubmitting, handleChange, handleBlur }) => (
           <Form className="publish-wrapper">
             <div className="publish-form">
               <div className="field-wrapper">
                 <label htmlFor="title">商品標題</label>
-                <Field name="title" type="text" placeholder="請輸入標題" />
+                <Field
+                  name="title"
+                  type="text"
+                  placeholder="請輸入標題"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setIsDirty(true);
+                  }}
+                  onBlur={handleBlur}
+                />
                 <ErrorMessage
                   name="title"
                   component="div"
@@ -92,6 +142,11 @@ const PublishForm = () => {
                   type="text"
                   placeholder=" "
                   className="price"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setIsDirty(true);
+                  }}
+                  onBlur={handleBlur}
                 />
                 <ErrorMessage
                   name="price"
@@ -106,6 +161,11 @@ const PublishForm = () => {
                   type="number"
                   placeholder="1-99"
                   className="inventory"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setIsDirty(true);
+                  }}
+                  onBlur={handleBlur}
                 />
                 <ErrorMessage
                   name="inventory"
@@ -128,13 +188,16 @@ const PublishForm = () => {
                     )}
                     {selectedImages[boxIndex] && (
                       <div className="props-img">
-                        <div className="delete-button">
-                          {boxIndex}
+                        <div
+                          className="delete-button"
+                          onClick={(e) => handleDelete(e, boxIndex)}
+                        >
                           <FontAwesomeIcon icon={faX} className="fax" />
                         </div>
                         <img
                           src={selectedImages[boxIndex]}
                           alt={`Selected ${boxIndex}`}
+                          onClick={(e) => previewImage(e, boxIndex)}
                         />
                       </div>
                     )}
@@ -154,6 +217,11 @@ const PublishForm = () => {
                   as="textarea"
                   placeholder=""
                   className="description"
+                  onChange={(e) => {
+                    handleChange(e);
+                    setIsDirty(true);
+                  }}
+                  onBlur={handleBlur}
                 />
                 <ErrorMessage
                   name="description"
@@ -178,6 +246,18 @@ const PublishForm = () => {
         onClose={() => setIsModalOpen(false)}
         onSelectImage={handleSelectImage}
       />
+      {isPreviewOpen && (
+        <div className="preview-modal" onClick={() => setIsPreviewOpen(false)}>
+          <div className="close-content" onClick={(e) => e.stopPropagation()}>
+            <span className="close" onClick={() => setIsPreviewOpen(false)}>
+              &times;
+            </span>
+          </div>
+          <div className="preview-content">
+            <img src={previewImageSrc} alt="Preview" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import UserCenterPage from "./components/UserCenterComponent/UserCenterPage";
 import useRefreshAccessToken from "./hooks/useRefreshAccessToken";
 import useVerifyAndRefreshAuth from "./hooks/useVerifyAndRefreshAuth";
 import UserProflie from "./components/UserCenterComponent/UserProfile";
+import PublishForm from "./components/UserCenterComponent/PublishForm";
 
 function App() {
   useVerifyAndRefreshAuth();
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/userCenter" element={<UserCenterPage />}>
             <Route path="userProfile" element={<UserProflie />} />
+            <Route path="PublishForm" element={<PublishForm />} />
           </Route>
         </Route>
       </Routes>

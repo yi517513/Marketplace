@@ -36,7 +36,7 @@ const UserCenterPage = () => {
     } else if (path.includes("OTPApp")) {
       setActiveComponent("OTPApp");
       setActiveMenu("profile");
-    } else if (path.includes("PublishForm")) {
+    } else if (path.includes("publishForm")) {
       setActiveComponent("PublishForm");
       setActiveMenu("seller");
     }
@@ -102,7 +102,7 @@ const UserCenterPage = () => {
           {activeMenu === "seller" && (
             <ul className="dropdown-menu">
               <li onClick={() => setActiveComponent("PublishForm")}>
-                <a>刊登出售</a>
+                <Link to="/userCenter/publishForm">刊登出售</Link>
               </li>
               <li>
                 <a href="#option2">賣場管理</a>

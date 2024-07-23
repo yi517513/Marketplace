@@ -19,7 +19,13 @@ const ImageModal = ({ isOpen, onClose, onSelectImage }) => {
     }
   };
 
-  const handleDeleteImage = () => {};
+  const handleDeleteImage = (index) => {
+    console.log(index);
+    setPreviousImages((prevImages) => {
+      const newImages = prevImages.filter((_, i) => i !== index);
+      return newImages;
+    });
+  };
 
   return (
     <Modal
@@ -51,8 +57,9 @@ const ImageModal = ({ isOpen, onClose, onSelectImage }) => {
                 <div className="img-block" key={index}>
                   <img src={preview} alt={`Preview ${index}`} />
                   <div className="btn-set">
+                    {index}
                     <button onClick={() => onSelectImage(preview)}>選擇</button>
-                    <button onClick={() => handleDeleteImage(preview)}>
+                    <button onClick={() => handleDeleteImage(index)}>
                       刪除
                     </button>
                   </div>
