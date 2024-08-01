@@ -14,6 +14,15 @@ class UserCenter {
       { withCredentials: true }
     );
   }
+
+  publishProduct(formData) {
+    return axios.post(USERCENTER_URL + "/publishProduct", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true,
+    });
+  }
 }
 
 const userCenter = new UserCenter();

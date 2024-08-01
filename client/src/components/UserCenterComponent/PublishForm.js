@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../redux/slices/authSlice";
+import UserCenterService from "../../services/userCenterService";
 
 const PublishForm = () => {
   const dispatch = useDispatch();
@@ -36,10 +37,42 @@ const PublishForm = () => {
   });
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    dispatch(
+      setNotification({
+        visible: true,
+        message: "正在上傳.....",
+      })
+    );
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("price", values.price);
+    formData.append("inventory", values.inventory);
+    formData.append("description", values.description);
+
+    selectedImages.forEach((image, index) => {
+      if (image) {
+        formData.append("pictures", image);
+      }
+    });
     try {
-      // upload server
+      await UserCenterService.publishProduct(formData);
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "刊登成功",
+          type: "success",
+        })
+      );
     } catch (error) {
-      setErrors({ server: error.response.data });
+      console.error(error);
+      dispatch(setNotification({ visible: false }));
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "刊登失敗",
+          type: "error",
+        })
+      );
     } finally {
       setSubmitting(false);
     }
@@ -59,6 +92,7 @@ const PublishForm = () => {
             message: "最多上傳四張圖片",
           })
         );
+        setIsModalOpen(false);
         return prevImages;
       }
       const newImages = [...prevImages];
@@ -86,7 +120,7 @@ const PublishForm = () => {
 
   const previewImage = (e, index) => {
     e.stopPropagation();
-    setPreviewImageSrc(selectedImages[index]);
+    setPreviewImageSrc(URL.createObjectURL(selectedImages[index]));
     setIsPreviewOpen(true);
   };
 
@@ -195,7 +229,7 @@ const PublishForm = () => {
                           <FontAwesomeIcon icon={faX} className="fax" />
                         </div>
                         <img
-                          src={selectedImages[boxIndex]}
+                          src={URL.createObjectURL(selectedImages[boxIndex])}
                           alt={`Selected ${boxIndex}`}
                           onClick={(e) => previewImage(e, boxIndex)}
                         />
@@ -231,9 +265,7 @@ const PublishForm = () => {
               </div>
             </div>
             <div className="btn-set">
-              <button type="submit" disabled={isSubmitting}>
-                瀏覽商品
-              </button>
+              <button>瀏覽商品</button>
               <button type="submit" disabled={isSubmitting}>
                 刊登出售
               </button>

@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../../redux/slices/authSlice";
 
 const ImageModal = ({ isOpen, onClose, onSelectImage }) => {
   const [previousImages, setPreviousImages] = useState([]);
+  const dispatch = useDispatch();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newImage = reader.result;
-        onSelectImage(newImage);
-        setPreviousImages((prevImages) => [...prevImages, newImage]);
-      };
-      reader.readAsDataURL(file);
+      const newImage = URL.createObjectURL(file);
+      onSelectImage(file);
+      setPreviousImages((prevImages) => [newImage, ...prevImages]);
     }
   };
 
@@ -23,6 +22,13 @@ const ImageModal = ({ isOpen, onClose, onSelectImage }) => {
     console.log(index);
     setPreviousImages((prevImages) => {
       const newImages = prevImages.filter((_, i) => i !== index);
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "成功刪除圖片",
+          type: "success",
+        })
+      );
       return newImages;
     });
   };

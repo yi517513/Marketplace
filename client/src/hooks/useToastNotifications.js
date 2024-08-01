@@ -11,6 +11,10 @@ const useToastNotifications = () => {
   useEffect(() => {
     const { visible, message, type } = notification;
     if (visible) {
+      // 先隱藏所有 toast
+      toast.dismiss();
+
+      // 顯示新 toast
       switch (type) {
         case NOTIFICATION_TYPES.SUCCESS:
           toast.success(message);

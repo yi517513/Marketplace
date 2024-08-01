@@ -26,7 +26,7 @@ const gernerateRefreshToken = (user) => {
     username: user.username,
   };
   return jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
-    expiresIn: "90m",
+    expiresIn: "1d",
   });
 };
 

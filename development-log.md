@@ -228,3 +228,29 @@
   - 完成從本地上傳並顯示圖片的功能，並能夠選擇和刪除圖片。
 
   - 使用`useEffect`來監控`dirty`狀態: 實現當表單內容有變更時，使用`beforeunload`事件來顯示離開頁面警告，防止未保存的變更丟失。
+
+## 2024-08-01
+
+### Client
+
+- **PublishForm**
+
+  - 完成`handleSumbit`函數，將賣場資訊使用 `formDara` 物件透過`axios`傳送到 API。
+
+- **publishProduct service**
+
+  - 在`axios`加上"Content-Type": "multipart/form-data"，使後端可以解析 `formData` 內容。
+
+### Server
+
+- **productModel**
+
+  - 新增商品的資料表結構，並關聯使用者 id。
+
+- **publishProduct route**
+
+  - 使用`multer`套件 + `AWS-S3` 將前端 POST 過來的圖片上傳至`AWS`雲端平台，並根據圖片 URL 以及其他資訊一同存進資料庫中
+
+- **config**
+
+  - 新增`s3.js`配置，用於上傳至雲端平台。
