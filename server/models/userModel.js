@@ -13,7 +13,11 @@ const userSchema = new Schema(
     gender: { type: String, enum: ["Male", "Female", "Other"] },
     phone: { type: String },
     address: { type: String },
-    products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+    images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+    products: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 賣場刊登的產品
+    cart: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 購物車
+    purchasedProducts: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 已購買的產品
+    soldProducts: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 已賣出的產品
   },
   {
     timestamps: true,

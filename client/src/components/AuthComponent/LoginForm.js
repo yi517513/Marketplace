@@ -34,6 +34,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       setErrors({ server: error.response.data });
+      console.log(error);
     } finally {
       setSubmitting(false);
     }

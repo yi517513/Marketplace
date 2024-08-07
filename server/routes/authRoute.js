@@ -6,7 +6,6 @@ const {
   refreshAccessToken,
   logout,
   verifyAndRefreshAuth,
-  refreshRefreshToken,
 } = require("../controllers/authController");
 const {
   passportJWT,

@@ -233,13 +233,13 @@
 
 ### Client
 
-- **PublishForm**
+- **PublishForm 組件**
 
-  - 完成`handleSumbit`函數，將賣場資訊使用 `formDara` 物件透過`axios`傳送到 API。
+  - 完成`handleSumbit`函數，將賣場資訊使用 `formDara` 物件，透過`ProductService.postProduct`方法將商品資訊 POST 到 API。
 
 - **publishProduct service**
 
-  - 在`axios`加上"Content-Type": "multipart/form-data"，使後端可以解析 `formData` 內容。
+  - 在`PublishProduct.postProduct`加上"Content-Type": "multipart/form-data"，使後端可以解析 `formData` 內容。
 
 ### Server
 
@@ -254,3 +254,75 @@
 - **config**
 
   - 新增`s3.js`配置，用於上傳至雲端平台。
+
+## 2024-08-03 - 2024-08-07
+
+### Client
+
+- **重構 UserCenterComponent 組件結構**
+
+  - 新增`Buyer`、`Seller`、`Profule`三個資料夾，將組件依功能分類。
+
+  - 更新`UserCenterPage`組件，作為進入三種功能的導覽列。
+
+- **重構 services**
+
+  - 移除`userCenterService`並新增`imageService`、`orderService`、`productService `、`userService`、`publicService`
+
+  - `imageService` : 圖片上傳、下載、刪除。
+
+  - `orderService` : 空
+
+  - `productService` : 商品的 CRUD 操作。
+
+  - `userService` : 取得和更新使用者資訊。
+
+  - `publicService` : 未登入時獲取商品資訊。
+
+- **ProductDetail 組件**
+
+  - 使用 `PublicService.getProduct` 方法根據商品 ID 取得商品詳情。
+
+- **ImageModal 組件**
+
+  - 新增圖片處理邏輯，使用`imageService.uploadProductImage`、`imageService.getProductImages`、`imageService.deleteProductImages`取得不同的 response。
+
+- **PublishForm 組件**
+
+  - 移除圖片上傳邏輯。
+
+  - 使用 `ProductService.postProduct` 傳送 `title`、`price`、`inventory`、`images`、`description` 到 API。
+
+- **ProductManage 組件**
+
+  - 使用`ProductService.getAllProducts`向 API 取得該用戶所有的商品
+
+### Server
+
+- **重構 controllers**
+
+  - 移除`userCenterController`，新增`imageController`、`productController`、`userController`
+
+  - `imageController` : 圖片的上傳、下載、刪除處理邏輯
+
+  - `productController` : 商品的 CRUD 處理邏輯
+
+  - `userController` : 取得和更新使用者資訊的處理邏輯
+
+- **models**
+
+  - 新增`cartModel`、`imageModel`、`transactionModel`
+
+  - `cartModel` : 購物車資料表，關聯`userId`與`products`
+
+  - `imageModel` : 圖片資料表，關聯`userId`
+
+  - `transactionModel` : 交易紀錄資料表，關聯`buyerId`、`sellerId`、`products`。
+
+- **重構 routes 結構**
+
+  - 新增 userCenter 資料夾。將原 `userCenterRoute` 劃分成 `buyerRoutes`、`imageRoute`、`productsRoutes`、`userRoutes` 並移入 userCenter 資料夾。
+
+  - 將`userCenterRoute`當作 `userCenter` 資料夾內四個路由的入口。
+
+  - 新增`publicRoutes`用於未登入時的路由

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import UserCenterService from "../../services/userCenterService";
+import UserService from "../../../services/userService";
 import * as Yup from "yup";
-import { setNotification } from "../../redux/slices/authSlice";
+import { setNotification } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
-import { NOTIFICATION_TYPES } from "../../utils/constants";
+import { NOTIFICATION_TYPES } from "../../../utils/constants";
 
 const UserData = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const UserData = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await UserCenterService.updateUserProfile(values);
+      const response = await UserService.updateProfile(values);
       if (response.status === 200) {
         dispatch(
           setNotification({
@@ -48,7 +48,7 @@ const UserData = () => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await UserCenterService.profile();
+        const response = await UserService.getProfile();
 
         setUserData({
           username: response.data.username,

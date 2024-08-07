@@ -8,8 +8,10 @@ import LoginForm from "./components/AuthComponent/LoginForm";
 import UserCenterPage from "./components/UserCenterComponent/UserCenterPage";
 import useRefreshAccessToken from "./hooks/useRefreshAccessToken";
 import useVerifyAndRefreshAuth from "./hooks/useVerifyAndRefreshAuth";
-import UserProflie from "./components/UserCenterComponent/UserProfile";
-import PublishForm from "./components/UserCenterComponent/PublishForm";
+import UserProflie from "./components/UserCenterComponent/Profile/UserProfile";
+import PublishForm from "./components/UserCenterComponent/Seller/PublishForm";
+import ProductDetail from "./components/HomeComponent/ProductDetail";
+import ProductManage from "./components/UserCenterComponent/Seller/ProductManage";
 
 function App() {
   useVerifyAndRefreshAuth();
@@ -24,8 +26,10 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/userCenter" element={<UserCenterPage />}>
             <Route path="userProfile" element={<UserProflie />} />
-            <Route path="PublishForm" element={<PublishForm />} />
+            <Route path="publishForm" element={<PublishForm />} />
+            <Route path="productManage" element={<ProductManage />} />
           </Route>
+          <Route path="/productDetail/:productId" element={<ProductDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

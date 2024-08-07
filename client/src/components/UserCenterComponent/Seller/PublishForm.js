@@ -5,21 +5,25 @@ import ImageModal from "./ImageModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../../redux/slices/authSlice";
-import UserCenterService from "../../services/userCenterService";
+import { setNotification } from "../../../redux/slices/authSlice";
+import ProductService from "../../../services/productService ";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const PublishForm = () => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewImageSrc, setPreviewImageSrc] = useState(null);
-  const [selectedImages, setSelectedImages] = useState([
-    null,
-    null,
-    null,
-    null,
-  ]);
   const [isDirty, setIsDirty] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialImages = location.state?.images?.slice(0, 4) || [];
+  const paddedImages = initialImages.concat(
+    Array(4 - initialImages.length).fill(null)
+  );
+  const [selectedImages, setSelectedImages] = useState(paddedImages);
+
+  // console.log(selectedImages);
 
   const initialValues = {
     title: "",
@@ -43,19 +47,16 @@ const PublishForm = () => {
         message: "正在上傳.....",
       })
     );
-    const formData = new FormData();
-    formData.append("title", values.title);
-    formData.append("price", values.price);
-    formData.append("inventory", values.inventory);
-    formData.append("description", values.description);
-
-    selectedImages.forEach((image, index) => {
-      if (image) {
-        formData.append("pictures", image);
-      }
-    });
     try {
-      await UserCenterService.publishProduct(formData);
+      const images = selectedImages.filter((image) => image); // 過濾掉 null 的值
+      console.log(images);
+      const response = await ProductService.postProduct(
+        values.title,
+        values.price,
+        values.inventory,
+        images,
+        values.description
+      );
       dispatch(
         setNotification({
           visible: true,
@@ -63,13 +64,15 @@ const PublishForm = () => {
           type: "success",
         })
       );
+      console.log(response.data);
+      navigate(`/productDetail/${response.data}`);
     } catch (error) {
       console.error(error);
       dispatch(setNotification({ visible: false }));
       dispatch(
         setNotification({
           visible: true,
-          message: "刊登失敗",
+          message: error.response.data,
           type: "error",
         })
       );
@@ -78,8 +81,38 @@ const PublishForm = () => {
     }
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleUpdate = async (values, { setSubmitting, setErrors }) => {
+    dispatch(
+      setNotification({
+        visible: true,
+        message: "正在上傳.....",
+      })
+    );
+    const { title, price, inventory, images, description, productId } = values;
+    const imageUrls = selectedImages.filter((image) => image); // 過濾掉 null 的值
+    try {
+      const response = await ProductService.updateProduct({
+        title,
+        price,
+        inventory,
+        images: imageUrls,
+        description,
+        productId,
+      });
+      console.log(response.data);
+      dispatch(
+        setNotification({
+          visible: true,
+          message: "修改成功!",
+          type: "success",
+        })
+      );
+      navigate(`/productDetail/${response.data._id}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleSelectImage = (image) => {
@@ -120,14 +153,13 @@ const PublishForm = () => {
 
   const previewImage = (e, index) => {
     e.stopPropagation();
-    setPreviewImageSrc(URL.createObjectURL(selectedImages[index]));
+    setPreviewImageSrc(selectedImages[index].url);
     setIsPreviewOpen(true);
   };
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (isDirty || selectedImages.length > 0) {
-        console.log("123");
         e.preventDefault();
         e.returnValue = "";
       }
@@ -144,9 +176,9 @@ const PublishForm = () => {
     <div className="publish-area">
       <h1>填寫商品詳情</h1>
       <Formik
-        initialValues={initialValues}
+        initialValues={location.state ? location.state : initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={location.state ? handleUpdate : handleSubmit}
       >
         {({ isSubmitting, handleChange, handleBlur }) => (
           <Form className="publish-wrapper">
@@ -213,7 +245,9 @@ const PublishForm = () => {
                   <div
                     key={boxIndex}
                     className="image-container"
-                    onClick={openModal}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                    }}
                   >
                     {!selectedImages[boxIndex] && (
                       <div className="icon-container">
@@ -229,7 +263,7 @@ const PublishForm = () => {
                           <FontAwesomeIcon icon={faX} className="fax" />
                         </div>
                         <img
-                          src={URL.createObjectURL(selectedImages[boxIndex])}
+                          src={selectedImages[boxIndex].url}
                           alt={`Selected ${boxIndex}`}
                           onClick={(e) => previewImage(e, boxIndex)}
                         />
@@ -265,10 +299,16 @@ const PublishForm = () => {
               </div>
             </div>
             <div className="btn-set">
-              <button>瀏覽商品</button>
-              <button type="submit" disabled={isSubmitting}>
-                刊登出售
-              </button>
+              {!location.state && (
+                <button type="submit" disabled={isSubmitting}>
+                  刊登出售
+                </button>
+              )}
+              {location.state && (
+                <button type="submit" disabled={isSubmitting}>
+                  修改商品
+                </button>
+              )}
             </div>
           </Form>
         )}

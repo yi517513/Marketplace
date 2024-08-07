@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "react-modal";
-import UserProfile from "./UserProfile";
-import LoginLog from "./LoginLog";
-import OTPApp from "./OTPApp";
-import PublishForm from "./PublishForm";
+import UserProfile from "./Profile/UserProfile";
+import LoginLog from "./Profile/LoginLog";
+import OTPApp from "./Profile/OTPApp";
+import PublishForm from "./Seller/PublishForm";
 import { Link } from "react-router-dom";
+import ProductManage from "./Seller/ProductManage";
 
 const UserCenterPage = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const loading = useSelector((state) => state.auth.loading);
@@ -39,6 +39,9 @@ const UserCenterPage = () => {
     } else if (path.includes("publishForm")) {
       setActiveComponent("PublishForm");
       setActiveMenu("seller");
+    } else if (path.includes("productManage")) {
+      setActiveComponent("ProductManage");
+      setActiveMenu("seller");
     }
   }, [location.pathname]);
 
@@ -63,6 +66,8 @@ const UserCenterPage = () => {
         return <OTPApp />;
       case "PublishForm":
         return <PublishForm />;
+      case "ProductManage":
+        return <ProductManage />;
       default:
         return null;
     }
@@ -101,11 +106,11 @@ const UserCenterPage = () => {
           </button>
           {activeMenu === "seller" && (
             <ul className="dropdown-menu">
-              <li onClick={() => setActiveComponent("PublishForm")}>
+              <li>
                 <Link to="/userCenter/publishForm">刊登出售</Link>
               </li>
               <li>
-                <a href="#option2">賣場管理</a>
+                <Link to="/userCenter/productManage">賣場管理</Link>
               </li>
               <li>
                 <a href="#option3">交易完成</a>
@@ -122,13 +127,13 @@ const UserCenterPage = () => {
           </button>
           {activeMenu === "profile" && (
             <ul className="dropdown-menu">
-              <li onClick={() => setActiveComponent("UserData")}>
+              <li>
                 <Link to="/userCenter/userProfile">修改資料</Link>
               </li>
-              <li onClick={() => setActiveComponent("LoginLog")}>
+              <li>
                 <a href="#option2">登入紀錄</a>
               </li>
-              <li onClick={() => setActiveComponent("OTPApp")}>
+              <li>
                 <a href="#option3">OTP安全鎖</a>
               </li>
             </ul>

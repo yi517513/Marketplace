@@ -38,19 +38,24 @@ const NavBar = () => {
     }
   };
 
+  const handleNavigation = (event, path) => {
+    event.stopPropagation();
+    navigate(path);
+  };
+
   return (
     <nav className="commonNav">
       <ul>
-        <li onClick={() => navigate("/")}>
+        <li onClick={(e) => handleNavigation(e, "/")}>
           <Link to="/">首頁</Link>
         </li>
         {!isAuthenticated && (
-          <li onClick={() => navigate("/register")}>
+          <li onClick={(e) => handleNavigation(e, "/register")}>
             <Link to="/register">註冊</Link>
           </li>
         )}
         {!isAuthenticated && (
-          <li onClick={() => navigate("/login")}>
+          <li onClick={(e) => handleNavigation(e, "/login")}>
             <Link to="/login">登入</Link>
           </li>
         )}
@@ -59,7 +64,7 @@ const NavBar = () => {
             <Link to="/">登出</Link>
           </li>
         )}
-        <li onClick={() => navigate("/userCenter")}>
+        <li onClick={(e) => handleNavigation(e, "/userCenter")}>
           <Link to="/userCenter">會員中心</Link>
         </li>
       </ul>
