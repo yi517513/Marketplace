@@ -1,37 +1,35 @@
 import "./styles/style.css";
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./layout/Layout";
-import HomePage from "./components/HomeComponent/HomePage";
-import RegisterForm from "./components/AuthComponent/RegisterForm";
-import LoginForm from "./components/AuthComponent/LoginForm";
-import UserCenterPage from "./components/UserCenterComponent/UserCenterPage";
-import useRefreshAccessToken from "./hooks/useRefreshAccessToken";
-import useVerifyAndRefreshAuth from "./hooks/useVerifyAndRefreshAuth";
-import UserProflie from "./components/UserCenterComponent/Profile/UserProfile";
-import PublishForm from "./components/UserCenterComponent/Seller/PublishForm";
-import ProductDetail from "./components/HomeComponent/ProductDetail";
-import ProductManage from "./components/UserCenterComponent/Seller/ProductManage";
+import React, { Profiler, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./redux/slices/authSlice";
+import useRefreshToken from "./hooks/useRefreshToken";
+import AppRoutes from "./routes";
 
 function App() {
-  useVerifyAndRefreshAuth();
-  useRefreshAccessToken();
+  const { handleRefreshToken } = useRefreshToken();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const userId = localStorage.getItem("userId");
+    dispatch(checkAuth({ isAuthenticated, userId }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isAuthenticated) handleRefreshToken();
+    }, 3 * 1 * 1000);
+    return () => clearInterval(interval);
+  }, [isAuthenticated, handleRefreshToken]);
+
+  // 目前在payment相關的只有檢查local.state來決定是否可以進入，以防止從URL直接進入
+  const userHasAccess = true;
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/userCenter" element={<UserCenterPage />}>
-            <Route path="userProfile" element={<UserProflie />} />
-            <Route path="publishForm" element={<PublishForm />} />
-            <Route path="productManage" element={<ProductManage />} />
-          </Route>
-          <Route path="/productDetail/:productId" element={<ProductDetail />} />
-        </Route>
-      </Routes>
+      <AppRoutes userHasAccess={userHasAccess} />
     </BrowserRouter>
   );
 }

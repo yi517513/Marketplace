@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { NOTIFICATION_TYPES } from "../constants";
 
 const initialState = {
   isAuthenticated: false,
-  loading: true,
+  userId: null,
   notification: { visible: false, message: "", type: "" },
 };
 
@@ -11,18 +10,21 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state) {
+    login(state, action) {
       state.isAuthenticated = true;
+      state.userId = action.payload;
+      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("userId", action.payload);
     },
     logout(state) {
       state.isAuthenticated = false;
+      state.userId = null;
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("userId");
     },
     checkAuth(state, action) {
-      state.isAuthenticated = action.payload;
-      state.loading = false;
-    },
-    setLoading(state, action) {
-      state.loading = action.payload;
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.userId = action.payload.userId;
     },
     setNotification(state, action) {
       state.notification = action.payload;
@@ -30,6 +32,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, checkAuth, setLoading, setNotification } =
-  authSlice.actions;
+export const { login, logout, checkAuth, setNotification } = authSlice.actions;
 export default authSlice.reducer;

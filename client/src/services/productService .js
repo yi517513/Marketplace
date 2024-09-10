@@ -2,8 +2,8 @@ import axios from "axios";
 const PRODUCTS_URL = process.env.REACT_APP_PRODUCTS_URL;
 
 class ProductService {
-  postProduct(title, price, inventory, images, description) {
-    console.log(title);
+  postProduct(createVariables) {
+    const { title, price, inventory, images, description } = createVariables;
     return axios.post(
       PRODUCTS_URL,
       { title, price, inventory, images, description },
@@ -12,7 +12,7 @@ class ProductService {
       }
     );
   }
-  getAllProducts() {
+  getUserProducts() {
     return axios.get(PRODUCTS_URL, {
       withCredentials: true,
     });
@@ -30,14 +30,29 @@ class ProductService {
     });
   }
 
-  updateProduct({ title, price, inventory, images, description, productId }) {
+  updateProduct(productInfo) {
+    const { _id: productId } = productInfo;
+    return axios.patch(PRODUCTS_URL + `/${productId}`, productInfo, {
+      withCredentials: true,
+    });
+  }
+
+  // 切換上架與下架狀態
+  toggleStatus(productId) {
+    console.log("using toggleStatus");
     return axios.patch(
-      PRODUCTS_URL + `/${productId}`,
-      { title, price, inventory, images, description },
+      PRODUCTS_URL + `/${productId}/toggleStatus`,
+      {},
       {
         withCredentials: true,
       }
     );
+  }
+
+  getPendingShipment() {
+    return axios.get(PRODUCTS_URL + `/getPendingShipment`, {
+      withCredentials: true,
+    });
   }
 }
 

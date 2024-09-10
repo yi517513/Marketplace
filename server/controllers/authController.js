@@ -16,7 +16,7 @@ const gernerateToken = (user) => {
   const payload = {
     id: user.id,
   };
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "5m" });
+  return jwt.sign(payload, process.env.ACCESS_SECRET_KEY, { expiresIn: "5m" });
 };
 
 const gernerateRefreshToken = (user) => {
@@ -45,7 +45,7 @@ const register = async (req, res) => {
     user.veriftyed = true;
     await user.save();
 
-    return res.status(201).send("註冊成功");
+    return res.status(201).send({ message: "註冊成功" });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤 " + error.message);
   }
@@ -55,24 +55,34 @@ const login = (req, res) => {
   const user = req.user;
   const accessToken = gernerateToken(user);
   const refreshToken = gernerateRefreshToken(user);
+  // console.log(user);
+  // console.log(req.body);
 
-  res.cookie("accessToken", accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
-  });
+  try {
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
+    });
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
-  });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
+    });
 
-  return res.status(200).send("Login Successful");
+    return res.status(200).send({ message: "登入成功", userId: user.id });
+  } catch (error) {
+    return res.status(500).send("伺服器發生錯誤");
+  }
 };
 
 const logout = (req, res) => {
-  res.clearCookie("refreshToken");
-  res.clearCookie("accessToken");
-  return res.status(200).send("登出成功");
+  try {
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+    return res.status(200).send({ message: "成功登出" });
+  } catch (error) {
+    return res.status(500).send("伺服器發生錯誤");
+  }
 };
 
 const sendVerifyCode = async (req, res) => {
@@ -87,7 +97,6 @@ const sendVerifyCode = async (req, res) => {
       CryptoJS.enc.Hex
     );
 
-    console.log(verificationCode);
     await User.findOneAndUpdate(
       { email },
       { verificationCode },
@@ -106,7 +115,8 @@ const sendVerifyCode = async (req, res) => {
         console.log(error);
         return res.status(500).send("無法發送驗證碼");
       } else {
-        return res.status(200).send("驗證碼已發送");
+        console.log(verificationCode);
+        return res.status(200).send({ message: "驗證碼已發送" });
       }
     });
   } catch (error) {
@@ -123,29 +133,8 @@ const refreshAccessToken = (req, res) => {
     secure: process.env.NODE_ENV === "production",
   });
 
-  console.log("refreshToken success");
+  // console.log("refreshToken success");
   return res.status(200).send("Token refreshed successfully");
-};
-
-const verifyAndRefreshAuth = (req, res) => {
-  const accessToken = req.cookies.accessToken;
-  console.log("in verifyAndRefreshAuth route");
-
-  jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
-    console.log(user);
-    if (err) {
-      return res.status(401).send("accessTokenExpired");
-    }
-
-    const newRefreshToken = gernerateRefreshToken(user);
-
-    res.cookie("refreshToken", newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    return res.status(200).send("Authenticated and refresh token updated");
-  });
 };
 
 module.exports = {
@@ -154,5 +143,4 @@ module.exports = {
   sendVerifyCode,
   refreshAccessToken,
   logout,
-  verifyAndRefreshAuth,
 };

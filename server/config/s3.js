@@ -31,25 +31,4 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 }, // 5MB
 });
 
-// 刪除 s3 物件的中間件
-// const deleteFromS3 = async (req, res, next) => {
-//   const { key } = req.params;
-
-//   if (!key) {
-//     return res.status(400).send("缺少刪除文件的key");
-//   }
-
-//   const deleteParams = {
-//     Bucket: process.env.S3_BUCKET_NAME,
-//     Key: key,
-//   };
-
-//   try {
-//     await s3.send(new DeleteObjectCommand(deleteParams));
-//     next();
-//   } catch (error) {
-//     return res.status(500).send("發生錯誤");
-//   }
-// };
-
 module.exports = { s3, upload, DeleteObjectCommand };

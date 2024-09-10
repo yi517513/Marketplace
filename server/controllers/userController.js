@@ -5,7 +5,7 @@ const getProfile = (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  console.log("in updateUserProfile route");
+  // console.log("in updateUserProfile route");
   try {
     const userId = req.user.id;
     const { username, birthday, gender, phone, address } = req.body;

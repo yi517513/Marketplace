@@ -2,16 +2,30 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const authRoute = require("./routes/authRoute");
 const cors = require("cors");
 const passport = require("passport");
-const userCenter = require("./routes/userCenterRoute");
 const cookieParser = require("cookie-parser");
+const http = require("http");
+const { initializeSocket } = require("./sockets/socketService");
+
+const authRoute = require("./routes/authRoute");
+const userCenter = require("./routes/userCenterRoute");
 const publicRoutes = require("./routes/publicRoutes");
-const { passportJWT } = require("./middlewares/passport");
+const paymentRoute = require("./routes/paymentRoute");
+const socket = require("./sockets/socket");
+const { passport_Access, passport_Refresh } = require("./middlewares/passport");
+
+const server = http.createServer(app);
+const io = initializeSocket(server); // 初始化 Socket.IO
 
 mongoose
-  .connect("mongodb://localhost:27017/ECtestDB")
+  .connect(
+    "mongodb://localhost:27017,localhost:27018,localhost:27019/ECtestDB?replicaSet=rs0",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -34,15 +48,20 @@ app.use(cors(corsOptions));
 
 app.use(passport.initialize());
 
+socket(io);
+
 // 認證相關路由
 app.use("/api/auth", authRoute);
 
 // 用戶中心相關路由
-app.use("/api/userCenter", passportJWT, userCenter);
+app.use("/api/userCenter", passport_Refresh, userCenter);
+
+// 付款相關路由
+app.use("/api/payment", passport_Access, paymentRoute);
 
 // 公共路由
 app.use("/api", publicRoutes);
 
-app.listen(8080, () => {
+server.listen(8080, () => {
   console.log("Server is running on port 8080....");
 });

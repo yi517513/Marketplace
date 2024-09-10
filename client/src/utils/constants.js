@@ -4,3 +4,5 @@ export const NOTIFICATION_TYPES = {
   WARN: "warn",
   INFO: "info",
 };
+
+export const REFRESH_INTERVAL = 3000;

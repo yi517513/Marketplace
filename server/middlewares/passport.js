@@ -28,23 +28,26 @@ passport.use(
   )
 );
 
-// JwtStrategy
-const cookieExtractor = (req) => {
-  let refreshToken = null;
+// Token 提取器
+const cookieExtractor = (cookieName) => (req) => {
+  let token = null;
   if (req && req.cookies) {
-    refreshToken = req.cookies.refreshToken;
+    token = req.cookies[cookieName];
   }
-  return refreshToken;
+  // console.log(`cookieName: ${cookieName},token: ${token}`);
+  return token;
 };
 
-const opts = {
+// Access Token
+const opts_access = {
   // 從req.header中獲取token的方式改為從cookie
-  jwtFromRequest: cookieExtractor,
-  secretOrKey: process.env.REFRESH_SECRET_KEY,
+  jwtFromRequest: cookieExtractor("accessToken"),
+  secretOrKey: process.env.ACCESS_SECRET_KEY,
 };
 
 passport.use(
-  new JwtStrategy(opts, async (jwt_payload, done) => {
+  "access-token-strategy",
+  new JwtStrategy(opts_access, async (jwt_payload, done) => {
     try {
       const foundUser = await User.findById(jwt_payload.id).exec();
       if (foundUser) {
@@ -58,29 +61,56 @@ passport.use(
   })
 );
 
-const authenticateJWT = (req, res, next) => {
-  passport.authenticate("jwt", { session: false }, (err, user, info) => {
-    if (err) {
-      console.log("server error", err);
-      return res.status(500).send("Server error");
-    }
-    if (!user) {
-      if (info && info.message === "No auth token") {
-        return res.status(401).send("noLogin");
-      } else if (info && info.message === "jwt expired") {
-        return res.status(401).send("refreshTokenExpired");
-      } else if (info && info.message === "User not found") {
-        return res.status(401).send("UserNotFound");
-      } else {
-        return res.status(401).send("Unauthorized");
-      }
-    }
-    req.user = user;
-    next();
-  })(req, res, next);
+// Refress Token
+const opts_refresh = {
+  jwtFromRequest: cookieExtractor("refreshToken"),
+  secretOrKey: process.env.REFRESH_SECRET_KEY,
 };
 
-const passportJWT = passport.authenticate("jwt", { session: false });
+passport.use(
+  "refresh-token-strategy",
+  new JwtStrategy(opts_refresh, async (jwt_payload, done) => {
+    // console.log("refresh-token-strategy");
+    try {
+      const foundUser = await User.findById(jwt_payload.id).exec();
+      if (foundUser) {
+        return done(null, foundUser);
+      } else {
+        return done(null, false);
+      }
+    } catch (error) {
+      return done(error, false);
+    }
+  })
+);
+
+const passport_Refresh = (req, res, next) => {
+  passport.authenticate(
+    "refresh-token-strategy",
+    { session: false },
+    (err, user, info) => {
+      if (err) {
+        console.log("server error", err);
+        return res.status(500).send("Server error");
+      }
+      if (!user) {
+        try {
+          res.clearCookie("refreshToken");
+          res.clearCookie("accessToken");
+          return res.status(401).send("Unauthorized");
+        } catch (error) {
+          return res.status(500).send("伺服器發生錯誤");
+        }
+      }
+      req.user = user;
+      next();
+    }
+  )(req, res, next);
+};
+
+const passport_Access = passport.authenticate("access-token-strategy", {
+  session: false,
+});
 const passportLocal = passport.authenticate("local", { session: false });
 
-module.exports = { passportJWT, passportLocal, authenticateJWT };
+module.exports = { passport_Access, passport_Refresh, passportLocal };

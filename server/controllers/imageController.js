@@ -22,7 +22,7 @@ const uploadProductImage = async (req, res) => {
     });
 
     const { _id, url } = savedImage;
-    return res.status(200).send({ _id, url });
+    return res.status(200).send({ message: "上傳成功", newData: { _id, url } });
   } catch (error) {
     console.log(error);
     return res.status(500).send("伺服器發生錯誤");
@@ -30,6 +30,7 @@ const uploadProductImage = async (req, res) => {
 };
 
 const getProductImages = async (req, res) => {
+  console.log("Inside getProductImages");
   try {
     const userId = req.user.id;
     // 從user中獲取products的ID陣列
@@ -41,8 +42,8 @@ const getProductImages = async (req, res) => {
       .select("_id url")
       .exec();
 
-    console.log(images);
-    return res.status(200).send(images);
+    console.log("success get images");
+    return res.status(200).send({ data: images });
   } catch (error) {
     res.status(500).send("無法獲取圖片");
   }
@@ -78,7 +79,7 @@ const deleteProductImages = async (req, res) => {
     // 刪除圖片記錄
     await Image.findByIdAndDelete(imageId);
 
-    res.status(200).send("圖片刪除成功");
+    res.status(200).send({ message: "成功刪除圖片" });
   } catch (error) {
     console.error("伺服器發生錯誤:", error);
     res.status(500).send("伺服器發生錯誤");

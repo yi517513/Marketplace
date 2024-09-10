@@ -2,15 +2,12 @@ import axios from "axios";
 const AUTH_URL = process.env.REACT_APP_AUTH_URL;
 
 class AuthService {
-  login(email, password) {
-    return axios.post(
-      AUTH_URL + "/login",
-      { email, password },
-      { withCredentials: true }
-    );
+  login(account) {
+    return axios.post(AUTH_URL + "/login", account, { withCredentials: true });
   }
 
-  register(email, password, verificationCode) {
+  register(createVariables) {
+    const { email, password, verificationCode } = createVariables;
     return axios.post(AUTH_URL + "/register", {
       email,
       password,
@@ -32,12 +29,6 @@ class AuthService {
       {},
       { withCredentials: true }
     );
-  }
-
-  verifyAndRefreshAuth() {
-    return axios.get(AUTH_URL + "/verifyAndRefreshAuth", {
-      withCredentials: true,
-    });
   }
 }
 

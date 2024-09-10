@@ -9,211 +9,87 @@
   caret-color: transparent;
 }
 
-div.layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-div.layout header.header {
-  margin: 1rem;
-  margin-top: 0rem;
-  padding: 1rem;
-  height: 4rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-div.layout main.main {
-  flex: 1;
-  display: flex;
-}
-div.layout footer.footer {
-  padding: 1rem;
-  height: 3rem;
-  text-align: center;
-  background-color: gray;
-}
-
-nav.commonNav ul {
+.input-container {
+  width: 100%;
   display: flex;
   justify-content: center;
-}
-nav.commonNav ul li {
-  padding: 1rem;
-  display: flex;
-  cursor: pointer;
-}
-nav.commonNav ul li:hover {
-  background-color: gray;
-  border-radius: 1rem;
-}
-nav.commonNav ul li:hover a {
-  color: white;
-}
-nav.commonNav ul li a {
-  color: gray;
-  font-size: 1.1rem;
-}
-
-.auth-area {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100%;
-}
-.auth-area .auth-component {
-  margin: 3rem;
-}
-.auth-area .auth-component h1 {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: normal;
-  color: gray;
-}
-.auth-area .auth-component form.register {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 1rem;
   position: relative;
-}
-.auth-area .auth-component form.register .field-wrapper {
-  width: 100%;
-  margin: 0rem 3.5rem;
-  position: relative;
-}
-.auth-area .auth-component form.register .field-wrapper input {
-  width: 100%;
-  margin: 1rem 0rem;
+  margin: 0.5rem;
   padding: 0.5rem;
-  border: 0.1px solid rgb(167, 165, 165);
+}
+.input-container .input-label {
+  display: block;
+  text-align: center;
+  width: 6rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+  white-space: nowrap; /* 防止文字換行 */
+}
+.input-container .input-element {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   outline: none;
-  font-size: 1rem;
   caret-color: auto;
 }
-.auth-area .auth-component form.register .field-wrapper .error-message {
-  color: red;
+.input-container .error-message {
+  bottom: -30%;
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-}
-.auth-area .auth-component form.register .error-message.server {
-  margin: 0.5rem 0;
-  color: red;
-  width: 90%;
   text-align: center;
-  position: absolute;
-  bottom: -4.5rem;
+  color: red;
+  margin-top: 0.5rem;
 }
-.auth-area .auth-component form.register button {
+
+.button {
   width: 100%;
-  height: 2.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
   border: none;
-  margin-top: 1rem;
   background-color: rgb(109, 109, 109);
   color: white;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
 }
-.auth-area .auth-component form.register button:hover {
+.button:hover {
   background-color: gray;
 }
-.auth-area .auth-component form.register .verify-area {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
-}
-.auth-area .auth-component form.register .verify-area input {
-  width: 70%;
-  margin: 1rem;
-  margin-left: 0;
-  padding: 0.5rem;
-  border: 0.1px solid rgb(167, 165, 165);
-  outline: none;
-  caret-color: auto;
-}
-.auth-area .auth-component form.register .verify-area button {
-  width: 30%;
-  margin: 0;
-}
-.auth-area .auth-component form.register .verify-area .error-message {
-  color: red;
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
+.button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
 }
 
-.userCenter-area {
+.small-button {
+  padding: 0.1rem 1rem;
+  font-size: 1rem;
+}
+
+.verify-form {
   display: flex;
-  justify-content: center;
+  margin: 0.5rem;
+  padding: 0.5rem;
   width: 100%;
-  margin: 0rem 2rem;
+}
+
+li {
   position: relative;
+  list-style: none;
 }
-.userCenter-area .leftMenu {
-  background-color: rgb(241, 240, 240);
-  margin: 1rem;
-  padding: 0.5rem;
-  flex-basis: 15%;
-}
-.userCenter-area .leftMenu .dropdown {
-  border: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 1rem;
-}
-.userCenter-area .leftMenu .dropdown button.dropdown-button {
-  margin-top: 1rem;
-  border: none;
-  font-size: 1.2rem;
-  background-color: rgb(109, 109, 109);
-  color: white;
-  padding: 0.5rem;
-  border-radius: 1rem;
-}
-.userCenter-area .leftMenu .dropdown button.dropdown-button:hover {
-  background-color: gray;
-}
-.userCenter-area .leftMenu .dropdown ul.dropdown-menu {
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.userCenter-area .leftMenu .dropdown ul.dropdown-menu li {
-  margin-top: 0.5rem;
-  text-align: center;
-  padding: 0.5rem;
+li .full-link {
+  display: block;
   width: 100%;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-.userCenter-area .leftMenu .dropdown ul.dropdown-menu li:hover {
-  background-color: rgb(167, 165, 165);
-  border-radius: 1rem;
-}
-.userCenter-area .leftMenu .dropdown ul.dropdown-menu li:hover a {
-  color: white;
-}
-.userCenter-area .leftMenu .dropdown ul.dropdown-menu li a {
-  color: rgb(78, 78, 78);
-  font-size: 1.1rem;
-}
-.userCenter-area .component {
-  margin: 1rem;
-  background-color: rgb(241, 240, 240);
-  flex-basis: 85%;
-  display: flex;
-  justify-content: left;
-  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .modal-overlay {
@@ -228,13 +104,12 @@ nav.commonNav ul li a {
   align-items: center;
   z-index: 100;
 }
-
-.modal {
+.modal-overlay .modal-container {
   background: white;
-  padding: 1.5rem;
-  margin: 1rem;
-  max-width: 500px;
-  width: 100%;
+  padding: 0.2rem;
+  margin: 0.5rem;
+  width: 80%;
+  height: 80vh;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -243,26 +118,263 @@ nav.commonNav ul li a {
   align-items: center;
   outline: none;
 }
-.modal h2 {
-  margin-bottom: 1.2rem;
+.modal-overlay h2 {
+  width: 100%;
+  height: 6%;
+  text-align: center;
 }
-.modal button {
-  width: 70%;
-  border: none;
-  background-color: rgb(109, 109, 109);
-  font-size: 1rem;
+.modal-overlay .modal-content {
+  width: 100%;
+  height: 95%;
+  display: flex;
+}
+
+div.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+div.layout header.header {
+  height: 8vh;
+  margin: 0.5rem;
+  margin-top: 0rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+div.layout main.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+div.layout main.main .user-center-layout {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  background-color: rgb(240, 240, 240);
+}
+div.layout main.main .user-center-layout .user-center-nav {
+  margin: 0rem 1rem;
+  height: 100%;
+  flex-basis: 15%;
+  display: flex;
+  flex-direction: column;
+}
+div.layout main.main .user-center-layout .user-center-content {
   padding: 0.5rem;
+  margin: 0rem 1rem;
+  height: 100%;
+  flex-basis: 85%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+div.layout footer.footer {
+  padding: 1rem;
+  text-align: center;
+  background-color: gray;
+}
+
+nav.commonNav ul {
+  display: flex;
+  justify-content: center;
+}
+nav.commonNav ul li {
+  display: flex;
+  cursor: pointer;
+}
+nav.commonNav ul li:hover {
+  background-color: gray;
   border-radius: 1rem;
+}
+nav.commonNav ul li:hover a {
   color: white;
 }
-.modal button:hover {
+nav.commonNav ul li a {
+  padding: 1rem;
+  color: gray;
+  font-size: 1.1rem;
+}
+
+.auth-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+.auth-container .auth-form {
+  margin-top: 2rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.auth-container .auth-form .auth-form__title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: gray;
+}
+.auth-container .auth-form .auth-form__form {
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+}
+.auth-container .auth-form .auth-form__form .auth-form__field {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.auth-container .auth-form .auth-form__form .auth-form__field .auth-form__submit {
+  margin: 1rem;
+}
+
+.img-manager {
+  box-sizing: border-box;
+  margin: 0.25rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.img-manager .image-manager__local {
+  box-sizing: border-box;
+  margin: 0.25rem;
+  display: flex;
+}
+.img-manager .image-manager__local .image-manager__title {
+  margin: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: normal;
+  color: gray;
+}
+.img-manager .image-manager__local .image-manager__upload-input {
+  margin: 0.25rem;
+}
+.img-manager .image-manager__local .image-manager__upload-input input::file-selector-button {
+  background-color: rgb(109, 109, 109);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.img-manager .image-manager__local .image-manager__upload-input input::file-selector-button:hover {
   background-color: gray;
+}
+.img-manager .image-manager__gallery {
+  box-sizing: border-box;
+  margin: 0.25rem;
+  display: flex;
+}
+.img-manager .image-manager__gallery .image-manager__upload-list {
+  margin: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item {
+  box-sizing: border-box;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.66);
+  margin: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(25% - 0.5rem);
+  height: calc(25vh - 0.5rem);
+}
+.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
+.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__btn-group {
+  display: flex;
+}
+.img-manager .image-manager__next-btn {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.leftMenu {
+  display: flex;
+  flex-direction: column;
+}
+.leftMenu .dropdown {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem;
+}
+.leftMenu .dropdown button.dropdown-button {
+  margin-top: 1rem;
+  border: none;
+  font-size: 1.2rem;
+  background-color: rgb(109, 109, 109);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+.leftMenu .dropdown button.dropdown-button:hover {
+  background-color: gray;
+}
+.leftMenu .dropdown ul.dropdown-menu {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.leftMenu .dropdown ul.dropdown-menu li,
+.leftMenu .dropdown ul.dropdown-menu li.active-menu {
+  cursor: pointer;
+  margin-top: 0.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  width: 100%;
+  border: none;
+  color: white;
+}
+.leftMenu .dropdown ul.dropdown-menu li:hover,
+.leftMenu .dropdown ul.dropdown-menu li.active-menu:hover {
+  background-color: rgb(167, 165, 165);
+  border-radius: 1rem;
+}
+.leftMenu .dropdown ul.dropdown-menu li:hover a,
+.leftMenu .dropdown ul.dropdown-menu li.active-menu:hover a {
+  color: white;
+}
+.leftMenu .dropdown ul.dropdown-menu li a,
+.leftMenu .dropdown ul.dropdown-menu li.active-menu a {
+  color: rgb(78, 78, 78);
+  font-size: 1.1rem;
+}
+.leftMenu .dropdown ul.dropdown-menu li.active-menu {
+  background-color: rgb(167, 165, 165);
+  border-radius: 1rem;
+}
+.leftMenu .dropdown ul.dropdown-menu li.active-menu a {
+  color: white;
 }
 
 .profile-area {
   height: 100%;
-  width: 90%;
-  margin: 1rem;
+  width: 100%;
+  margin-right: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -276,11 +388,10 @@ nav.commonNav ul li a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
   padding: 1rem;
 }
 .profile-area .profile-wrapper .field-wrapper {
-  margin: 0.5rem;
+  margin: 1rem;
   padding: 0.4rem 2.5rem;
   display: flex;
   align-items: center;
@@ -294,7 +405,6 @@ nav.commonNav ul li a {
 .profile-area .profile-wrapper .field-wrapper select {
   caret-color: auto;
   font-size: 1.1rem;
-  cursor: pointer;
   width: 20rem;
   padding: 0.8rem;
   outline: none;
@@ -312,7 +422,6 @@ nav.commonNav ul li a {
 }
 .profile-area .profile-wrapper button {
   font-size: 1.1rem;
-  cursor: pointer;
   width: 10rem;
   margin-top: 1.5rem;
   padding: 0.5rem;
@@ -325,266 +434,306 @@ nav.commonNav ul li a {
   background-color: gray;
 }
 
-.img-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.11);
-  z-index: 100;
-}
-.img-overlay .image-modal {
-  width: 60%;
-  height: 70%;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translate(-50%, -50%);
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  position: absolute;
-  padding: 0.5rem;
-}
-.img-overlay .image-modal h3 {
-  font-weight: normal;
-  font-size: 1.1rem;
-}
-.img-overlay .image-modal .img-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem 1.5rem;
-  justify-content: center;
-}
-.img-overlay .image-modal .img-wrapper .icon-container {
-  display: flex;
-  justify-content: right;
-}
-.img-overlay .image-modal .img-wrapper .icon-container .fax {
-  font-size: 1.2rem;
-  color: gray;
-  cursor: pointer;
-}
-.img-overlay .image-modal .img-wrapper .local-img {
-  padding: 0.3rem;
-  display: flex;
-  align-items: center;
-}
-.img-overlay .image-modal .img-wrapper .local-img input::file-selector-button {
-  margin-left: 1rem;
-  background-color: rgb(109, 109, 109);
-  color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.img-overlay .image-modal .img-wrapper .local-img input::file-selector-button:hover {
-  background-color: gray;
-}
-.img-overlay .image-modal .img-wrapper .img-set {
-  padding: 0.3rem;
-  display: flex;
-  flex-direction: column;
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem; /* 用於圖片間的間距 */
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block {
-  box-sizing: border-box;
-  height: calc(10vw - 1rem); /* 根據寬度和格子數計算高度 */
-  width: calc(25% - 1rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(71, 71, 71, 0.486);
-  border-radius: 5px;
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block img {
+.management-area {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover; /* 確保圖片按比例填充格子 */
-  overflow: hidden; /* 確保圖片不會超出格子 */
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set button {
-  background-color: rgb(109, 109, 109);
-  color: white;
-  border: none;
-  padding: 0.1rem 0.8rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.img-overlay .image-modal .img-wrapper .img-set .upload-img .img-block .btn-set button:hover {
-  background-color: gray;
-}
-.img-overlay .image-modal .img-wrapper .next-btn {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  bottom: 5%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.publish-area {
-  height: 100%;
-  width: 90%;
-  margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 0.5rem;
 }
-.publish-area h1 {
-  font-size: 1.5rem;
-  font-weight: normal;
-  color: rgb(109, 109, 109);
-}
-.publish-area .publish-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 90%;
+.management-area .management-pagination {
+  min-height: 5vh;
   padding: 1rem;
 }
-.publish-area .publish-wrapper .publish-form {
-  padding: 0.5rem;
-  width: 80%;
-}
-.publish-area .publish-wrapper .publish-form .field-wrapper {
-  margin: 1rem 0.5rem;
-  padding: 0.4rem 2.5rem;
+.management-area .management-pagination .pagination {
   display: flex;
-  align-items: center;
-  position: relative;
+  flex-direction: row;
 }
-.publish-area .publish-wrapper .publish-form .field-wrapper label {
-  width: 20%;
-  text-align: left;
-  margin-right: 0.5rem;
-}
-.publish-area .publish-wrapper .publish-form .field-wrapper input {
-  caret-color: auto;
-  padding: 0.5rem 0.8rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  width: 80%;
-  outline: none;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-.publish-area .publish-wrapper .publish-form .field-wrapper .price,
-.publish-area .publish-wrapper .publish-form .field-wrapper .inventory {
-  width: 8rem;
-}
-.publish-area .publish-wrapper .publish-form .field-wrapper .err-msg {
-  position: absolute;
-  color: red;
-  right: 0;
-}
-.publish-area .publish-wrapper .publish-form .field-wrapper .description {
-  caret-color: auto;
-  width: 80%;
-  height: 10rem;
-  padding: 0.8rem;
+.management-area .management-pagination .pagination button {
+  margin-right: 0.8rem;
   font-size: 1.1rem;
-  cursor: text;
-  outline: none;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  resize: none; /* 禁止調整大小 */
-  overflow: auto; /* 確保滾動條出現 */
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper {
-  display: flex;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper button {
-  margin: 2rem;
-  margin-left: 0rem;
-  width: 2rem;
-  font-size: 1.5rem;
-  background-color: white;
-  border: 1px solid rgba(2, 2, 2, 0.486);
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border: 1px solid rgb(179, 179, 179);
-  width: 5rem;
-  height: 5rem;
-  margin: 0.4rem;
-  margin-left: 0rem;
-  overflow: hidden;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container .icon-container {
-  color: gray;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container .props-img {
-  position: relative;
-  display: flex;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container .props-img .delete-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  z-index: 1;
-  background-color: rgba(255, 0, 0, 0.733);
-  border-radius: 50%;
-  width: 1.3rem;
-  height: 1.3rem;
-  margin: 0.1rem;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container .props-img .delete-button .fax {
-  color: white;
-}
-.publish-area .publish-wrapper .publish-form .img-wrapper .image-container .props-img img {
-  width: 80px;
-  height: 80px;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.publish-area .publish-wrapper .btn-set {
-  margin-top: 3rem;
-  display: flex;
-  justify-content: space-around;
-  width: 20rem;
-}
-.publish-area .publish-wrapper .btn-set button {
-  font-size: 1rem;
-  background-color: rgb(109, 109, 109);
-  color: white;
-  border: none;
-  padding: 0.5rem 0.8rem;
+  padding: 0.3rem 1rem;
   border-radius: 5px;
-  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: rgb(109, 109, 109);
 }
-.publish-area .publish-wrapper .btn-set button:hover {
+.management-area .management-pagination .pagination button:hover {
   background-color: gray;
 }
-.publish-area .publish-wrapper .btn-set button:disabled {
+.management-area .management-pagination .pagination button:disabled {
   background-color: #cccccc; /* 灰色背景 */
   color: #666666; /* 深灰色文字 */
   cursor: not-allowed; /* 改變游標樣式 */
 }
-.publish-area .preview-modal {
+.management-area .list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  min-height: 70vh;
+}
+.management-area .list-wrapper .items-list,
+.management-area .list-wrapper .complete-status {
+  margin: 0.8rem;
+  padding: 0.8rem 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid rgba(134, 133, 133, 0.363);
+  width: 100%;
+}
+.management-area .list-wrapper .items-list:hover,
+.management-area .list-wrapper .complete-status:hover {
+  background-color: #dbdbdb;
+}
+.management-area .list-wrapper .items-list ul,
+.management-area .list-wrapper .complete-status ul {
+  flex-basis: 50%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 1rem;
+  width: 80%;
+}
+.management-area .list-wrapper .items-list ul li,
+.management-area .list-wrapper .complete-status ul li {
+  flex-basis: 20%;
+  font-size: 1.2rem;
+  color: rgb(29, 28, 28);
+}
+.management-area .list-wrapper .items-list ul .unavailable-item,
+.management-area .list-wrapper .complete-status ul .unavailable-item {
+  background-color: #d64040;
+  color: white;
+}
+.management-area .list-wrapper .items-list .btn-set,
+.management-area .list-wrapper .complete-status .btn-set {
+  flex-basis: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+.management-area .list-wrapper .items-list .btn-set button,
+.management-area .list-wrapper .complete-status .btn-set button {
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+  padding: 0.3rem 1rem;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: rgb(109, 109, 109);
+}
+.management-area .list-wrapper .items-list .btn-set button:hover,
+.management-area .list-wrapper .complete-status .btn-set button:hover {
+  background-color: gray;
+}
+.management-area .list-wrapper .items-list .btn-set button:disabled,
+.management-area .list-wrapper .complete-status .btn-set button:disabled {
+  background-color: #cccccc; /* 灰色背景 */
+  color: #666666; /* 深灰色文字 */
+  cursor: not-allowed; /* 改變游標樣式 */
+}
+.management-area .list-wrapper .complete-status {
+  background-color: #cfcfcf;
+}
+.management-area .list-wrapper .complete-status:hover {
+  background-color: #a5a5a5;
+}
+.management-area .list-wrapper .complete-status ul li {
+  color: rgb(29, 28, 28);
+}
+
+.detail-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.detail-area .detail-container {
+  margin: 1rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.473);
+}
+.detail-area .detail-container .top-area {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.detail-area .detail-container .top-area h1 {
+  font-size: 1.5rem;
+}
+.detail-area .detail-container .top-area .feature-wrapper {
+  flex: 3;
+  display: flex;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info {
+  flex: 1;
+  width: 100%;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info P {
+  margin: 2rem;
+  font-size: 1.2rem;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control {
+  display: flex;
+  align-items: center;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control .quantity-btn {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0.5rem;
+  border: none;
+  background-color: #ddd;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control .quantity-btn:hover {
+  background-color: #ccc;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control .quantity-btn:focus {
+  outline: none;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control .quantity-btn:disabled {
+  background-color: #cccccc; /* 灰色背景 */
+  color: #666666; /* 深灰色文字 */
+  cursor: not-allowed; /* 改變游標樣式 */
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info .quantity-control .quantity-input {
+  width: 5rem;
+  height: 2rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info button.feature {
+  border: none;
+  background-color: #555555;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  width: 15rem;
+  color: white;
+  font-size: 1rem;
+  margin: 1rem;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info button.feature:hover {
+  background-color: #888888;
+}
+.detail-area .detail-container .top-area .feature-wrapper .product-info button.feature:disabled {
+  background-color: #cccccc; /* 灰色背景 */
+  color: #666666; /* 深灰色文字 */
+  cursor: not-allowed; /* 改變游標樣式 */
+}
+.detail-area .detail-container .top-area .image-container {
+  flex: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper {
+  padding: 0rem 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(182, 182, 182);
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-list {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-list .image-pieces {
+  cursor: pointer;
+  display: flex;
+  margin: 0rem 0.5rem;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-list .image-pieces img {
+  width: 80px;
+  height: 80px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-list .selected img {
+  width: 100px;
+  height: 100px;
+  border: 4px solid rgb(136, 136, 136);
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover {
+  cursor: pointer;
+  margin: 0.5rem 0rem;
+  height: 30rem;
+  width: 60rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination button {
+  border: none;
+  border-radius: 50%;
+  padding: 0.8rem;
+  margin: 0.5rem;
+  background-color: rgba(41, 41, 41, 0.6784313725);
+  color: white;
+  font-size: 1rem;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination button:disabled {
+  background-color: #cccccc; /* 灰色背景 */
+  color: #666666; /* 深灰色文字 */
+  cursor: not-allowed; /* 改變游標樣式 */
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination:hover button {
+  border: none;
+  border-radius: 50%;
+  padding: 0.8rem;
+  margin: 0.5rem;
+  background-color: #acacac;
+  color: rgb(97, 97, 97);
+  font-size: 1rem;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .left {
+  left: 0;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .right {
+  right: 0;
+}
+.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.detail-area .detail-container .description {
+  width: 80%;
+  margin: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.detail-area .detail-container .description p {
+  font-size: 1.2rem;
+}
+
+.preview-modal {
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -598,7 +747,7 @@ nav.commonNav ul li a {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.664);
 }
-.publish-area .preview-modal .close-content {
+.preview-modal .close-content {
   display: flex;
   width: 100%;
   height: 4rem;
@@ -606,7 +755,7 @@ nav.commonNav ul li a {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.925);
 }
-.publish-area .preview-modal .close-content .close {
+.preview-modal .close-content .close {
   cursor: pointer;
   margin-right: 1rem;
   color: #fff;
@@ -614,7 +763,7 @@ nav.commonNav ul li a {
   font-weight: bold;
   transition: 0.3s;
 }
-.publish-area .preview-modal .preview-content {
+.preview-modal .preview-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -622,93 +771,75 @@ nav.commonNav ul li a {
   width: 100%;
   height: 100%;
 }
-.publish-area .preview-modal .preview-content img {
+.preview-modal .preview-content img {
   width: 100%;
   max-width: 1000px;
   height: auto;
   margin-bottom: 6rem;
 }
 
-.productManage-area {
+.home-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+.home-area .products-area {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(241, 240, 240);
+}
+.home-area .products-area .products-list {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.home-area .products-area .products-list .product-wrapper {
+  cursor: pointer;
+  margin: 1rem;
+  padding: 0.5rem;
+  flex-basis: calc(25% - 2rem);
+  box-sizing: border-box;
+}
+.home-area .products-area .products-list .product-wrapper:hover {
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.473);
+}
+.home-area .products-area .products-list .product-wrapper .cover {
+  display: flex;
+  width: 100%;
+  height: 20rem;
+}
+.home-area .products-area .products-list .product-wrapper .cover img {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
-.productManage-area .product-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
+.home-area .products-area .products-list .product-wrapper .info {
+  margin-top: 0.5rem;
+}
+
+.payment-options {
   width: 100%;
-  height: 90%;
-  margin-top: 3rem;
-}
-.productManage-area .product-wrapper .product-list {
-  margin: 0.8rem;
-  padding: 0.8rem 0.5rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border: 1px solid rgba(134, 133, 133, 0.363);
-  width: 100%;
-}
-.productManage-area .product-wrapper .product-list:hover {
-  background-color: #dbdbdb;
-}
-.productManage-area .product-wrapper .product-list ul {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-right: 1rem;
-  width: 80%;
 }
-.productManage-area .product-wrapper .product-list ul li {
+.payment-options .buttons-wrapper {
+  width: 90%;
+  background-color: #d8d8d8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.payment-options .buttons-wrapper button {
+  padding: 2rem;
+  margin: 1rem;
+  border: none;
   font-size: 1.2rem;
-  margin-right: 1rem;
-  color: rgb(29, 28, 28);
 }
-.productManage-area .product-wrapper .product-list .btn-set {
-  display: flex;
-  width: 20%;
-}
-.productManage-area .product-wrapper .product-list .btn-set button {
-  cursor: pointer;
-  margin-right: 0.8rem;
-  font-size: 1.1rem;
-  padding: 0.3rem 1rem;
-  border-radius: 5px;
-  border: none;
+.payment-options .buttons-wrapper button:hover {
+  background-color: #555555;
   color: white;
-  background-color: rgb(109, 109, 109);
-}
-.productManage-area .product-wrapper .product-list .btn-set button:hover {
-  background-color: gray;
-}
-.productManage-area .pagination {
-  height: 10%;
-  display: flex;
-  align-items: center;
-  margin-top: 3rem;
-}
-.productManage-area .pagination button {
-  cursor: pointer;
-  margin-right: 0.8rem;
-  font-size: 1.1rem;
-  padding: 0.3rem 1rem;
-  border-radius: 5px;
-  border: none;
-  color: white;
-  background-color: rgb(109, 109, 109);
-}
-.productManage-area .pagination button:hover {
-  background-color: gray;
-}
-.productManage-area .pagination button:disabled {
-  background-color: #cccccc; /* 灰色背景 */
-  color: #666666; /* 深灰色文字 */
-  cursor: not-allowed; /* 改變游標樣式 */
 }/*# sourceMappingURL=style.css.map */

@@ -16,8 +16,7 @@ const userSchema = new Schema(
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
     products: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 賣場刊登的產品
     cart: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 購物車
-    purchasedProducts: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 已購買的產品
-    soldProducts: [{ type: Schema.Types.ObjectId, ref: "Product" }], // 已賣出的產品
+    transactions: [{ type: Schema.Types.ObjectId, ref: "Transaction" }], // 交易記錄
   },
   {
     timestamps: true,

@@ -5,17 +5,12 @@ const {
   sendVerifyCode,
   refreshAccessToken,
   logout,
-  verifyAndRefreshAuth,
+  verifyAuth,
 } = require("../controllers/authController");
-const {
-  passportJWT,
-  passportLocal,
-  authenticateJWT,
-} = require("../middlewares/passport");
+const { passport_Refresh, passportLocal } = require("../middlewares/passport");
 const validators = require("../middlewares/validator");
 
 router.use("/", (req, res, next) => {
-  console.log("Using authRoute");
   next();
 });
 
@@ -27,8 +22,8 @@ router.post("/logout", logout);
 
 router.post("/sendVerifyCode", sendVerifyCode);
 
-router.post("/refreshAccessToken", passportJWT, refreshAccessToken);
-
-router.get("/verifyAndRefreshAuth", authenticateJWT, verifyAndRefreshAuth);
+// 根據refressToken生命週期刷新accessToken(防止CSRF用)
+// 前後端資料存取時使用的是accessToken來驗證
+router.post("/refreshAccessToken", passport_Refresh, refreshAccessToken);
 
 module.exports = router;
