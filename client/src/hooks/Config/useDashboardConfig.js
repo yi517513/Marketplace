@@ -3,33 +3,43 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setDataReady } from "../../redux/slices/loadingSlice";
-import useDashboardItemMap from "../useDashboardItemMap";
-import useFetchData from "../fetch-Data/useFetchData";
+import useDashboardItemMap from "../map/useChildren";
+import useFetchData from "../map/useFetchData";
 import useDashboardHandler from "../Handler/useDashboardHandler";
+import { PATHS } from "../../utils/paths";
 
-const useDashboardConfig = () => {
-  const [dashboardData, setDashboardData] = useState([]);
+const useDashboardConfig = (path, role) => {
+  const [apiData, setDApiData] = useState([]);
   const userId = useSelector((state) => state.auth.userId);
   const dispatch = useDispatch();
   const location = useLocation();
-  const currentPath = location.pathname;
 
-  const Component = useDashboardItemMap(currentPath);
-  const { handlers } = useDashboardHandler(currentPath, setDashboardData);
+  let currentPath = path || location.pathname;
+  const isHistoryPage = currentPath === PATHS.HISTORY;
 
+  if (isHistoryPage) {
+    currentPath = role ? PATHS.PURCHASE_HISTORY : PATHS.SALES_HISTORY;
+  }
+
+  const Children = useDashboardItemMap(currentPath);
+  const { handlers } = useDashboardHandler(currentPath, setDApiData);
   const fetchData = useFetchData(currentPath);
 
   useEffect(() => {
-    setDashboardData([]);
-
+    setDApiData([]);
     dispatch(setDataReady(false));
 
-    fetchData(setDashboardData, userId);
+    fetchData(setDApiData, userId);
 
     dispatch(setDataReady(true));
-  }, [location.pathname, userId]);
+  }, [currentPath, userId]);
 
-  return { dashboardData, Component, handlers };
+  return {
+    apiData,
+    Children,
+    handlers,
+    isHistoryPage,
+  };
 };
 
 export default useDashboardConfig;

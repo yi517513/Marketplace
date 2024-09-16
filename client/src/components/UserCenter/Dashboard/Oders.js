@@ -4,7 +4,7 @@ import ListItem from "../../UI/ListItem";
 import Button from "../../UI/Button";
 
 const OrderItem = memo(
-  ({ item: order, navigateTo, deleteOrder, contactSeller }) => {
+  ({ data: order, navigateTo, deleteOrder, contactSeller }) => {
     if (!order) {
       return null;
     }

@@ -22,7 +22,7 @@ const postProduct = async (req, res) => {
       $push: { products: newProduct._id },
     });
 
-    res.status(201).send({ newData: newProduct._id, message: "成功新增商品" });
+    res.status(201).send({ data: newProduct._id, message: "成功新增商品" });
   } catch (error) {
     console.log(error);
     res.status(500).send("新增商品失敗");
@@ -33,7 +33,7 @@ const getUserProducts = async (req, res) => {
   try {
     const publisherId = req.user.id;
     const foundProducts = await Product.find({ publisherId }).exec();
-    return res.send(foundProducts);
+    return res.send({ data: foundProducts });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }
@@ -45,7 +45,7 @@ const getProductById = async (req, res) => {
     const foundProduct = await Product.findById(productId)
       .populate("publisherId", ["username", "phone"])
       .exec();
-    return res.status(200).send(foundProduct);
+    return res.status(200).send({ data: foundProduct });
   } catch (error) {
     res.status(500).send("伺服器發生錯誤");
   }
@@ -65,7 +65,7 @@ const updateProduct = async (req, res) => {
 
     return res
       .status(200)
-      .send({ updateDataId: updateProduct._id, message: "成功更新商品" });
+      .send({ data: updateProduct._id, message: "成功更新商品" });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }

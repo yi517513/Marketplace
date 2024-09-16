@@ -2,11 +2,10 @@ import React from "react";
 import useAuthConfig from "../hooks/Config/useAuthConfig";
 import AuthForm from "../components/Auth/AuthForm";
 
-const AuthFormContainer = () => {
+const AuthContainer = ({ path }) => {
   const { formType, formTitle, initialValues, validationSchema, handleSubmit } =
-    useAuthConfig();
+    useAuthConfig(path);
 
-  // console.log(handleSubmit);
   return (
     <AuthForm
       formType={formType}
@@ -18,4 +17,4 @@ const AuthFormContainer = () => {
   );
 };
 
-export default AuthFormContainer;
+export default AuthContainer;

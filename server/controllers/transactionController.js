@@ -10,7 +10,7 @@ const getAllTransactions = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
 
@@ -29,7 +29,7 @@ const getOrders = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
     return res.status(500).send("發生錯誤");
@@ -47,7 +47,7 @@ const getInProgress = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
     return res.status(500).send("發生錯誤");
@@ -65,7 +65,7 @@ const getPendingShipment = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
     return res.status(500).send("發生錯誤");
@@ -104,6 +104,7 @@ const confirmShipment = async (req, res) => {
 };
 
 const getSalesHistory = async (req, res) => {
+  console.log("getSalesHistory");
   try {
     const { userId } = req.params;
     const foundTransaction = await Transaction.find({
@@ -114,7 +115,7 @@ const getSalesHistory = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
     return res.status(500).send("發生錯誤");
@@ -122,6 +123,7 @@ const getSalesHistory = async (req, res) => {
 };
 
 const getPurchaseHistory = async (req, res) => {
+  console.log("getPurchaseHistory");
   try {
     const { userId } = req.params;
     const foundTransaction = await Transaction.find({
@@ -132,7 +134,7 @@ const getPurchaseHistory = async (req, res) => {
     if (!foundTransaction) {
       return res.status(404).send("沒有交易紀錄");
     }
-    return res.status(200).send(foundTransaction);
+    return res.status(200).send({ data: foundTransaction });
   } catch (error) {
     console.log(error);
     return res.status(500).send("發生錯誤");

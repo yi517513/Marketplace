@@ -1,20 +1,21 @@
 import { useCallback } from "react";
-import useAsyncAction from "../Common/useAsyncAction";
+import useAsyncAction from "../api/useAsyncAction";
 import { useLocation } from "react-router-dom";
-import useRouteServices from "../service/useRouteServices";
-import useCountdown from "../Common/useCountdown";
+import useServices from "../map/useServices";
+import useCountdown from "../ui/useCountdown";
 
 const useVerifyCodeHandler = () => {
   const location = useLocation();
-  const currentPath = location.pathname;
-  const { services } = useRouteServices(currentPath);
+  let currentPath = location.pathname;
+
+  const { services } = useServices(`VerifyCode`);
 
   const { asyncAction } = useAsyncAction();
   const { timeLeft, isCounting, setTimeLeft } = useCountdown();
 
   const handleSubmit = useCallback((email) => {
     asyncAction(
-      services.update,
+      services.auth,
       email,
       "正在發送驗證碼..",
       (success, verifyCode) => {

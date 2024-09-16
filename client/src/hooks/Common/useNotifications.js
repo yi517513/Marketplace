@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setNotification } from "../../redux/slices/authSlice";
 import NotificationService from "../../services/notificationService";
-import SocketService from "../../services/socketService";
+// import SocketService from "../../services/socketService";
 
 const useNotifications = () => {
   const dispatch = useDispatch();
   const userId = localStorage.getItem("userId");
   const { notification } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    SocketService.onMessage((data) => {
-      const message = data.message;
-      NotificationService.setToast(dispatch, message);
-    });
-  }, [userId, dispatch]);
+  // useEffect(() => {
+  //   SocketService.onMessage((data) => {
+  //     const message = data.message;
+  //     NotificationService.setToast(dispatch, message);
+  //   });
+  // }, [userId, dispatch]);
 
   useEffect(() => {
     const { visible, message, type } = notification;

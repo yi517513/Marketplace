@@ -1,11 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useAsyncAction from "../Common/useAsyncAction";
+import useAsyncAction from "../api/useAsyncAction";
 
-import useValidationSchema from "../formikInit/useValidationSchema";
-import useInitialValues from "../formikInit/useInitialValues";
+import useValidationSchema from "../map/useValidationSchema";
+import useInitialValues from "../map/useInitialValues";
 import useProfileHandler from "../Handler/useProfileHandler";
-import useFetchData from "../fetch-Data/useFetchData";
+import useFetchDataMap from "../map/useFetchData";
 
 const useProfileConfig = () => {
   const [userData, setUserData] = useState({});
@@ -13,7 +13,7 @@ const useProfileConfig = () => {
   const currentPath = location.pathname;
 
   const { asyncAction } = useAsyncAction();
-  const fetchData = useFetchData(currentPath);
+  const fetchData = useFetchDataMap(currentPath);
   const handleSubmit = useProfileHandler(currentPath, setUserData, fetchData);
   const initialValues = useInitialValues(currentPath);
   const validationSchema = useValidationSchema(currentPath);

@@ -1,14 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/Common/NavBar";
+import NavContainer from "../containers/NavContainer";
 import Footer from "../components/Common/Footer";
 
 const Layout = () => {
-  console.log("Layout rendered");
   return (
     <div className="layout">
       <header className="header">
-        <NavBar />
+        <NavContainer />
       </header>
       <main className="main">
         <Outlet />

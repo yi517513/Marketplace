@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import VerifyCode from "./VerifyCode";
+import VerifyCodeContainer from "../../containers/VerifyCodeContainer";
 import InputField from "../UI/InputField";
 import Button from "../UI/Button";
 
@@ -39,7 +39,7 @@ const AuthForm = ({
               </div>
               <div className="auth-form__field">
                 {formType === "Register" ? (
-                  <VerifyCode email={values.email} errors={errors} />
+                  <VerifyCodeContainer email={values.email} errors={errors} />
                 ) : null}
               </div>
               <div className="auth-form__field">

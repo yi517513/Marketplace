@@ -7,15 +7,12 @@ import ProductDetail from "./components/Home/ProductDetail";
 import PaymentProcessing from "./components/Payment/PaymentProcessing";
 import PaymentOptions from "./components/Payment/PaymentOptions";
 import Dashboard from "./containers/Dashboard";
-import Form from "./containers/Form";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 import Forbidden from "./components/Common/Forbidden";
 import { PATHS } from "./utils/paths";
-import Publish from "./components/UserCenter/Seller/Publish";
+import Publish from "./components/ProductEditor/Publish";
 import AuthContainer from "./containers/AuthContainer";
 import ProfileContainer from "./containers/ProfileContainer";
-
-import Modal from "./components/Modal/Modal";
 import ModalContainer from "./containers/ModalContainer";
 
 const AppRoutes = ({ userHasAccess }) => (
@@ -26,16 +23,13 @@ const AppRoutes = ({ userHasAccess }) => (
       <Route path={PATHS.REGISTER} element={<AuthContainer />} />
       <Route path={PATHS.LOGIN} element={<AuthContainer />} />
       <Route path={PATHS.USER_CENTER} element={<UserCenterLayout />}>
-        <Route index element={<Dashboard />} />
-
         <Route path={PATHS.PROFILE} element={<ProfileContainer />} />
         <Route path={PATHS.CREATE} element={<Publish />} />
-        <Route path={`${PATHS.EDIT}/:productId`} element={<Form />} />
+        <Route path={`${PATHS.EDIT}/:productId`} element={<Publish />} />
         <Route path={PATHS.ORDERS} element={<Dashboard />} />
-        <Route path={PATHS.PURCHASE_HISTORY} element={<Dashboard />} />
+        <Route path={PATHS.HISTORY} element={<Dashboard />} />
         <Route path={PATHS.PRODUCTS} element={<Dashboard />} />
         <Route path={PATHS.PENDING_SHIPMENT} element={<Dashboard />} />
-        <Route path={PATHS.SALES_HISTORY} element={<Dashboard />} />
       </Route>
       <Route
         path={`${PATHS.PRODUCT_DETAILS}/:productId`}

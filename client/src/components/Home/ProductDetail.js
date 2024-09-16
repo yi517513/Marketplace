@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import PublicService from "../../services/publicService";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import DOMPurify from "dompurify";
 import { NOTIFICATION_TYPES } from "../../utils/constants";
-import useCRUD from "../../hooks/useCRUD";
-import useNavigation from "../../hooks/useNavigation";
+import useNavigation from "../../hooks/navigation/useNavigation";
 import { PATHS } from "../../utils/paths";
 const { WARN } = NOTIFICATION_TYPES;
 
 const ProductDetail = () => {
   const { isAuthenticated, userId } = useSelector((state) => state.auth);
-  const { getData } = useCRUD();
   const { navigateTo } = useNavigation();
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState(null);
@@ -25,18 +22,18 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-  useEffect(() => {
-    getData(PublicService.getProduct, productId, (success, data) => {
-      if (success) {
-        const cleanDescription = DOMPurify.sanitize(
-          data.description.replace(/\n/g, "<br />")
-        );
-        data.description = cleanDescription;
-        setProduct(data);
-        setImages(data.images);
-      }
-    });
-  }, [getData]);
+  // useEffect(() => {
+  //   getData(PublicService.getProduct, productId, (success, data) => {
+  //     if (success) {
+  //       const cleanDescription = DOMPurify.sanitize(
+  //         data.description.replace(/\n/g, "<br />")
+  //       );
+  //       data.description = cleanDescription;
+  //       setProduct(data);
+  //       setImages(data.images);
+  //     }
+  //   });
+  // }, [getData]);
 
   if (loading) {
     return <div>加載中...</div>;

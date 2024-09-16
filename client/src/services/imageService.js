@@ -2,7 +2,7 @@ import axios from "axios";
 const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
 
 class ImageService {
-  uploadProductImage(formData) {
+  uploadImage(formData) {
     return axios.post(IMAGES_URL, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -10,12 +10,12 @@ class ImageService {
       withCredentials: true,
     });
   }
-  getProductImages() {
+  getImages() {
     return axios.get(IMAGES_URL, {
       withCredentials: true,
     });
   }
-  deleteProductImages(imageId) {
+  deleteImage(imageId) {
     return axios.delete(IMAGES_URL + `/${imageId}`, { withCredentials: true });
   }
 }

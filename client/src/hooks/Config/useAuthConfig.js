@@ -1,12 +1,16 @@
 import { useLocation } from "react-router-dom";
-import useInitialValues from "../formikInit/useInitialValues";
-import useValidationSchema from "../formikInit/useValidationSchema";
+import useInitialValues from "../map/useInitialValues";
+import useValidationSchema from "../map/useValidationSchema";
 import useAuthHandler from "../Handler/useAuthHandler";
 import { PATHS } from "../../utils/paths";
 
-const useAuthConfig = () => {
+const useAuthConfig = (modalType) => {
   const location = useLocation();
-  const currentPath = location.pathname;
+  let currentPath = location.pathname;
+
+  if (modalType) {
+    currentPath = modalType;
+  }
 
   // 表單初始數據
   const initialValues = useInitialValues(currentPath);
@@ -15,18 +19,7 @@ const useAuthConfig = () => {
   const validationSchema = useValidationSchema(currentPath);
 
   // 表單提交的方法
-  const actionConfig = {
-    [PATHS.LOGIN]: {
-      submissionMessages: "正在登入",
-      redirectPath: `HOME`,
-    },
-    [PATHS.REGISTER]: {
-      submissionMessages: "註冊中...",
-      redirectPath: `LOGIN`,
-    },
-  };
-
-  const handleSubmit = useAuthHandler(currentPath, actionConfig[currentPath]);
+  const handleSubmit = useAuthHandler(currentPath, modalType);
 
   const formConfigMap = {
     [PATHS.REGISTER]: {

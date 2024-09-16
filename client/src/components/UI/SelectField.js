@@ -1,17 +1,35 @@
 import React from "react";
-import { Field } from "formik";
 
-const SelectField = ({ name, placeholder, label, options }) => {
+const SelectField = ({
+  name,
+  placeholder,
+  label,
+  options,
+  value,
+  onChange,
+}) => {
+  const handleChange = (e) => {
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
+
   return (
     <div>
       <label htmlFor={name}>{label}</label>
-      <Field name={name} as="select" placeholder={placeholder}>
+      <select
+        id={name}
+        name={name}
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+      >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
-      </Field>
+      </select>
     </div>
   );
 };

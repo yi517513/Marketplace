@@ -21,12 +21,14 @@ class TransactionService {
   }
 
   getSalesHistory(userId) {
+    console.log("getSalesHistory");
     return axios.get(TRANSACTIONS_URL + `/${userId}/salesHistory`, {
       withCredentials: true,
     });
   }
 
   getPurchaseHistory(userId) {
+    console.log("getPurchaseHistory");
     return axios.get(TRANSACTIONS_URL + `/${userId}/purchaseHistory`, {
       withCredentials: true,
     });

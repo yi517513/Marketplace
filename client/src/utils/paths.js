@@ -14,8 +14,9 @@ export const FORM = {
   EDIT: `${BASE.USER_CENTER}/edit-product`,
 };
 
-export const MANAGE = {
+export const DASHBOARD = {
   ORDERS: `${BASE.USER_CENTER}/orders`,
+  HISTORY: `${BASE.USER_CENTER}/history`,
   PURCHASE_HISTORY: `${BASE.USER_CENTER}/purchase-history`,
   SALES_HISTORY: `${BASE.USER_CENTER}/sales-history`,
   PRODUCTS: `${BASE.USER_CENTER}/product-management`,
@@ -30,6 +31,6 @@ export const PAYMENT = {
 export const PATHS = {
   ...BASE,
   ...FORM,
-  ...MANAGE,
+  ...DASHBOARD,
   ...PAYMENT,
 };

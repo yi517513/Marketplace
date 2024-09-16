@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import NotificationService from "../services/notificationService";
-import AuthService from "../services/authService";
-import { NOTIFICATION_TYPES } from "../utils/constants";
-import { logout } from "../redux/slices/authSlice";
+import NotificationService from "../../services/notificationService";
+import AuthService from "../../services/authService";
+import { NOTIFICATION_TYPES } from "../../utils/constants";
+import { logout } from "../../redux/slices/authSlice";
 
 const useRefreshToken = () => {
   const dispatch = useDispatch();

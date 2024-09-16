@@ -69,7 +69,7 @@ const login = (req, res) => {
       secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
     });
 
-    return res.status(200).send({ message: "登入成功", userId: user.id });
+    return res.status(200).send({ message: "登入成功", data: user.id });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }

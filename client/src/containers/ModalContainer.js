@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import Modal from "../components/Modal/Modal";
 import useModalConfig from "../hooks/Config/useModalConfig";
-import ImageManager from "../components/Modal/ImageManager";
+import { useSelector } from "react-redux";
 
-// 如果modalType為ImageManager，則props需要有父組件的圖片狀態。
-// 在handleOnSelect與handleImageUpload中需要更新父組件的圖片狀態
-const ModalContainer = ({ modalType = `ImageManager` }) => {
+const ModalContainer = ({ path = `ImageManager`, setParentData }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [isOpen, setIsOpen] = useState(true);
-  const { handlers } = useModalConfig(modalType);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const Children = useModalConfig(selectedOption || path, setParentData);
 
-  // Children由useModalConfig來決定
-  const Children = ImageManager;
-
-  // handlers由useModalConfig來決定
-  // handlers為Children使用到的操作
-  // 以ImageManager為例，handlers包含了 圖片的上傳、刪除、選擇等操作
+  const selectOptionsConfig = [
+    { value: null, label: "選擇功能" },
+    { value: `ImageManager`, label: "圖片管理" },
+    { value: `Login`, label: "登入" },
+    { value: `Register`, label: "註冊" },
+    { value: `Orders-buyer`, label: "買家訂單" },
+    { value: `Products-seller`, label: "商品管理" },
+    { value: `Shipment-seller`, label: "等待發貨" },
+    { value: `History-buyer`, label: "購買紀錄" },
+    { value: `History-seller`, label: "販賣紀錄" },
+  ];
 
   return (
     <Modal
-      title={modalType}
+      isAuthenticated={isAuthenticated}
+      options={selectOptionsConfig}
+      path={selectedOption || path}
       Children={Children}
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
-      {...handlers}
+      setModalType={setSelectedOption}
     />
   );
 };

@@ -4,7 +4,7 @@ import ListItem from "../../UI/ListItem";
 import Button from "../../UI/Button";
 
 const ShipmentItem = ({
-  item: transaction,
+  data: transaction,
   navigateTo,
   confirmShipment,
   contactBuyer,
@@ -51,7 +51,7 @@ const ShipmentItem = ({
       <div className="btn-set">
         <Button
           label="瀏覽商品"
-          onClick={navigateTo(`DETAIL`, transaction.productId)}
+          onClick={() => navigateTo(`DETAIL`, transaction.productId)}
         />
         {renderShipmentStatus()}
       </div>

@@ -1,9 +1,9 @@
 import "./styles/style.css";
-import React, { Profiler, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/slices/authSlice";
-import useRefreshToken from "./hooks/useRefreshToken";
+import useRefreshToken from "./hooks/auth/useRefreshToken";
 import AppRoutes from "./routes";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isAuthenticated) handleRefreshToken();
-    }, 3 * 1 * 1000);
+    }, 3 * 60 * 1000);
     return () => clearInterval(interval);
   }, [isAuthenticated, handleRefreshToken]);
 

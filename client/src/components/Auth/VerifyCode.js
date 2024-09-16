@@ -11,12 +11,16 @@ const VerifyCode = ({
 }) => {
   return (
     <div className="verify-form">
-      <InputField name="verificationCode" type="text" placeholder="驗證碼" />
-      <Button
-        onClick={() => handleSubmit(email)}
-        label={isCounting ? `${timeLeft}s` : "發送驗證碼"}
-        disabled={isCounting || hasError}
-      />
+      <div className="verify-form__input">
+        <InputField name="verificationCode" type="text" placeholder="驗證碼" />
+      </div>
+      <div className="verify-form__button">
+        <Button
+          onClick={() => handleSubmit(email)}
+          label={isCounting ? `${timeLeft}s` : "發送驗證碼"}
+          disabled={isCounting || hasError}
+        />
+      </div>
     </div>
   );
 };

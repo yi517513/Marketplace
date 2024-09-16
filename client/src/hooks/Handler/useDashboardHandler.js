@@ -1,15 +1,15 @@
 import { useCallback } from "react";
 import { PATHS } from "../../utils/paths";
-import useNavigation from "../useNavigation";
-import useAsyncAction from "../Common/useAsyncAction";
-import useRouteServices from "../service/useRouteServices";
+import useNavigation from "../navigation/useNavigation";
+import useAsyncAction from "../api/useAsyncAction";
+import useServices from "../map/useServices";
 
 // api的刪除控制器應該回傳物品的id
 
 const useDashboardHandler = (currentPath, setDashboardData) => {
-  const { navigateTo } = useNavigation();
+  const navigateTo = useNavigation();
   const { asyncAction } = useAsyncAction();
-  const { services } = useRouteServices(currentPath);
+  const { services } = useServices(currentPath);
 
   const updatedCallback = (success, data) => {
     if (success) {

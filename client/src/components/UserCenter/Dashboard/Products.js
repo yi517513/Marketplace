@@ -3,7 +3,7 @@ import ListItem from "../../UI/ListItem";
 import Button from "../../UI/Button";
 
 const ProductItem = ({
-  item: product,
+  data: product,
   navigateTo,
   toggleProductStatus,
   deleteProduct,
@@ -27,7 +27,7 @@ const ProductItem = ({
   };
 
   return (
-    <div className="items-list">
+    <div className="item-list">
       <ul>
         {renderStatus()}
         <ListItem label="標題" value={product.title} />
@@ -39,7 +39,7 @@ const ProductItem = ({
         />
         <ListItem label="詳細" value={product.description} />
       </ul>
-      <div className="btn-set">
+      <div className="item-list__button">
         <Button
           label="瀏覽"
           onClick={() => navigateTo(`DETAIL`, product._id)}

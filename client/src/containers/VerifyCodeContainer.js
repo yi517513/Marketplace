@@ -5,11 +5,9 @@ import useVerifyCodeHandler from "../hooks/Handler/useVerifyCodeHandler";
 const VerifyCodeContainer = ({ email, errors }) => {
   const { timeLeft, isCounting, handleSubmit } = useVerifyCodeHandler();
 
-  const hasErrors = (errors) => {
-    return Object.keys(errors).length > 0;
-  };
+  const { email: emailError, password: passwordError } = errors;
 
-  const hasValidationErrors = hasErrors(errors);
+  const hasValidationErrors = emailError || passwordError;
 
   return (
     <VerifyCode

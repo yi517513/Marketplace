@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import useRouteServices from "../service/useRouteServices";
-import useAsyncAction from "../Common/useAsyncAction";
+import useServices from "../map/useServices";
+import useAsyncAction from "../api/useAsyncAction";
 import { PATHS } from "../../utils/paths";
 
 const useProfileHandler = (currentPath, setUserData, fetchData) => {
-  const services = useRouteServices(currentPath);
+  const services = useServices(currentPath);
   const { asyncAction } = useAsyncAction();
 
   // ProfileForm.js

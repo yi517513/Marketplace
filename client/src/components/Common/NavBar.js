@@ -3,19 +3,20 @@ import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PATHS } from "../../utils/paths";
 import ListItem from "../UI/ListItem";
-import useNotifications from "../../hooks/Common/useNotifications";
+import LogoutContainer from "../../containers/LogoutContainer";
 
-const NavBar = ({ isAuthenticated, handleLogout }) => {
-  useNotifications();
+const NavBar = ({ isAuthenticated }) => {
   return (
-    <nav className="commonNav">
+    <nav className="nav-container">
       <ul>
         <ListItem label="首頁" to={PATHS.HOME} />
         {!isAuthenticated && <ListItem label="註冊" to={PATHS.REGISTER} />}
         {!isAuthenticated && <ListItem label="登入" to={PATHS.LOGIN} />}
-        {isAuthenticated && <ListItem label="登出" onClick={handleLogout} />}
+        {isAuthenticated && <LogoutContainer />}
         <ListItem label="會員中心" to={PATHS.USER_CENTER} />
+        <ListItem label="Modal" to={`/test`} />
       </ul>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

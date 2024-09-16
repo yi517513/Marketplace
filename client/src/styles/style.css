@@ -15,8 +15,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin: 0.5rem;
-  padding: 0.5rem;
 }
 .input-container .input-label {
   display: block;
@@ -48,8 +46,6 @@
 
 .button {
   width: 100%;
-  margin: 0.5rem;
-  padding: 0.5rem;
   border: none;
   background-color: rgb(109, 109, 109);
   color: white;
@@ -66,6 +62,18 @@
   cursor: not-allowed;
 }
 
+.li {
+  position: relative;
+  list-style: none;
+}
+.li .full-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 .small-button {
   padding: 0.1rem 1rem;
   font-size: 1rem;
@@ -73,23 +81,22 @@
 
 .verify-form {
   display: flex;
-  margin: 0.5rem;
-  padding: 0.5rem;
-  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100%;
 }
-
-li {
-  position: relative;
-  list-style: none;
+.verify-form .verify-form__input {
+  flex: 0 0 40%;
+  display: flex;
+  justify-content: flex-start;
 }
-li .full-link {
-  display: block;
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
-  color: inherit;
-  padding: 10px;
-  box-sizing: border-box;
+.verify-form .verify-form__button {
+  flex: 0 0 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+.verify-form .verify-form__button button {
+  min-width: 100px;
 }
 
 .modal-overlay {
@@ -118,6 +125,24 @@ li .full-link {
   align-items: center;
   outline: none;
 }
+.modal-overlay .modal-container .modal-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: gray;
+}
+.modal-overlay .modal-container .modal-tools {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.modal-overlay .modal-container .modal-tools li {
+  margin: 0rem 0.5rem;
+}
+.modal-overlay .modal-container .modal-tools .modal-button {
+  color: yellow;
+}
 .modal-overlay h2 {
   width: 100%;
   height: 6%;
@@ -127,6 +152,24 @@ li .full-link {
   width: 100%;
   height: 95%;
   display: flex;
+}
+
+.pagination-container {
+  border: 2px solid purple;
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.pagination-container .pagination-tools {
+  display: flex;
+}
+.pagination-container .pagination-select {
+  max-width: 10rem;
+  position: absolute;
+  left: 0;
 }
 
 div.layout {
@@ -144,30 +187,30 @@ div.layout header.header {
   align-items: center;
   justify-content: center;
 }
-div.layout main.main {
+div.layout .main {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-div.layout main.main .user-center-layout {
+div.layout .main .user-center-layout {
   flex: 1;
-  padding: 1rem;
+  width: 100%;
+  padding: 0.5rem;
   display: flex;
   background-color: rgb(240, 240, 240);
 }
-div.layout main.main .user-center-layout .user-center-nav {
+div.layout .main .user-center-layout .user-center-nav {
+  flex: 0 0 15%;
   margin: 0rem 1rem;
-  height: 100%;
-  flex-basis: 15%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
-div.layout main.main .user-center-layout .user-center-content {
+div.layout .main .user-center-layout .user-center-content {
+  flex: 0 1 85%;
+  width: 100%;
   padding: 0.5rem;
-  margin: 0rem 1rem;
-  height: 100%;
-  flex-basis: 85%;
-  flex: 1;
+  margin: 0rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -179,22 +222,22 @@ div.layout footer.footer {
   background-color: gray;
 }
 
-nav.commonNav ul {
+.nav-container ul {
   display: flex;
   justify-content: center;
 }
-nav.commonNav ul li {
+.nav-container ul li {
   display: flex;
   cursor: pointer;
 }
-nav.commonNav ul li:hover {
+.nav-container ul li:hover {
   background-color: gray;
   border-radius: 1rem;
 }
-nav.commonNav ul li:hover a {
+.nav-container ul li:hover a {
   color: white;
 }
-nav.commonNav ul li a {
+.nav-container ul li a {
   padding: 1rem;
   color: gray;
   font-size: 1.1rem;
@@ -231,55 +274,65 @@ nav.commonNav ul li a {
 }
 .auth-container .auth-form .auth-form__form .auth-form__field {
   width: 100%;
+  padding: 0.5rem;
   display: flex;
   justify-content: center;
 }
-.auth-container .auth-form .auth-form__form .auth-form__field .auth-form__submit {
-  margin: 1rem;
+.auth-container .auth-form .auth-form__form .auth-form__field button {
+  width: 100%;
+  padding: 0.5rem;
 }
 
-.img-manager {
+.img-manager-component {
   box-sizing: border-box;
-  margin: 0.25rem;
   width: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
+  padding: 0.25rem;
 }
-.img-manager .image-manager__local {
+.img-manager-component button {
+  padding: 0.2rem 0.5rem;
+  margin: 0.25rem 0.5rem;
+}
+.img-manager-component .image-manager__local {
   box-sizing: border-box;
   margin: 0.25rem;
   display: flex;
 }
-.img-manager .image-manager__local .image-manager__title {
+.img-manager-component .image-manager__local .image-manager__title {
   margin: 0.25rem;
   font-size: 1.25rem;
   font-weight: normal;
   color: gray;
 }
-.img-manager .image-manager__local .image-manager__upload-input {
+.img-manager-component .image-manager__local .image-manager__upload-input {
   margin: 0.25rem;
 }
-.img-manager .image-manager__local .image-manager__upload-input input::file-selector-button {
+.img-manager-component .image-manager__local .image-manager__upload-input input::file-selector-button {
   background-color: rgb(109, 109, 109);
   color: white;
   border: none;
   padding: 0.5rem;
   border-radius: 5px;
 }
-.img-manager .image-manager__local .image-manager__upload-input input::file-selector-button:hover {
+.img-manager-component .image-manager__local .image-manager__upload-input input::file-selector-button:hover {
   background-color: gray;
 }
-.img-manager .image-manager__gallery {
+.img-manager-component .image-manager__gallery {
   box-sizing: border-box;
-  margin: 0.25rem;
   display: flex;
+  width: 100%;
+  height: 100%;
 }
-.img-manager .image-manager__gallery .image-manager__upload-list {
+.img-manager-component .image-manager__gallery .image-manager__upload-list {
   margin: 0.25rem;
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
 }
-.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item {
+.img-manager-component .image-manager__gallery .image-manager__upload-list .image-manager__item {
   box-sizing: border-box;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.66);
   margin: 0.25rem;
@@ -287,20 +340,20 @@ nav.commonNav ul li a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: calc(25% - 0.5rem);
-  height: calc(25vh - 0.5rem);
+  max-width: calc(25% - 0.5rem);
+  max-height: calc(25vh - 0.5rem);
 }
-.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__img {
+.img-manager-component .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   overflow: hidden;
 }
-.img-manager .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__btn-group {
+.img-manager-component .image-manager__gallery .image-manager__upload-list .image-manager__item .image-manager__btn-group {
   display: flex;
 }
-.img-manager .image-manager__next-btn {
+.img-manager-component .image-manager__next-btn {
   display: flex;
   justify-content: center;
   position: absolute;
@@ -309,38 +362,101 @@ nav.commonNav ul li a {
   transform: translate(-50%, -50%);
 }
 
-.leftMenu {
+.dashboard-container {
+  border: 2px solid red;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.dashboard-container .history-list__title {
+  border: 2px solid green;
+  box-sizing: border-box;
+}
+.dashboard-container .history-list__title h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: rgb(73, 73, 73);
+}
+.dashboard-container .dashboard-content {
+  border: 2px solid blue;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+.dashboard-container .dashboard-pagination {
+  border: 2px solid yellow;
+  box-sizing: border-box;
+  display: flex;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.dashboard-container .dashboard-pagination button {
+  margin: 0.25rem;
+}
+.dashboard-container .dashboard-pagination input {
+  margin: 0.25rem;
+}
+
+.item-list {
+  border: 2px solid green;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+.item-list ul {
+  display: flex;
+}
+.item-list ul li {
+  margin: 0rem 0.5rem;
+}
+.item-list .item-list__button {
+  display: flex;
+}
+.item-list .item-list__button button {
+  margin: 0rem 0.5rem;
+  padding: 0.5rem;
+}
+
+.userCenterNav-container {
+  border: 2px solid blue;
   display: flex;
   flex-direction: column;
 }
-.leftMenu .dropdown {
-  border: none;
+.userCenterNav-container .userCenterNav-dropdown {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1rem;
+  align-items: center;
 }
-.leftMenu .dropdown button.dropdown-button {
-  margin-top: 1rem;
+.userCenterNav-container .userCenterNav-dropdown button {
+  margin-top: 0.5rem;
   border: none;
-  font-size: 1.2rem;
-  background-color: rgb(109, 109, 109);
-  color: white;
-  padding: 0.5rem;
+  padding: 0.75rem 0rem;
   border-radius: 1rem;
 }
-.leftMenu .dropdown button.dropdown-button:hover {
-  background-color: gray;
-}
-.leftMenu .dropdown ul.dropdown-menu {
-  border: none;
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu {
+  border: 2px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-bottom: 0.5rem;
+  width: 90%;
 }
-.leftMenu .dropdown ul.dropdown-menu li,
-.leftMenu .dropdown ul.dropdown-menu li.active-menu {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li,
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu {
   cursor: pointer;
   margin-top: 0.5rem;
   text-align: center;
@@ -349,26 +465,51 @@ nav.commonNav ul li a {
   border: none;
   color: white;
 }
-.leftMenu .dropdown ul.dropdown-menu li:hover,
-.leftMenu .dropdown ul.dropdown-menu li.active-menu:hover {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li:hover,
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu:hover {
   background-color: rgb(167, 165, 165);
   border-radius: 1rem;
 }
-.leftMenu .dropdown ul.dropdown-menu li:hover a,
-.leftMenu .dropdown ul.dropdown-menu li.active-menu:hover a {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li:hover a,
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu:hover a {
   color: white;
 }
-.leftMenu .dropdown ul.dropdown-menu li a,
-.leftMenu .dropdown ul.dropdown-menu li.active-menu a {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li a,
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu a {
   color: rgb(78, 78, 78);
   font-size: 1.1rem;
 }
-.leftMenu .dropdown ul.dropdown-menu li.active-menu {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu {
   background-color: rgb(167, 165, 165);
   border-radius: 1rem;
 }
-.leftMenu .dropdown ul.dropdown-menu li.active-menu a {
+.userCenterNav-container .userCenterNav-dropdown .userCenterNav-dropdown__menu li.active-menu a {
   color: white;
+}
+
+.switch-button {
+  position: absolute;
+  display: flex;
+  right: 1%;
+}
+.switch-button button {
+  padding: 0.5rem;
+}
+
+.image-manager-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid red;
+  position: relative;
+}
+.image-manager-container .image-manager-pagination {
+  display: flex;
+  align-items: center;
+  height: 10%;
+  width: 100%;
+  bottom: 0;
 }
 
 .profile-area {
@@ -432,117 +573,6 @@ nav.commonNav ul li a {
 }
 .profile-area .profile-wrapper button:hover {
   background-color: gray;
-}
-
-.management-area {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.5rem;
-}
-.management-area .management-pagination {
-  min-height: 5vh;
-  padding: 1rem;
-}
-.management-area .management-pagination .pagination {
-  display: flex;
-  flex-direction: row;
-}
-.management-area .management-pagination .pagination button {
-  margin-right: 0.8rem;
-  font-size: 1.1rem;
-  padding: 0.3rem 1rem;
-  border-radius: 5px;
-  border: none;
-  color: white;
-  background-color: rgb(109, 109, 109);
-}
-.management-area .management-pagination .pagination button:hover {
-  background-color: gray;
-}
-.management-area .management-pagination .pagination button:disabled {
-  background-color: #cccccc; /* 灰色背景 */
-  color: #666666; /* 深灰色文字 */
-  cursor: not-allowed; /* 改變游標樣式 */
-}
-.management-area .list-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  width: 100%;
-  min-height: 70vh;
-}
-.management-area .list-wrapper .items-list,
-.management-area .list-wrapper .complete-status {
-  margin: 0.8rem;
-  padding: 0.8rem 0.5rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border: 1px solid rgba(134, 133, 133, 0.363);
-  width: 100%;
-}
-.management-area .list-wrapper .items-list:hover,
-.management-area .list-wrapper .complete-status:hover {
-  background-color: #dbdbdb;
-}
-.management-area .list-wrapper .items-list ul,
-.management-area .list-wrapper .complete-status ul {
-  flex-basis: 50%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-right: 1rem;
-  width: 80%;
-}
-.management-area .list-wrapper .items-list ul li,
-.management-area .list-wrapper .complete-status ul li {
-  flex-basis: 20%;
-  font-size: 1.2rem;
-  color: rgb(29, 28, 28);
-}
-.management-area .list-wrapper .items-list ul .unavailable-item,
-.management-area .list-wrapper .complete-status ul .unavailable-item {
-  background-color: #d64040;
-  color: white;
-}
-.management-area .list-wrapper .items-list .btn-set,
-.management-area .list-wrapper .complete-status .btn-set {
-  flex-basis: 40%;
-  display: flex;
-  justify-content: flex-end;
-}
-.management-area .list-wrapper .items-list .btn-set button,
-.management-area .list-wrapper .complete-status .btn-set button {
-  margin-right: 0.8rem;
-  font-size: 1.1rem;
-  padding: 0.3rem 1rem;
-  border-radius: 5px;
-  border: none;
-  color: white;
-  background-color: rgb(109, 109, 109);
-}
-.management-area .list-wrapper .items-list .btn-set button:hover,
-.management-area .list-wrapper .complete-status .btn-set button:hover {
-  background-color: gray;
-}
-.management-area .list-wrapper .items-list .btn-set button:disabled,
-.management-area .list-wrapper .complete-status .btn-set button:disabled {
-  background-color: #cccccc; /* 灰色背景 */
-  color: #666666; /* 深灰色文字 */
-  cursor: not-allowed; /* 改變游標樣式 */
-}
-.management-area .list-wrapper .complete-status {
-  background-color: #cfcfcf;
-}
-.management-area .list-wrapper .complete-status:hover {
-  background-color: #a5a5a5;
-}
-.management-area .list-wrapper .complete-status ul li {
-  color: rgb(29, 28, 28);
 }
 
 .detail-area {
@@ -680,34 +710,6 @@ nav.commonNav ul li a {
   align-items: center;
   position: relative;
   overflow: hidden;
-}
-.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-}
-.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination button {
-  border: none;
-  border-radius: 50%;
-  padding: 0.8rem;
-  margin: 0.5rem;
-  background-color: rgba(41, 41, 41, 0.6784313725);
-  color: white;
-  font-size: 1rem;
-}
-.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination button:disabled {
-  background-color: #cccccc; /* 灰色背景 */
-  color: #666666; /* 深灰色文字 */
-  cursor: not-allowed; /* 改變游標樣式 */
-}
-.detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .pagination:hover button {
-  border: none;
-  border-radius: 50%;
-  padding: 0.8rem;
-  margin: 0.5rem;
-  background-color: #acacac;
-  color: rgb(97, 97, 97);
-  font-size: 1rem;
 }
 .detail-area .detail-container .top-area .image-container .image-wrapper .image-cover .left {
   left: 0;

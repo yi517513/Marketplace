@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
-import NotificationService from "../services/notificationService";
-import { PATHS } from "../utils/paths";
+import NotificationService from "../../services/notificationService";
+import { PATHS } from "../../utils/paths";
 
 const useNavigation = () => {
   const navigate = useNavigate();
