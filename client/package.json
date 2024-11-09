@@ -49,6 +49,9 @@
     ]
   },
   "devDependencies": {
-    "@welldone-software/why-did-you-render": "^8.0.3"
+    "@welldone-software/why-did-you-render": "^8.0.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13"
   }
 }

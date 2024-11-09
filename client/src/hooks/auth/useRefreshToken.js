@@ -1,23 +1,24 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import NotificationService from "../../services/notificationService";
-import AuthService from "../../services/authService";
-import { NOTIFICATION_TYPES } from "../../utils/constants";
-import { logout } from "../../redux/slices/authSlice";
+import useApiHandlers from "../handler/useApiHandlers";
+import { useEffect } from "react";
 
-const useRefreshToken = () => {
-  const dispatch = useDispatch();
-  const handleRefreshToken = useCallback(async () => {
-    try {
-      await AuthService.refreshAccessToken();
-    } catch (error) {
-      const message = error.response.data;
-      NotificationService.setToast(dispatch, message, NOTIFICATION_TYPES.ERROR);
-      dispatch(logout());
-      return false;
-    }
-  }, [dispatch]);
-  return { handleRefreshToken };
+const INTERVAL_DELAY = 30000;
+
+const useRefreshToken = (isAuthenticated) => {
+  console.log(`using useRefreshToken`);
+  const { apiHandlers } = useApiHandlers(`RefreshToken`);
+  const { handleRefreshToken } = apiHandlers;
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const refreshAccessToken = () => {
+      handleRefreshToken();
+    };
+
+    const intervalId = setInterval(refreshAccessToken, INTERVAL_DELAY);
+
+    return () => clearInterval(intervalId);
+  }, [isAuthenticated, handleRefreshToken]);
 };
 
 export default useRefreshToken;

@@ -3,34 +3,55 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isAuthenticated: false,
   userId: null,
-  notification: { visible: false, message: "", type: "" },
+  verifyCode: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state, action) {
+    setAuth: (state, action) => {
       state.isAuthenticated = true;
-      state.userId = action.payload;
+      state.userId = action.payload.userId;
       localStorage.setItem("isAuthenticated", true);
-      localStorage.setItem("userId", action.payload);
+      localStorage.setItem("userId", action.payload.userId);
     },
-    logout(state) {
+    cleanAuth: (state) => {
       state.isAuthenticated = false;
       state.userId = null;
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("userId");
     },
-    checkAuth(state, action) {
-      state.isAuthenticated = action.payload.isAuthenticated;
-      state.userId = action.payload.userId;
+    checkAuth: (state, action) => {
+      const userId = action.payload.userId;
+      if (userId) {
+        state.isAuthenticated = true;
+        state.userId = action.payload.userId;
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("userId", action.payload.userId);
+      } else {
+        state.isAuthenticated = false;
+        state.userId = null;
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("userId");
+      }
     },
-    setNotification(state, action) {
-      state.notification = action.payload;
+    setVerifyCode: (state, action) => {
+      state.verifyCode = action.payload.verifyCode;
+    },
+    cleanVerifyCode: (state) => {
+      state.verifyCode = null;
+    },
+    checkVerifyCode: (state, action) => {
+      const verifyCode = action.payload.verifyCode;
+      console.log(`using checkVerifyCode action`);
+      if (verifyCode !== state.verifyCode) {
+        throw new Error("Verification code is incorrect.");
+      }
     },
   },
 });
 
-export const { login, logout, checkAuth, setNotification } = authSlice.actions;
+export const { setAuth, cleanAuth, checkAuth, setVerifyCode, checkVerifyCode } =
+  authSlice.actions;
 export default authSlice.reducer;

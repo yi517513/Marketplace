@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Chocolate Classical Sans", sans-serif;
+  text-decoration: none;
+  list-style: none;
+  caret-color: transparent;
+}
+
+.nav-item {
+  @apply p-4 text-gray-500 text-lg hover:bg-dark-gray hover:text-white hover:rounded-lg active:bg-gray-500;
+}
+
+.nav-li {
+  @apply hover:bg-dark-gray hover:rounded-xl;
+}
+
+.caret-auto {
+  caret-color: auto;
+}

@@ -1,36 +1,29 @@
-import "./styles/style.css";
-import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { checkAuth } from "./redux/slices/authSlice";
-import useRefreshToken from "./hooks/auth/useRefreshToken";
+import "./index.css";
+import React from "react";
+import { useSelector } from "react-redux";
 import AppRoutes from "./routes";
+import ModalCenter from "./containers/ModalCenter";
+import useNotifications from "./hooks/Common/useNotifications";
 
 function App() {
-  const { handleRefreshToken } = useRefreshToken();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
+  console.log(`App render`);
+  const isAppOnReady = useSelector((state) => state.common.isAppOnReady);
+  const isModal = useSelector((state) => state.common.isModal);
 
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    const userId = localStorage.getItem("userId");
-    dispatch(checkAuth({ isAuthenticated, userId }));
-  }, [dispatch]);
+  // useNotifications();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (isAuthenticated) handleRefreshToken();
-    }, 3 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, [isAuthenticated, handleRefreshToken]);
+  // if (isAppOnReady) {
+  //   return <div> </div>;
+  // }
 
   // 目前在payment相關的只有檢查local.state來決定是否可以進入，以防止從URL直接進入
   const userHasAccess = true;
 
   return (
-    <BrowserRouter>
+    <>
       <AppRoutes userHasAccess={userHasAccess} />
-    </BrowserRouter>
+      {isModal && <ModalCenter />}
+    </>
   );
 }
 

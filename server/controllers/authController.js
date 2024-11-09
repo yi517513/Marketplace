@@ -35,7 +35,7 @@ const register = async (req, res) => {
   try {
     const user = await User.findOne({ email }).exec();
     if (!user || user.verificationCode !== verificationCode) {
-      return res.status(400).send("驗證碼錯誤或過期");
+      return res.status(400).send({ message: "驗證碼錯誤或過期" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,20 +45,21 @@ const register = async (req, res) => {
     user.veriftyed = true;
     await user.save();
 
-    return res.status(201).send({ message: "註冊成功" });
+    return res.status(201).send({ message: "註冊成功", data: null });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤 " + error.message);
   }
 };
 
 const login = (req, res) => {
+  console.log(`using login router`);
   const user = req.user;
   const accessToken = gernerateToken(user);
   const refreshToken = gernerateRefreshToken(user);
-  // console.log(user);
-  // console.log(req.body);
 
   try {
+    // throw new Error("錯誤測試");
+
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // 在生產環境中啟用 secure 標記
@@ -71,26 +72,30 @@ const login = (req, res) => {
 
     return res.status(200).send({ message: "登入成功", data: user.id });
   } catch (error) {
-    return res.status(500).send("伺服器發生錯誤");
+    return res.status(500).send({ message: "伺服器發生錯誤" });
   }
 };
 
 const logout = (req, res) => {
   try {
+    // throw new Error("錯誤測試");
+
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
-    return res.status(200).send({ message: "成功登出" });
+    return res.status(200).send({ message: "成功登出", data: null });
   } catch (error) {
-    return res.status(500).send("伺服器發生錯誤");
+    return res.status(500).send({ message: "伺服器發生錯誤" });
   }
 };
 
 const sendVerifyCode = async (req, res) => {
   const { email } = req.body;
   try {
+    // throw new Error("錯誤測試");
+
     const existingUser = await User.findOne({ email }).exec();
     if (existingUser && existingUser.veriftyed === true) {
-      return res.status(400).send("此信箱已經被註冊過");
+      return res.status(400).send({ message: "此信箱已經被註冊過" });
     }
 
     const verificationCode = CryptoJS.lib.WordArray.random(3).toString(
@@ -113,14 +118,18 @@ const sendVerifyCode = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
-        return res.status(500).send("無法發送驗證碼");
+        return res.status(500).send({ message: "無法發送驗證碼" });
       } else {
         console.log(verificationCode);
-        return res.status(200).send({ message: "驗證碼已發送" });
+        return res
+          .status(200)
+          .send({ message: "驗證碼已發送", data: verificationCode });
       }
     });
   } catch (error) {
-    return res.status(500).send("伺服器發生錯誤 " + error.message);
+    return res
+      .status(500)
+      .send({ message: `伺服器發生錯誤 + ${error.message}` });
   }
 };
 
@@ -133,8 +142,14 @@ const refreshAccessToken = (req, res) => {
     secure: process.env.NODE_ENV === "production",
   });
 
-  // console.log("refreshToken success");
-  return res.status(200).send("Token refreshed successfully");
+  return res.status(200).send({ message: null, data: null });
+};
+
+const checkAuth = (req, res) => {
+  console.log(`using checkAuth router`);
+  const userId = req.user.id;
+
+  return res.status(200).send({ message: null, data: userId });
 };
 
 module.exports = {
@@ -143,4 +158,5 @@ module.exports = {
   sendVerifyCode,
   refreshAccessToken,
   logout,
+  checkAuth,
 };

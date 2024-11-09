@@ -10,10 +10,11 @@ const ListItem = ({
   to,
   onClick,
   iconColor,
+  linkClassName,
 }) => (
-  <li className={`li ${className}`} onClick={onClick}>
+  <li className={`relative ${className}`} onClick={onClick}>
     {to ? (
-      <Link to={to} className="full-link">
+      <Link to={to} className={`block w-full h-full ${linkClassName}`}>
         {label}{" "}
         {icon && <FontAwesomeIcon icon={icon} style={{ color: iconColor }} />}{" "}
         {value}

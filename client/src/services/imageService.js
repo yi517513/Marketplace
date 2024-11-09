@@ -10,7 +10,7 @@ class ImageService {
       withCredentials: true,
     });
   }
-  getImages() {
+  getUserImages() {
     return axios.get(IMAGES_URL, {
       withCredentials: true,
     });

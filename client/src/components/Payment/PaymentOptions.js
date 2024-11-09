@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import { useLocation, Navigate } from "react-router-dom";
-import useNavigation from "../../hooks/navigation/useNavigation";
-import { PATHS } from "../../utils/paths";
 
 const PaymentOptions = () => {
   const location = useLocation();
   const paymentInfo = location.state;
-
-  const { navigateTo } = useNavigation();
 
   useEffect(() => {});
 
@@ -20,7 +16,6 @@ const PaymentOptions = () => {
   //     PaymentService.createOrder,
   //     { ...paymentInfo, paymentMethod },
   //     (success, orderResponse) => {
-  //       // console.log(orderResponse);
   //       if (success) {
   //         navigateTo(`${PATHS.PAYMENT_PROCESSING}/${orderResponse._id}`, {
   //           transactionId: orderResponse._id,

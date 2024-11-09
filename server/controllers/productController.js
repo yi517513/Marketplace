@@ -33,19 +33,27 @@ const getUserProducts = async (req, res) => {
   try {
     const publisherId = req.user.id;
     const foundProducts = await Product.find({ publisherId }).exec();
-    return res.send({ data: foundProducts });
+    console.log(foundProducts);
+    return res.send({ message: null, data: foundProducts });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }
 };
 
 const getProductById = async (req, res) => {
+  const userId = req.user.id;
   try {
     const { productId } = req.params;
     const foundProduct = await Product.findById(productId)
       .populate("publisherId", ["username", "phone"])
       .exec();
-    return res.status(200).send({ data: foundProduct });
+
+    const publisherId = foundProduct.publisherId._id.toString();
+    if (userId !== publisherId) {
+      return res.status(401).send({ message: "Unauthorized", data: null });
+    }
+
+    return res.status(200).send({ message: "修改商品", data: foundProduct });
   } catch (error) {
     res.status(500).send("伺服器發生錯誤");
   }
@@ -75,7 +83,9 @@ const deleteProduct = async (req, res) => {
   const { productId } = req.params;
   try {
     const foundProductAndDelete = await Product.findByIdAndDelete(productId);
-    return res.status(200).send({ message: "成功刪除商品" });
+    return res
+      .status(200)
+      .send({ data: foundProductAndDelete._id, message: "成功刪除商品" });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }

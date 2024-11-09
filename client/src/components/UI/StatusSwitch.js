@@ -1,21 +1,23 @@
 import React from "react";
 import Button from "../UI/Button";
 
-const StatusSwitch = ({ labelA, labelB, status, setStatus }) => {
+const RoleSwitch = ({ labelA, labelB, role, setRole }) => {
   return (
-    <div className="switch-button">
+    <div className="flex">
       <Button
         label={labelA}
-        disabled={status}
-        onClick={() => setStatus((prev) => !prev)}
+        disabled={role}
+        onClick={() => setRole((prev) => !prev)}
+        className="p-2 mr-1"
       />
       <Button
         label={labelB}
-        disabled={!status}
-        onClick={() => setStatus((prev) => !prev)}
+        disabled={!role}
+        onClick={() => setRole((prev) => !prev)}
+        className="p-2 mr-1"
       />
     </div>
   );
 };
 
-export default StatusSwitch;
+export default RoleSwitch;

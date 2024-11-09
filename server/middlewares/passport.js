@@ -85,6 +85,12 @@ passport.use(
 );
 
 const passport_Refresh = (req, res, next) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).send();
+  }
+
   passport.authenticate(
     "refresh-token-strategy",
     { session: false },
@@ -97,7 +103,7 @@ const passport_Refresh = (req, res, next) => {
         try {
           res.clearCookie("refreshToken");
           res.clearCookie("accessToken");
-          return res.status(401).send("Unauthorized");
+          return res.status(401).send("Token失效，已登出");
         } catch (error) {
           return res.status(500).send("伺服器發生錯誤");
         }

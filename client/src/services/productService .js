@@ -18,7 +18,7 @@ class ProductService {
     });
   }
 
-  getProduct(productId) {
+  getProductById(productId) {
     return axios.get(PRODUCTS_URL + `/${productId}`, {
       withCredentials: true,
     });
@@ -32,6 +32,7 @@ class ProductService {
 
   updateProduct(productInfo) {
     const { _id: productId } = productInfo;
+    console.log(productId);
     return axios.patch(PRODUCTS_URL + `/${productId}`, productInfo, {
       withCredentials: true,
     });
@@ -39,7 +40,6 @@ class ProductService {
 
   // 切換上架與下架狀態
   toggleStatus(productId) {
-    console.log("using toggleStatus");
     return axios.patch(
       PRODUCTS_URL + `/${productId}/toggleStatus`,
       {},

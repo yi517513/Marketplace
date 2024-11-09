@@ -30,6 +30,10 @@ class AuthService {
       { withCredentials: true }
     );
   }
+
+  checkAuth() {
+    return axios.get(AUTH_URL + "/checkAuth", { withCredentials: true });
+  }
 }
 
 const authService = new AuthService();

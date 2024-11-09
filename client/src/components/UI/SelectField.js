@@ -7,6 +7,7 @@ const SelectField = ({
   options,
   value,
   onChange,
+  className,
 }) => {
   const handleChange = (e) => {
     if (onChange) {
@@ -15,7 +16,7 @@ const SelectField = ({
   };
 
   return (
-    <div>
+    <div className={`${className}`}>
       <label htmlFor={name}>{label}</label>
       <select
         id={name}

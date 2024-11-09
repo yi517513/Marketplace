@@ -1,43 +1,40 @@
 import React from "react";
-import SelectField from "../UI/SelectField";
-import ListItem from "../UI/ListItem";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import LogoutContainer from "../../containers/LogoutContainer";
+import useModalSelect from "../../hooks/modal/useModalSelect";
 
 const Modal = ({
-  isAuthenticated,
-  options,
-  path,
-  Children,
   isOpen,
   onClose,
-  setModalType,
+  customPath,
+  SelectField,
+  authTools,
+  toggleRole,
 }) => {
+  console.log(`using Modal`);
+  const Children = useModalSelect(customPath);
   if (!isOpen) return null;
 
-  const handleSelectChange = (value) => {
-    if (setModalType) {
-      setModalType(value);
-    }
-  };
-
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-title">
-          <h2>{path}</h2>
+    <div
+      className="  flex fixed inset-0 bg-black bg-opacity-30 items-center justify-center z-10"
+      onClick={onClose}
+    >
+      <div
+        className="flex flex-col justify-center items-center 
+        bg-white p-1 m-1 w-4/5 h-4/5 rounded-2xl shadow-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="w-full h-[6%] ">
+          <h2 className="w-full text-dark-gray text-center  text-3xl">
+            {customPath === null ? "選擇功能" : customPath}
+          </h2>
         </div>
-        <div className="modal-tools">
-          <SelectField options={options} onChange={handleSelectChange} />
-          <ListItem
-            label="登入"
-            icon={faCircle}
-            iconColor={isAuthenticated ? "#00ff00" : "#ff0000"}
-          />
-          <LogoutContainer className="modal-button" isModalType={true} />
+        <div className="tool flex justify-end w-full  h-[3%] ">
+          {SelectField}
+          {authTools}
+          {toggleRole}
         </div>
 
-        <div className="modal-content">{isOpen && <Children />}</div>
+        <div className="flex w-full  h-[90%]">{isOpen && <Children />}</div>
       </div>
     </div>
   );

@@ -6,99 +6,43 @@ import PublicService from "./publicService";
 import ProductService from "./productService ";
 import ImageService from "./imageService";
 
-import { PATHS } from "../utils/paths";
+const serviceMap = () => {
+  console.log(`using serviceMap`);
+  const apiServicesMap = {
+    login: AuthService.login,
+    logout: AuthService.logout,
+    refreshToken: AuthService.refreshAccessToken,
+    checkAuth: AuthService.checkAuth,
 
-export const serviceMap = {
-  [PATHS.HOME]: {
-    fetchData: PublicService.getAllProducts,
-    create: null,
-    update: null,
-    delete: null,
-    auth: null,
-  },
-  [PATHS.REGISTER]: {
-    fetchData: null,
-    create: null,
+    getAllProducts: PublicService.getAllProducts,
+    getProduct: PublicService.getProduct,
     update: AuthService.sendVerifyCode,
-    delete: null,
-    auth: AuthService.register,
-  },
-  [PATHS.LOGIN]: {
-    fetchData: null,
-    create: null,
-    update: null,
-    delete: null,
-    auth: AuthService.login,
-  },
-  [PATHS.PROFILE]: {
-    fetchData: UserService.getProfile,
-    create: null,
-    update: UserService.updateProfile,
-    delete: null,
-    auth: null,
-  },
-  [PATHS.CREATE]: {
-    fetchData: null,
-    create: ProductService.postProduct,
-    update: null,
-    delete: null,
-    auth: null,
-  },
+    register: AuthService.register,
+    getUserData: UserService.getProfile,
+    updateProfile: UserService.updateProfile,
+    postProduct: ProductService.postProduct,
+    getProductById: ProductService.getProductById,
+    updateProduct: ProductService.updateProduct,
+    getUserOrders: TransactionService.getUserOrders,
+    deleteOrder: PaymentService.deleteOrder,
+    getPurchaseHistory: TransactionService.getPurchaseHistory,
+    getSalesHistory: TransactionService.getSalesHistory,
+    getUserProducts: ProductService.getUserProducts,
+    toggleStatus: ProductService.toggleStatus,
+    deleteProduct: ProductService.deleteProduct,
+    getPendingShipment: TransactionService.getPendingShipment,
+    confirmShipment: TransactionService.confirmShipment,
+    getUserImages: ImageService.getUserImages,
+    uploadImage: ImageService.uploadImage,
+    deleteImage: ImageService.deleteImage,
+    sendVerifyCode: AuthService.sendVerifyCode,
+  };
 
-  [`${PATHS.EDIT}/:productId`]: {
-    fetchData: ProductService.getProduct,
-    create: null,
-    update: ProductService.updateProduct,
-    delete: null,
-    auth: null,
-  },
-  [PATHS.ORDERS]: {
-    fetchData: TransactionService.getOrders,
-    create: null,
-    update: null,
-    delete: PaymentService.deleteOrder,
-    auth: null,
-  },
-  [PATHS.PURCHASE_HISTORY]: {
-    fetchData: TransactionService.getPurchaseHistory,
-    create: null,
-    update: null,
-    delete: null,
-    auth: null,
-  },
-  [PATHS.SALES_HISTORY]: {
-    fetchData: TransactionService.getSalesHistory,
-    create: null,
-    update: null,
-    delete: null,
-    auth: null,
-  },
-  [PATHS.PRODUCTS]: {
-    fetchData: ProductService.getUserProducts,
-    create: null,
-    update: ProductService.toggleStatus,
-    delete: ProductService.deleteProduct,
-    auth: null,
-  },
-  [PATHS.PENDING_SHIPMENT]: {
-    fetchData: TransactionService.getPendingShipment,
-    create: null,
-    update: TransactionService.confirmShipment,
-    delete: null,
-    auth: null,
-  },
-  [`ImageManager`]: {
-    fetchData: ImageService.getImages,
-    create: ImageService.uploadImage,
-    update: null,
-    delete: ImageService.deleteImage,
-    auth: null,
-  },
-  [`VerifyCode`]: {
-    fetchData: null,
-    create: null,
-    update: null,
-    delete: null,
-    auth: AuthService.sendVerifyCode,
-  },
+  const getApiService = (action) => {
+    return apiServicesMap[action] || null;
+  };
+
+  return getApiService;
 };
+
+export default serviceMap;

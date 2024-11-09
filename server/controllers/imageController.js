@@ -3,9 +3,10 @@ const Image = require("../models/imageModel");
 const { s3, DeleteObjectCommand } = require("../config/s3");
 
 const uploadProductImage = async (req, res) => {
+  console.log(`using uploadProductImage`);
   try {
     if (!req.file) {
-      return res.status(400).send("沒有上傳圖片");
+      return res.status(400).send({ message: "沒有上傳圖片" });
     }
 
     const imageUrl = req.file.location;
@@ -22,10 +23,11 @@ const uploadProductImage = async (req, res) => {
     });
 
     const { _id, url } = savedImage;
-    return res.status(200).send({ message: "上傳成功", newData: { _id, url } });
+    console.log(savedImage);
+    return res.status(200).send({ message: "上傳成功", data: { _id, url } });
   } catch (error) {
     console.log(error);
-    return res.status(500).send("伺服器發生錯誤");
+    return res.status(500).send({ message: "伺服器發生錯誤" });
   }
 };
 
@@ -42,10 +44,14 @@ const getProductImages = async (req, res) => {
       .select("_id url")
       .exec();
 
-    console.log("success get images");
-    return res.status(200).send({ data: images });
+    const sortedImages = imageIds
+      .map((id) => images.find((image) => image._id.equals(id)))
+      .reverse();
+
+    console.log(images);
+    return res.status(200).send({ data: sortedImages });
   } catch (error) {
-    res.status(500).send("無法獲取圖片");
+    res.status(500).send({ message: "無法獲取圖片" });
   }
 };
 
@@ -54,20 +60,22 @@ const deleteProductImages = async (req, res) => {
   const userId = req.user.id;
 
   try {
+    // throw new Error("錯誤測試");
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).send({ message: "找不到使用者" });
     }
 
-    const image = await Image.findByIdAndDelete(imageId);
-    if (!image) {
+    // 先刪除圖片資料
+    const foundImageAndDelete = await Image.findByIdAndDelete(imageId);
+    if (!foundImageAndDelete) {
       return res.status(404).send({ message: "圖片未找到" });
     }
 
     // 刪除 S3 上的圖片
     const deleteCommand = new DeleteObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME,
-      Key: image.key,
+      Key: foundImageAndDelete.key,
     });
     await s3.send(deleteCommand);
 
@@ -76,13 +84,12 @@ const deleteProductImages = async (req, res) => {
       $pull: { images: imageId },
     });
 
-    // 刪除圖片記錄
-    await Image.findByIdAndDelete(imageId);
-
-    res.status(200).send({ message: "成功刪除圖片" });
+    res
+      .status(200)
+      .send({ message: "成功刪除圖片", data: foundImageAndDelete._id });
   } catch (error) {
     console.error("伺服器發生錯誤:", error);
-    res.status(500).send("伺服器發生錯誤");
+    res.status(500).send({ message: "伺服器發生錯誤" });
   }
 };
 

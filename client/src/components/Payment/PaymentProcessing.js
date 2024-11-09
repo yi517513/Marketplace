@@ -6,8 +6,6 @@ const PaymentProcessing = () => {
   const location = useLocation();
   const paymentInfo = location.state;
 
-  console.log(paymentInfo);
-
   if (!paymentInfo) {
     return <Navigate to="/forbidden" replace />;
   }
@@ -19,7 +17,6 @@ const PaymentProcessing = () => {
   //     { transactionId, paymentMethod },
   //     (success, data) => {
   //       if (success) {
-  //         // console.log(data);
   //       }
   //     }
   //   );
