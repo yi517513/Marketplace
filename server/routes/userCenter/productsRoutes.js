@@ -3,9 +3,8 @@ const {
   postProduct,
   getUserProducts,
   getProductById,
-  updateProduct,
+  editProduct,
   deleteProduct,
-  toggleStatus,
 } = require("../../controllers/productController");
 const validators = require("../../middlewares/validator");
 
@@ -19,12 +18,9 @@ router.get("/", getUserProducts);
 router.get("/:productId", getProductById);
 
 // 更新
-router.patch("/:productId", updateProduct);
+router.patch("/:productId", editProduct);
 
 // 刪除
 router.delete("/:productId", deleteProduct);
-
-// 上下架
-router.patch("/:productId/toggleStatus", toggleStatus);
 
 module.exports = router;

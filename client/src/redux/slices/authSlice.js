@@ -42,9 +42,10 @@ const authSlice = createSlice({
     cleanVerifyCode: (state) => {
       state.verifyCode = null;
     },
-    checkVerifyCode: (state, action) => {
+    checkVerify: (state, action) => {
       const verifyCode = action.payload.verifyCode;
-      console.log(`using checkVerifyCode action`);
+      console.log(`verifyCode: ${verifyCode}`);
+      console.log(`state.verifyCode: ${state.verifyCode}`);
       if (verifyCode !== state.verifyCode) {
         throw new Error("Verification code is incorrect.");
       }
@@ -52,6 +53,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuth, cleanAuth, checkAuth, setVerifyCode, checkVerifyCode } =
+export const { setAuth, cleanAuth, checkAuth, setVerifyCode, checkVerify } =
   authSlice.actions;
 export default authSlice.reducer;

@@ -17,15 +17,10 @@ const { passport_Access, passport_Refresh } = require("./middlewares/passport");
 
 const server = http.createServer(app);
 const io = initializeSocket(server); // 初始化 Socket.IO
+const path = require("path");
 
 mongoose
-  .connect(
-    "mongodb://localhost:27017,localhost:27018,localhost:27019/ECtestDB?replicaSet=rs0",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect("mongodb://localhost:27017/EC")
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -35,11 +30,14 @@ mongoose
 
 // 設置 cors 選項
 const corsOptions = {
-  origin: "http://localhost:3000", // 允許的來源網址
+  origin: "http://localhost:4000", // 允許的來源網址
   methods: ["GET", "POST", "PATCH", "DELETE"], // 允許的 HTTP 方法
   allowedHeaders: ["Content-Type", "Authorization"], // 允許的頭部信息
   credentials: true, // 允許跨域設置 cookies
 };
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(cookieParser()); // 解析 cookies
 app.use(express.json({ limit: "50mb" }));
@@ -49,6 +47,16 @@ app.use(cors(corsOptions));
 app.use(passport.initialize());
 
 socket(io);
+
+app.get("/test-ejs", (req, res) => {
+  res.render("index", {
+    title: "EJS 測試",
+    paymentHtml: `<form id="_form_aiochk" action="https://example.com" method="post">
+      <input type="hidden" name="test" value="測試表單" />
+      <script type="text/javascript">console.log("表單加載成功");</script>
+    </form>`,
+  });
+});
 
 // 認證相關路由
 app.use("/api/auth", authRoute);

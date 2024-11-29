@@ -1,27 +1,40 @@
-import React, { createContext, useContext, useCallback } from "react";
-import useNotifications from "../hooks/Common/useNotifications";
-// import useSetNotfy from "../hooks/Common/useSetNotfy";
+import React, { createContext, useContext } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../redux/slices/commonSlice";
+import { resetNotify } from "../redux/slices/commonSlice";
 
-export const NotifyContext = createContext();
+const NotifyContext = createContext();
 
 export const NotifyProvider = ({ children }) => {
-  console.log(`using NotifyProvider`);
   const dispatch = useDispatch();
-  useNotifications();
+  const notification = useSelector((state) => state.common.notification);
 
-  const setNotify = (message, type) => {
+  useEffect(() => {
+    const { message, type } = notification;
     if (message) {
-      dispatch(setNotification({ message, type }));
-    }
-  };
+      toast.dismiss();
 
-  return (
-    <NotifyContext.Provider value={{ setNotify }}>
-      {children}
-    </NotifyContext.Provider>
-  );
+      switch (type) {
+        case `success`:
+          toast.success(message, { autoClose: 3000 });
+          break;
+        case `error`:
+          toast.error(message, { autoClose: 5000 });
+          break;
+        case `warn`:
+          toast.warn(message, { autoClose: 5000 });
+          break;
+        default:
+          toast.loading(message, { autoClose: 20000 });
+      }
+
+      dispatch(resetNotify());
+    }
+  }, [notification]);
+
+  return <NotifyContext.Provider value={{}}>{children}</NotifyContext.Provider>;
 };
 
-export const useNotifyContext = () => useContext(NotifyContext);
+export const useNotify = () => useContext(NotifyContext);

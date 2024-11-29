@@ -9,7 +9,7 @@ const withLoading = (WrappedComponent) => {
     }
 
     if (!loading) {
-      if (otherProps?.originalData?.length <= 0) {
+      if (props?.originalData?.length <= 0) {
         return <div>沒有資料。。。</div>;
       }
     }

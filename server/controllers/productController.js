@@ -4,7 +4,7 @@ const Product = require("../models/productModel");
 const postProduct = async (req, res) => {
   try {
     const { title, price, inventory, images, description } = req.body;
-    const publisherId = req.user.id;
+    const owner = req.user.id;
 
     // console.log(req.body);
     const newProduct = new Product({
@@ -13,12 +13,12 @@ const postProduct = async (req, res) => {
       inventory,
       description,
       images,
-      publisherId,
+      owner,
     });
 
     await newProduct.save();
 
-    await User.findByIdAndUpdate(publisherId, {
+    await User.findByIdAndUpdate(owner, {
       $push: { products: newProduct._id },
     });
 
@@ -31,8 +31,8 @@ const postProduct = async (req, res) => {
 
 const getUserProducts = async (req, res) => {
   try {
-    const publisherId = req.user.id;
-    const foundProducts = await Product.find({ publisherId }).exec();
+    const owner = req.user.id;
+    const foundProducts = await Product.find({ owner }).exec();
     console.log(foundProducts);
     return res.send({ message: null, data: foundProducts });
   } catch (error) {
@@ -42,30 +42,31 @@ const getUserProducts = async (req, res) => {
 
 const getProductById = async (req, res) => {
   const userId = req.user.id;
+  console.log(`userId: ${userId}`);
   try {
     const { productId } = req.params;
     const foundProduct = await Product.findById(productId)
-      .populate("publisherId", ["username", "phone"])
+      .populate("owner", ["username", "phone"])
       .exec();
 
-    const publisherId = foundProduct.publisherId._id.toString();
-    if (userId !== publisherId) {
+    const owner = foundProduct.owner._id.toString();
+    if (userId !== owner) {
       return res.status(401).send({ message: "Unauthorized", data: null });
     }
 
-    return res.status(200).send({ message: "修改商品", data: foundProduct });
+    return res.status(200).send({ message: null, data: foundProduct });
   } catch (error) {
     res.status(500).send("伺服器發生錯誤");
   }
 };
 
-const updateProduct = async (req, res) => {
+const editProduct = async (req, res) => {
   try {
     console.log(req.body);
     const { title, price, inventory, images, description } = req.body;
     const { productId } = req.params;
 
-    const updateProduct = await Product.findByIdAndUpdate(
+    const editProduct = await Product.findByIdAndUpdate(
       { _id: productId },
       { title, price, inventory, images, description },
       { new: true }
@@ -73,7 +74,7 @@ const updateProduct = async (req, res) => {
 
     return res
       .status(200)
-      .send({ data: updateProduct._id, message: "成功更新商品" });
+      .send({ data: editProduct._id, message: "成功更新商品" });
   } catch (error) {
     return res.status(500).send("伺服器發生錯誤");
   }
@@ -91,48 +92,10 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-const toggleStatus = async (req, res) => {
-  try {
-    const { productId } = req.params;
-    console.log(productId);
-    const foundProduct = await Product.findById(productId);
-
-    if (!foundProduct) {
-      return res.status(404).send({ message: "找不到商品" });
-    }
-
-    const status = foundProduct.status;
-    const pendingShipment = foundProduct.pendingShipment;
-    const inventory = foundProduct.inventory;
-
-    if (status === "unavailable") {
-      if (inventory <= 0) {
-        return res.status(400).send("商品數量不足，無法上架");
-      }
-      foundProduct.status = "available";
-      await foundProduct.save();
-      return res.status(200).send({ message: "商品上架成功" });
-    }
-
-    if (status === "available") {
-      if (pendingShipment > 0) {
-        return res.status(400).send("有未處理訂單，無法下架");
-      }
-      foundProduct.status = "unavailable";
-      await foundProduct.save();
-      return res.status(200).send({ message: "商品下架成功" });
-    }
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("伺服器發生錯誤");
-  }
-};
-
 module.exports = {
   postProduct,
   getUserProducts,
   getProductById,
-  updateProduct,
+  editProduct,
   deleteProduct,
-  toggleStatus,
 };

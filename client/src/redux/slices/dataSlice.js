@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 
 const initialState = {
   allProducts: null,
   profile: null,
-  userOrders: null,
-  userProducts: null,
-  pendingShipment: null,
+  orderList: null,
+  productList: null,
+  pendingList: null,
+  ImageList: null,
   purchasedHistory: null,
   soldHistory: null,
-  userImages: null,
-  productEdit: { images: [] },
+  singleProduct: { images: [] },
   sharedData: [],
   tempState: {},
 };
@@ -18,44 +19,40 @@ const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
-    fetchData(state, action) {
+    setApiData(state, action) {
       const { key, data } = action.payload;
       state[key] = data;
     },
     updateState(state, action) {
-      const { key, data } = action.payload;
-      const { parentKey, childKey } = key;
-      state.tempState[parentKey] = state[parentKey];
-      state[key] = data;
+      const { storePath, data } = action.payload;
+      const target = storePath.reduce((acc, key) => acc[key], state);
+      state.tempState[storePath[0]] = state[storePath[0]];
+      target.push(data);
     },
     removeState(state, action) {
-      const { key, data } = action.payload;
-      const { parentKey, childKey } = key;
+      const { storePath, data } = action.payload;
+      const target = _.get(state, storePath);
 
-      state.tempState[parentKey] = state[parentKey];
-
-      if (childKey) {
-        state[parentKey][childKey] = state[parentKey][childKey].filter(
-          (prev) => prev._id !== data
-        );
-      } else {
-        state[parentKey] = state[parentKey].filter((prev) => prev._id !== data);
+      if (Array.isArray(target)) {
+        _.remove(target, (item) => item._id === data);
       }
     },
     appendState(state, action) {
-      const { key, data } = action.payload;
-      const { parentKey, childKey } = key;
+      const { storePath, data } = action.payload;
+      const target = storePath.reduce((acc, key) => acc[key], state);
 
-      console.log(state[parentKey]);
-      state.tempState[parentKey] = state[parentKey];
+      state.tempState[storePath[0]] = state[storePath[0]];
+      target.unshift(data);
+    },
+    unShiftState(state, action) {
+      const { storePath, data } = action.payload;
+      const target = storePath.reduce((acc, key) => acc[key], state);
 
-      if (childKey) {
-        // state.tempState[parentKey][childKey] = state[parentKey][childKey];
-        state[parentKey][childKey].unshift(data);
-      } else {
-        // state.tempState[parentKey] = state[parentKey];
-        state[parentKey].unshift(data);
+      if (Array.isArray(target)) {
+        _.remove(target, (item) => item._id === data._id);
       }
+
+      target.unshift(data);
     },
     resetState(state, action) {
       const { key } = action.payload;
@@ -77,10 +74,11 @@ const dataSlice = createSlice({
 });
 
 export const {
-  fetchData,
+  setApiData,
   updateState,
   removeState,
   appendState,
+  unShiftState,
   resetState,
   rollback,
   shareData,

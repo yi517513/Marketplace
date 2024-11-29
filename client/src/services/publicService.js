@@ -7,6 +7,7 @@ class PublicService {
   }
 
   getProduct(productId) {
+    console.log(`productId: ${productId}`);
     return axios.get(PUBLIC_URL + `/productDetail/${productId}`);
   }
 

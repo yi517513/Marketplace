@@ -1,12 +1,11 @@
-import useApiHandlers from "../handler/useApiHandlers";
+import { useApiRequest } from "../../context/ApiRequestContext";
 import { useEffect } from "react";
 
 const INTERVAL_DELAY = 30000;
 
 const useRefreshToken = (isAuthenticated) => {
-  console.log(`using useRefreshToken`);
-  const { apiHandlers } = useApiHandlers(`RefreshToken`);
-  const { handleRefreshToken } = apiHandlers;
+  const createApiHandler = useApiRequest();
+  const handleRefreshToken = createApiHandler(`refreshToken`);
 
   useEffect(() => {
     if (!isAuthenticated) return;

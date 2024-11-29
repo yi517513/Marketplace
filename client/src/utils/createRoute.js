@@ -1,27 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import ProtectedRoute from "../components/Common/ProtectedRoute";
 
-export const createRoute = (
-  { path, requiresSlug, Component, isProtected = false, slugKey = "id" },
-  userHasAccess
-) => {
-  console.log(`using createRoute`);
-  const dynamicPath = requiresSlug ? `${path}/:${slugKey}` : path;
+export const createRoute = ({ path, requiresSlug, Page, slug }) => {
+  const route = requiresSlug ? `${path}/:${slug}` : path;
 
-  if (isProtected) {
-    return (
-      <Route
-        key={dynamicPath}
-        path={dynamicPath}
-        element={
-          <ProtectedRoute isAllowed={userHasAccess}>
-            <Component />
-          </ProtectedRoute>
-        }
-      />
-    );
-  }
-
-  return <Route key={dynamicPath} path={dynamicPath} element={<Component />} />;
+  return <Route key={route} path={route} element={<Page />} />;
 };

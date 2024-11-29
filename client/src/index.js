@@ -7,11 +7,11 @@ import store from "../src/redux/store/store";
 import Modal from "react-modal";
 import { BrowserRouter } from "react-router-dom";
 import { CountdownProvider } from "./context/CountdownContext";
-import { ConfigProvider } from "./context/ConfigContext";
+import { AuthProvider } from "./context/AuthContext";
 import { NotifyProvider } from "./context/NotifyContext";
-import { StoreProvider } from "./context/StoreContext";
-import { PathProvider } from "./context/PathContext";
-import { FetchDataProvider } from "./context/FetchDataContext";
+import { FetchApiProvider } from "./context/FetchApiContext";
+import { ApiCallbackProvider } from "./context/ApiCallbackContext";
+import { CreateApiProvider } from "./context/ApiRequestContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -23,15 +23,15 @@ root.render(
       <Provider store={store}>
         <CountdownProvider>
           <NotifyProvider>
-            <PathProvider>
-              <FetchDataProvider>
-                <StoreProvider>
-                  {/* <ConfigProvider> */}
-                  <App />
-                  {/* </ConfigProvider> */}
-                </StoreProvider>
-              </FetchDataProvider>
-            </PathProvider>
+            <ApiCallbackProvider>
+              <CreateApiProvider>
+                <FetchApiProvider>
+                  <AuthProvider>
+                    <App />
+                  </AuthProvider>
+                </FetchApiProvider>
+              </CreateApiProvider>
+            </ApiCallbackProvider>
           </NotifyProvider>
         </CountdownProvider>
       </Provider>

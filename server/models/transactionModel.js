@@ -6,10 +6,8 @@ const transactionSchema = new Schema(
     buyerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     sellerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     productId: { type: Schema.Types.ObjectId, ref: "Product" },
-    purchaseQuantity: { type: Number, required: true },
-    price: { type: Number, required: true },
     totalAmount: { type: Number, required: true },
-    paymentMethod: { type: String, required: true },
+    paymentHtml: { type: String },
     // 買家的付款狀態
     paymentStatus: {
       type: String,

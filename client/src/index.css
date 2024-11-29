@@ -12,14 +12,63 @@
   caret-color: transparent;
 }
 
-.nav-item {
-  @apply p-4 text-gray-500 text-lg hover:bg-dark-gray hover:text-white hover:rounded-lg active:bg-gray-500;
-}
+@layer utilities {
+  .hover {
+    @apply hover:bg-dark-gray hover:rounded-lg hover:text-white;
+  }
 
-.nav-li {
-  @apply hover:bg-dark-gray hover:rounded-xl;
-}
+  .disabled {
+    @apply disabled:bg-disabled-bg disabled:text-disabled-text disabled:cursor-not-allowed;
+  }
 
-.caret-auto {
-  caret-color: auto;
+  .caret-auto {
+    caret-color: auto;
+  }
+
+  .rwd-text-lg {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .rwd-text-sm {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .nav-link {
+    @apply w-full h-full text-gray-500;
+    @apply hover;
+  }
+  .nav-link:active {
+    @apply bg-gray-500;
+  }
+
+  .base-input-input:not(.fileInput) {
+    @apply flex w-full p-2 my-2 text-lg outline-none caret-auto
+    border border-gray-400 border-2 rounded-xl;
+  }
+
+  .side-nav {
+    @apply flex w-full text-center hover:bg-gray-400 hover:text-gray-50 hover:rounded-2xl active:bg-gray-500;
+  }
+
+  .side-nav-active {
+    @apply bg-gray-400 text-gray-50 rounded-2xl;
+  }
+
+  .fileInput {
+    @apply file:bg-gray-700 file:text-white file:border-none file:py-2 file:px-2 file:rounded file:cursor-pointer hover:file:bg-gray-500;
+  }
+
+  .btn-circle {
+    @apply w-btn-small h-btn-small rounded-full;
+  }
+  .btn-circle-hover {
+    @apply hover:scale-125 hover:transition-transform hover:duration-300 hover:rounded-full;
+  }
+
+  .faX {
+    @apply bg-faX hover:bg-faX-hover;
+  }
+  .faStar {
+    @apply bg-faStar hover:bg-faStar-hover;
+  }
 }

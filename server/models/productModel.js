@@ -13,12 +13,7 @@ const productSchema = new Schema(
         url: { type: String },
       },
     ],
-    publisherId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    status: {
-      type: String,
-      enum: ["available", "unavailable"],
-      default: "available",
-    }, // 產品狀態
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     transactions: [{ type: Schema.Types.ObjectId, ref: "Transaction" }], // 交易記錄
     pendingShipment: { type: Number, default: 0 },
   },

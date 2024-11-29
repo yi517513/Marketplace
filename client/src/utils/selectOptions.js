@@ -1,6 +1,7 @@
 export const modalTypeOptions = [
   { value: null, label: "選擇功能" },
   { value: `ImageManager`, label: "圖片管理" },
+  { value: `Auth`, label: "註冊/登入" },
   { value: `Login`, label: "登入" },
   { value: `Register`, label: "註冊" },
   { value: `Orders-buyer`, label: "買家訂單" },

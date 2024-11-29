@@ -103,8 +103,7 @@ const confirmShipment = async (req, res) => {
   }
 };
 
-const getSalesHistory = async (req, res) => {
-  console.log("getSalesHistory");
+const getSoldHistory = async (req, res) => {
   try {
     const { userId } = req.params;
     const foundTransaction = await Transaction.find({
@@ -122,8 +121,7 @@ const getSalesHistory = async (req, res) => {
   }
 };
 
-const getPurchaseHistory = async (req, res) => {
-  console.log("getPurchaseHistory");
+const getPurchasedHistory = async (req, res) => {
   try {
     const { userId } = req.params;
     const foundTransaction = await Transaction.find({
@@ -147,6 +145,6 @@ module.exports = {
   getInProgress,
   getPendingShipment,
   confirmShipment,
-  getPurchaseHistory,
-  getSalesHistory,
+  getPurchasedHistory,
+  getSoldHistory,
 };

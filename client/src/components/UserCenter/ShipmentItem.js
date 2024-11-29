@@ -1,15 +1,17 @@
 import React from "react";
 import { faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
-import ListItem from "../UI/ListItem";
-import Button from "../UI/Button";
-import { useConfigContext } from "../../context/ConfigContext";
+import { Button, ListItem } from "../UI/BaseUI";
 import withPagination from "../../Hocs/withPagination";
 import withLoading from "../../Hocs/withLoading";
 
 const ShipmentItem = ({ paginatedData: transactions }) => {
-  const { apiHandlers, uiHandlers } = useConfigContext();
-  const { confirmShipment, contactBuyer } = apiHandlers;
-  const { navigateTo } = uiHandlers;
+  // const { apiHandlers, uiHandlers } = useConfigContext();
+  // const { confirmShipment, contactBuyer } = apiHandlers;
+  // const { navigateTo } = uiHandlers;
+
+  const navigateTo = () => {};
+  const confirmShipment = () => {};
+  const contactBuyer = () => {};
 
   const renderPaymentStatus = (
     transaction,
@@ -76,12 +78,10 @@ const ShipmentItem = ({ paginatedData: transactions }) => {
 };
 
 const EnhancedShipmentItem = () => {
-  const { loading, selectedData } = useConfigContext();
-
-  const PaginatedShipmentItem = withPagination(ShipmentItem);
-  const LoadedShipmentItem = withLoading(PaginatedShipmentItem);
-
-  return <LoadedShipmentItem originalData={selectedData} loading={loading} />;
+  // const { loading, selectedData } = useConfigContext();
+  // const PaginatedShipmentItem = withPagination(ShipmentItem);
+  // const LoadedShipmentItem = withLoading(PaginatedShipmentItem);
+  // return <LoadedShipmentItem originalData={selectedData} loading={loading} />;
 };
 
 export default EnhancedShipmentItem;

@@ -3,8 +3,23 @@ const PAYMENT_URL = process.env.REACT_APP_PAYMENT_URL;
 
 class PaymentService {
   createOrder(paymentInfo) {
-    const { buyerId } = paymentInfo;
-    return axios.post(PAYMENT_URL + `/options/${buyerId}`, paymentInfo, {
+    console.log(paymentInfo);
+    // return fetch(`${PAYMENT_URL}/createOrder`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     owner: paymentInfo.owner,
+    //     productId: paymentInfo._id,
+    //     price: paymentInfo.price,
+    //     amount: paymentInfo.amount,
+    //     title: paymentInfo.title,
+    //   }),
+    //   credentials: "include",
+    // });
+
+    return axios.post(PAYMENT_URL + `/createOrder`, paymentInfo, {
       withCredentials: true,
     });
   }
@@ -15,13 +30,10 @@ class PaymentService {
     });
   }
 
-  processPayment(paymentInfo) {
-    const { transactionId } = paymentInfo;
-    return axios.post(
-      PAYMENT_URL + `/processing/${transactionId}`,
-      paymentInfo,
-      { withCredentials: true }
-    );
+  getOrder(transactionId) {
+    return axios.post(PAYMENT_URL + `/${transactionId}`, {
+      withCredentials: true,
+    });
   }
 }
 

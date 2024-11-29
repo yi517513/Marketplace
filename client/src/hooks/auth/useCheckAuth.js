@@ -1,12 +1,11 @@
-import useApiHandlers from "../handler/useApiHandlers";
+import { useApiRequest } from "../../context/ApiRequestContext";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../redux/slices/authSlice";
 
 const useCheckAuth = () => {
-  console.log(`using useCheckAuth`);
   const dispatch = useDispatch();
-  const { apiHandlers } = useApiHandlers(`CheckAuth`);
-  const { handleCheckAuth } = apiHandlers;
+  const createApiHandler = useApiRequest();
+  const handleCheckAuth = createApiHandler(`checkAuth`);
 
   const checkAuth = async (isAuthenticated, userId) => {
     if (isAuthenticated) {
@@ -16,7 +15,7 @@ const useCheckAuth = () => {
     await handleCheckAuth();
   };
 
-  return { checkAuth };
+  return checkAuth;
 };
 
 export default useCheckAuth;

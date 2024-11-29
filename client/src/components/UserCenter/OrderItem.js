@@ -1,16 +1,18 @@
 import React from "react";
 import { faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
-import ListItem from "../UI/ListItem";
-import Button from "../UI/Button";
-import { useConfigContext } from "../../context/ConfigContext";
+import { Button, ListItem } from "../UI/BaseUI";
 import withPagination from "../../Hocs/withPagination";
 import withLoading from "../../Hocs/withLoading";
 
 const OrderItem = ({ paginatedData: orders }) => {
-  const { apiHandlers, uiHandlers } = useConfigContext();
+  // const { apiHandlers, uiHandlers } = useConfigContext();
 
-  const { deleteOrder } = apiHandlers;
-  const { navigateTo, contactSeller } = uiHandlers;
+  // const { deleteOrder } = apiHandlers;
+  // const { navigateTo, contactSeller } = uiHandlers;
+
+  const deleteOrder = () => {};
+  const navigateTo = () => {};
+  const contactSeller = () => {};
 
   // 根據付款狀態渲染對應的按鈕
   const renderActionButtons = (isPaymentCompleted) => {
@@ -72,11 +74,9 @@ const OrderItem = ({ paginatedData: orders }) => {
 };
 
 const EnhanceOrderItem = () => {
-  const { loading, selectedData } = useConfigContext();
-
-  const PaginatedOrderItem = withPagination(OrderItem);
-  const LoadedOrderItem = withLoading(PaginatedOrderItem);
-
-  return <LoadedOrderItem originalData={selectedData} loading={loading} />;
+  // const { loading, selectedData } = useConfigContext();
+  // const PaginatedOrderItem = withPagination(OrderItem);
+  // const LoadedOrderItem = withLoading(PaginatedOrderItem);
+  // return <LoadedOrderItem originalData={selectedData} loading={loading} />;
 };
 export default EnhanceOrderItem;

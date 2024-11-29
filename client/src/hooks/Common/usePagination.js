@@ -2,42 +2,34 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const usePagination = (originalData) => {
-  const itemsPerPageCount = useSelector(
-    (state) => state.common.itemsPerPageCount
-  );
-  const [currentPageNumber, changePageNumber] = useState(1);
+  const globalItemsPerPage = useSelector((state) => state.common.itemsPerPage);
+  const [itemsPerPage, setItemsPerPage] = useState(globalItemsPerPage);
+
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [paginatedData, setPaginatedData] = useState([]);
 
   const totalItems = originalData?.length;
-  const totalPageCount = Math.ceil(totalItems / itemsPerPageCount);
-
-  const goToPreviousPage = () => {
-    if (currentPageNumber > 1) {
-      changePageNumber(currentPageNumber - 1);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (currentPageNumber < originalData?.length) {
-      changePageNumber(currentPageNumber + 1);
-    }
-  };
+  const totalPageCount = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
-    const start = (currentPageNumber - 1) * itemsPerPageCount;
-    const end = start + itemsPerPageCount;
+    const start = (currentPageNumber - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
     setPaginatedData(originalData?.slice(start, end) || []);
-  }, [currentPageNumber, originalData, itemsPerPageCount]);
+  }, [currentPageNumber, originalData, itemsPerPage]);
 
-  const paginationHandlers = {
+  useEffect(() => {
+    if (currentPageNumber > totalPageCount) setCurrentPageNumber(1);
+  }, [itemsPerPage]);
+
+  const paginationActions = {
     currentPageNumber,
     totalPageCount,
-    goToPreviousPage,
-    goToNextPage,
-    changePageNumber,
+    setCurrentPageNumber,
+    setItemsPerPage,
+    itemsPerPage,
   };
 
-  return { itemsPerPageCount, paginatedData, paginationHandlers };
+  return { paginatedData, paginationActions };
 };
 
 export default usePagination;

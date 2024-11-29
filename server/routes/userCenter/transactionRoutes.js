@@ -5,8 +5,8 @@ const {
   getInProgress,
   getPendingShipment,
   confirmShipment,
-  getPurchaseHistory,
-  getSalesHistory,
+  getPurchasedHistory,
+  getSoldHistory,
 } = require("../../controllers/transactionController");
 
 // 所有訂單資料
@@ -22,10 +22,10 @@ router.get("/:userId/inProgress", getInProgress);
 router.get("/:userId/pendingShipment", getPendingShipment);
 
 // 完成出售的訂單資料
-router.get("/:userId/salesHistory", getSalesHistory);
+router.get("/:userId/salesHistory", getSoldHistory);
 
 // 完成購買的訂單資料
-router.get("/:userId/purchaseHistory", getPurchaseHistory);
+router.get("/:userId/purchaseHistory", getPurchasedHistory);
 
 // 完成出貨
 router.patch("/:transactionId/confirmShipment", confirmShipment);

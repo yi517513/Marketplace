@@ -31,6 +31,7 @@ const gernerateRefreshToken = (user) => {
 };
 
 const register = async (req, res) => {
+  console.log(`using register route`);
   const { email, password, verificationCode } = req.body;
   try {
     const user = await User.findOne({ email }).exec();
@@ -89,9 +90,12 @@ const logout = (req, res) => {
 };
 
 const sendVerifyCode = async (req, res) => {
+  console.log(`using sendVerifyCode route`);
   const { email } = req.body;
   try {
     // throw new Error("錯誤測試");
+
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const existingUser = await User.findOne({ email }).exec();
     if (existingUser && existingUser.veriftyed === true) {

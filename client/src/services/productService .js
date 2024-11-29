@@ -19,6 +19,7 @@ class ProductService {
   }
 
   getProductById(productId) {
+    console.log(`getProductById`);
     return axios.get(PRODUCTS_URL + `/${productId}`, {
       withCredentials: true,
     });
@@ -30,23 +31,12 @@ class ProductService {
     });
   }
 
-  updateProduct(productInfo) {
+  editProduct(productInfo) {
     const { _id: productId } = productInfo;
     console.log(productId);
     return axios.patch(PRODUCTS_URL + `/${productId}`, productInfo, {
       withCredentials: true,
     });
-  }
-
-  // 切換上架與下架狀態
-  toggleStatus(productId) {
-    return axios.patch(
-      PRODUCTS_URL + `/${productId}/toggleStatus`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
   }
 
   getPendingShipment() {

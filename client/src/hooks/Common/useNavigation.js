@@ -4,20 +4,19 @@ import { useDispatch } from "react-redux";
 import { ROUTES } from "../../utils/paths";
 
 const useNavigation = () => {
-  console.log(`using useNavigation`);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const navigateTo = useCallback(
     ({ path, slug }) => {
-      console.log(`navigateTo is being init`);
       const redirectPath = slug ? `${ROUTES[path]}/${slug}` : ROUTES[path];
+      console.log(`redirectPath: ${redirectPath}`);
       navigate(redirectPath);
     },
     [navigate, dispatch]
   );
 
-  return { navigateTo };
+  return navigateTo;
 };
 
 export default useNavigation;

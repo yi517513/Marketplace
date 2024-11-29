@@ -6,13 +6,13 @@ import Footer from "../components/Common/Footer";
 const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen ">
-      <header className="flex items-center justify-center h-[8vh] mb-2  p-4 shadow-md ">
+      <header className="relative flex items-center justify-center h-[7vh] p-4 shadow-md ">
         <NavBar />
       </header>
-      <main className="flex flex-1 flex-col ">
+      <main className="flex-1">
         <Outlet />
       </main>
-      <footer className="p-4 text-center bg-dark-gray">
+      <footer className="h-[3vh] text-center bg-dark-gray">
         <Footer />
       </footer>
     </div>
