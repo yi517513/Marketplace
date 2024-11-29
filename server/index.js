@@ -18,15 +18,12 @@ const { passport_Access, passport_Refresh } = require("./middlewares/passport");
 const server = http.createServer(app);
 const io = initializeSocket(server); // 初始化 Socket.IO
 const path = require("path");
+const port = process.env.PORT || 8080; // process.env.PORT是Heroku自行動態設定
 
 mongoose
-  .connect("mongodb://localhost:27017/EC")
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.log(error));
 
 // 設置 cors 選項
 const corsOptions = {
@@ -48,16 +45,6 @@ app.use(passport.initialize());
 
 socket(io);
 
-app.get("/test-ejs", (req, res) => {
-  res.render("index", {
-    title: "EJS 測試",
-    paymentHtml: `<form id="_form_aiochk" action="https://example.com" method="post">
-      <input type="hidden" name="test" value="測試表單" />
-      <script type="text/javascript">console.log("表單加載成功");</script>
-    </form>`,
-  });
-});
-
 // 認證相關路由
 app.use("/api/auth", authRoute);
 
@@ -70,6 +57,6 @@ app.use("/api/payment", passport_Access, paymentRoute);
 // 公共路由
 app.use("/api", publicRoutes);
 
-server.listen(8080, () => {
-  console.log("Server is running on port 8080....");
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +21,6 @@
     "ecpay_aio_nodejs": "^1.2.2",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "formidable": "^3.5.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.0",
@@ -31,5 +31,8 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": "20.11.1"
   }
 }
